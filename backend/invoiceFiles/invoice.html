@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Invoice with ribbon - Bootdey.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style type="text/css">
+      body {
+        margin-top: 20px;
+        background: #eee;
+      }
+
+      /*Invoice*/
+      .invoice .top-left {
+        font-size: 65px;
+        color: #3ba0ff;
+      }
+
+      .invoice .top-right {
+        text-align: right;
+        padding-right: 20px;
+      }
+
+      .invoice .table-row {
+        margin-left: -15px;
+        margin-right: -15px;
+        margin-top: 25px;
+      }
+
+      .invoice .payment-info {
+        font-weight: 500;
+      }
+
+      .invoice .table-row .table > thead {
+        border-top: 1px solid #ddd;
+      }
+
+      .invoice .table-row .table > thead > tr > th {
+        border-bottom: none;
+      }
+
+      .invoice .table > tbody > tr > td {
+        padding: 8px 20px;
+      }
+
+      .invoice .invoice-total {
+        margin-right: -10px;
+        font-size: 16px;
+      }
+
+      .invoice .last-row {
+        border-bottom: 1px solid #ddd;
+      }
+
+      .invoice-ribbon {
+        width: 85px;
+        height: 88px;
+        overflow: hidden;
+        position: absolute;
+        top: -1px;
+        right: 14px;
+      }
+
+      .ribbon-inner {
+        text-align: center;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        position: relative;
+        padding: 7px 0;
+        left: -5px;
+        top: 11px;
+        width: 120px;
+        background-color: #66c591;
+        font-size: 15px;
+        color: #fff;
+      }
+
+      .ribbon-inner:before,
+      .ribbon-inner:after {
+        content: "";
+        position: absolute;
+      }
+
+      .ribbon-inner:before {
+        left: 0;
+      }
+
+      .ribbon-inner:after {
+        right: 0;
+      }
+
+      @media (max-width: 575px) {
+        .invoice .top-left,
+        .invoice .top-right,
+        .invoice .payment-details {
+          text-align: center;
+        }
+
+        .invoice .from,
+        .invoice .to,
+        .invoice .payment-details {
+          float: none;
+          width: 100%;
+          text-align: center;
+          margin-bottom: 25px;
+        }
+
+        .invoice p.lead,
+        .invoice .from p.lead,
+        .invoice .to p.lead,
+        .invoice .payment-details p.lead {
+          font-size: 22px;
+        }
+
+        .invoice .btn {
+          margin-top: 10px;
+        }
+      }
+
+      @media print {
+        .invoice {
+          width: 900px;
+          height: 800px;
+        }
+      }
+
+      .taxrx-logo{
+        width: 30%;
+      }
+
+      .hidden-data-holder{
+        display: none;
+      }
+
+    </style>
+  </head>
+  <body>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <div class="container bootstrap snippets bootdeys">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default invoice" id="invoice">
+            <div class="panel-body">
+              <div class="invoice-ribbon">
+                <div class="ribbon-inner">PAID</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 top-left">
+                  <img class="taxrx-logo" src="https://8b75bb4814.imgdist.com/pub/bfra/rgmkb1mj/xxe/ky1/dr5/01be9197-5c9c-46e8-864b-d5ed9b7f85d0.png" alt="">
+                </div>
+                <div class="col-sm-6 top-right">
+                  <h3 class="marginright">INV-256</h3>
+                  <span class="marginright">2024-06-08</span>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-xs-4 from">
+                  <p class="lead marginbottom">From : Swaparup Mukherjee</p>
+                  <p>Address: 111/3</p>
+                  <p>Phone: 6290779098</p>
+                  <p>Email: swaparupmukherjee144@gmail.com</p>
+                  <p>GSTIN: GSTIN258</p>
+                </div>
+                <div class="col-xs-4 to">
+                  <p class="lead marginbottom">To : Paran Das</p>
+                  <p>Bill To address: Kolkata, WB</p>
+                  <p>Ship To address: Kolkata, WB</p>
+                  <p>Phone: 6954889636</p>
+                  <p>Email: parandas@das.com</p>
+                </div>
+                <div class="col-xs-4 text-right payment-details">
+                  <p class="lead marginbottom payment-info">Payment details</p>
+                  <p>Date: 2024-06-08</p>
+                  <p>HSN/SAC: HSN154</p>
+                  <p>Total Amount: $600</p>
+                </div>
+              </div>
+              <div class="hidden-data-holder" id="hidden-products">
+                {&quot;products&quot;:[{&quot;item&quot;:&quot;rice&quot;,&quot;quantity&quot;:&quot;5&quot;,&quot;price&quot;:&quot;100&quot;,&quot;uqc&quot;:&quot;KG&quot;},{&quot;item&quot;:&quot;daal&quot;,&quot;quantity&quot;:&quot;2&quot;,&quot;price&quot;:&quot;50&quot;,&quot;uqc&quot;:&quot;KG&quot;}]}
+              </div>
+              <div class="row table-row">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 5%">#</th>
+                      <th style="width: 50%">Item</th>
+                      <th class="text-right" style="width: 15%">Quantity</th>
+                      <th class="text-right" style="width: 15%">Unit Price</th>
+                      <th class="text-right" style="width: 15%">Total Price</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-body">
+                    <!-- <tr>
+                      <td class="text-center">1</td>
+                      <td></td>
+                      <td class="text-right"></td>
+                      <td class="text-right">$</td>
+                      <td class="text-right">$</td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">2</td>
+                      <td>Flat Icons</td>
+                      <td class="text-right">6</td>
+                      <td class="text-right">$59</td>
+                      <td class="text-right">$254</td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">3</td>
+                      <td>Wordpress version</td>
+                      <td class="text-right">4</td>
+                      <td class="text-right">$95</td>
+                      <td class="text-right">$285</td>
+                    </tr>
+                    <tr class="last-row">
+                      <td class="text-center">4</td>
+                      <td>Server Deployment</td>
+                      <td class="text-right">1</td>
+                      <td class="text-right">$300</td>
+                      <td class="text-right">$300</td>
+                    </tr> -->
+                  </tbody>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 margintop">
+                  <p class="lead marginbottom">THANK YOU!</p>
+                </div>
+                <div class="col-xs-6 text-right pull-right invoice-total">
+                  <p>Subtotal : $600</p>
+                  <p>GST (3.36%) : $20.16</p>
+                  <p>IGST (3.36%) : $20.16</p>
+                  <p>CGST (2%) : $12</p>
+                  <p>SGST / UTGST (0%) : $0</p>
+                  <p>Total : $620.16</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+        const tableBody = document.getElementById("table-body");
+        const products = JSON.parse(document.getElementById("hidden-products").innerHTML);
+
+        let count = 1;
+        for(let product of products.products){
+            tableBody.innerHTML += `<tr>
+                                        <td class="text-center">${count++}</td>
+                                        <td>${product.invoice_item}</td>
+                                        <td class="text-right">${product.invoice_item_quantity}</td>
+                                        <td class="text-right">$${product.invoice_item_rate}</td>
+                                        <td class="text-right">$${product.invoice_item_rate * product.invoice_item_quantity}</td>
+                                    </tr>`
+        }
+    </script>
+    <script
+      data-cfasync="false"
+      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+    ></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript"></script>
+  </body>
+</html>
