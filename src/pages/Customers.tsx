@@ -45,7 +45,7 @@ const Customers = () => {
         [12, 'December'],
     ]);
     useEffect(() => {
-        dispatch(setPageTitle('Export Table'));
+        dispatch(setPageTitle('Customers'));
     });
     const [page, setPage] = useState(1);
     const PAGE_SIZES = [10, 20, 30, 50, 100];
