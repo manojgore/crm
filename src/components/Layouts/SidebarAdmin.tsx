@@ -33,7 +33,7 @@ import IconClipboardText from '../Icon/IconClipboardText';
 import IconSettings from '../Icon/IconSettings';
 import IconLogout from '../Icon/IconLogout';
 import IconMenuInvoice from '../Icon/Menu/IconMenuInvoice';
-import IconCompanies from '../Icon/IconCompanies';
+import IconProjects from '../Icon/IconProjects';
 import IconTaxfile from '../Icon/IconTaxfile';
 
 const SidebarAdmin = () => {
@@ -115,10 +115,10 @@ const SidebarAdmin = () => {
                             <li className="nav-item">
                                 <ul>
                                     <li className="nav-item">
-                                        <NavLink to="/companies" className="group">
+                                        <NavLink to="/Projects" className="group">
                                             <div className="flex items-center">
-                                                <IconCompanies className="group-hover:!text-primary shrink-0" />
-                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Companies')}</span>
+                                                <IconProjects className="group-hover:!text-primary shrink-0" />
+                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Projects')}</span>
                                             </div>
                                         </NavLink>
                                     </li>

@@ -28,7 +28,7 @@ const checksubscription = require('./routes/checkSubscription');
 const search =require("./routes/search");
 const checkRole = require('./routes/checkRole');
 const getAllInvoices = require('./routes/getAllInvoices');
-const getAllCompanies = require('./routes/getCompanies');
+const getAllProjects = require('./routes/getProjects');
 const adminaddcompany = require('./routes/adminAddCompany');
 const admindeletecompany = require('./routes/adminDeleteCompany');
 const adminEditCompany = require('./routes/editCompany');
@@ -143,7 +143,7 @@ app.use("/api/vendors",deleteVendor)
 app.use("/api/vendors",editVendor)
 app.post("/mail-verification",verifyEmail)
 app.use("/customer", checksubscription);
-app.use("/admin", getAllCompanies);
+app.use("/admin", getAllProjects);
 app.use('/admin', adminaddcompany);
 app.use('/admin', admindeletecompany);
 app.use('/admin', adminEditCompany);

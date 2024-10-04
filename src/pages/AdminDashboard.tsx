@@ -12,16 +12,16 @@ import IconMultipleForwardRight from '../components/Icon/IconMultipleForwardRigh
 const AdminDashboard = () => {
     const [mostUsedPlan, setMostUsedPlan] = useState('');
     const [totalOrderMostUsed, setTotalOrderMostUsed] = useState(0);
-    const planTypeCount = (companies) => {
+    const planTypeCount = (Projects) => {
         let prevcount = 0;
         let planType = '';
         let mostUsed = '';
-        for (let company of companies) {
+        for (let company of Projects) {
             let count = 0;
             if (company.plan === 1) {
                 planType = company.plan_type;
             }
-            for (let c of companies) {
+            for (let c of Projects) {
                 if (c.plan_type === planType) {
                     count = count + 1;
                 }
@@ -50,8 +50,8 @@ const AdminDashboard = () => {
         [12, 'December'],
     ]);
 
-    const [companiesGrowth, setCompaniesGrowth] = useState(0);
-    const calculateCompaniesGrowth = (comapnies) => {
+    const [ProjectsGrowth, setProjectsGrowth] = useState(0);
+    const calculateProjectsGrowth = (comapnies) => {
         let totalThisWeek = 0;
 
         for (let comapny of comapnies) {
@@ -63,9 +63,9 @@ const AdminDashboard = () => {
         return ((totalThisWeek / comapnies.length) * 100).toFixed(2);
     };
 
-    const [activeCompaniesGrowth, setActiveCompaniesGrowth] = useState(0);
+    const [activeProjectsGrowth, setActiveProjectsGrowth] = useState(0);
 
-    const calculateActiveCompaniesGrowth = (comapnies, totalActive) => {
+    const calculateActiveProjectsGrowth = (comapnies, totalActive) => {
         let totalThisWeek = 0;
 
         for (let comapny of comapnies) {
@@ -79,7 +79,7 @@ const AdminDashboard = () => {
 
     const [companySubscribedToday, setCompanySubscribedToday] = useState(0);
 
-    const calculateCompaniesToday = (comapnies) => {
+    const calculateProjectsToday = (comapnies) => {
         let totalThisDay = 0;
 
         for (let comapny of comapnies) {
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
     };
 
     const navigate = useNavigate();
-    const [companies, setCompanies] = useState([]);
+    const [Projects, setProjects] = useState([]);
     const [packages, setPackages] = useState([]);
     const [activeUsers, setActiveUsers] = useState(0);
     const fetchPackeges = async () => {
@@ -112,15 +112,15 @@ const AdminDashboard = () => {
             console.error(error);
         }
     };
-    const fetchCompanies = async () => {
+    const fetchProjects = async () => {
         try {
-            const response = await axios.get(`${api}/admin/getallcompanies`);
+            const response = await axios.get(`${api}/admin/getallProjects`);
 
-            console.log('companies result: ', response.data);
+            console.log('Projects result: ', response.data);
             if (response.data.success) {
-                setCompanies(response.data.results);
-                let totalCompanisGrth = calculateCompaniesGrowth(response.data.results);
-                setCompaniesGrowth(totalCompanisGrth);
+                setProjects(response.data.results);
+                let totalCompanisGrth = calculateProjectsGrowth(response.data.results);
+                setProjectsGrowth(totalCompanisGrth);
 
                 let au = 0;
                 response.data.results.forEach((element) => {
@@ -131,10 +131,10 @@ const AdminDashboard = () => {
                     }
                 });
 
-                let activeCompGrth = calculateActiveCompaniesGrowth(response.data.results, au);
-                setActiveCompaniesGrowth(activeCompGrth);
+                let activeCompGrth = calculateActiveProjectsGrowth(response.data.results, au);
+                setActiveProjectsGrowth(activeCompGrth);
 
-                let totalToday = calculateCompaniesToday(response.data.results);
+                let totalToday = calculateProjectsToday(response.data.results);
                 setCompanySubscribedToday(totalToday);
 
                 let most = planTypeCount(response.data.results);
@@ -143,7 +143,7 @@ const AdminDashboard = () => {
                 console.log('most: ', most);
             }
         } catch (error) {
-            console.log('failed to fetch the companies');
+            console.log('failed to fetch the Projects');
             console.error(error);
         }
     };
@@ -173,7 +173,7 @@ const AdminDashboard = () => {
             navigate('/login');
         }
         fetchPackeges();
-        fetchCompanies();
+        fetchProjects();
         fetchUser();
     }, []);
     return (
@@ -192,7 +192,7 @@ const AdminDashboard = () => {
                             </span>
                             <div className="flex w-full">
                                 <span className="flex justify-start items-center">
-                                    <button className="md:py-2 py-1 px-1 md:px-3 mr-2 bg-primary text-white rounded-md border-2 border-primary" onClick={()=>navigate('/companies')}>View Companies</button>
+                                    <button className="md:py-2 py-1 px-1 md:px-3 mr-2 bg-primary text-white rounded-md border-2 border-primary" onClick={()=>navigate('/Projects')}>View Projects</button>
                                     <button className="md:py-2 py-1 px-1 md:px-3 ml-2 bg-white text-primary border-2 border-primary rounded-md" onClick={()=>navigate('/admin-plans')}>All Packages</button>
                                 </span>
                             </div>
@@ -207,13 +207,13 @@ const AdminDashboard = () => {
                                 <IconUsersGroup className="w-5 h-5" />
                             </div>
                             <div className="ltr:ml-3 rtl:mr-3 font-semibold">
-                                <p className="text-xl dark:text-white-light">{companies.length}</p>
-                                <h5 className="text-[#506690] text-xs">Total Companies</h5>
+                                <p className="text-xl dark:text-white-light">{Projects.length}</p>
+                                <h5 className="text-[#506690] text-xs">Total Projects</h5>
                             </div>
                         </div>
                         <div className="h-40">
                             <ReactApexChart
-                                series={[{ data: [companies.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 30 * 24 * 60 * 60 * 1000 }).length, companies.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 15 * 24 * 60 * 60 * 1000 }).length, companies.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 10 * 24 * 60 * 60 * 1000 }).length, companies.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 5 * 24 * 60 * 60 * 1000 }).length, companies.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 1 * 24 * 60 * 60 * 1000 }).length] }]}
+                                series={[{ data: [Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 30 * 24 * 60 * 60 * 1000 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 15 * 24 * 60 * 60 * 1000 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 10 * 24 * 60 * 60 * 1000 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 5 * 24 * 60 * 60 * 1000 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 1 * 24 * 60 * 60 * 1000 }).length] }]}
                                 options={{
                                     chart: {
                                         height: 160,
@@ -263,12 +263,12 @@ const AdminDashboard = () => {
                             </div>
                             <div className="ltr:ml-3 rtl:mr-3 font-semibold">
                                 <p className="text-xl dark:text-white-light">{activeUsers}</p>
-                                <h5 className="text-[#506690] text-xs">Active Companies</h5>
+                                <h5 className="text-[#506690] text-xs">Active Projects</h5>
                             </div>
                         </div>
                         <div className="h-40">
                             <ReactApexChart
-                                series={[{ data: [companies.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 30 * 24 * 60 * 60 * 1000 : false }).length, companies.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 15 * 24 * 60 * 60 * 1000 : false }).length, companies.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 10 * 24 * 60 * 60 * 1000 : false }).length, companies.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 5 * 24 * 60 * 60 * 1000 : false }).length, companies.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 1 * 24 * 60 * 60 * 1000 : false }).length]}]}
+                                series={[{ data: [Projects.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 30 * 24 * 60 * 60 * 1000 : false }).length, Projects.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 15 * 24 * 60 * 60 * 1000 : false }).length, Projects.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 10 * 24 * 60 * 60 * 1000 : false }).length, Projects.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 5 * 24 * 60 * 60 * 1000 : false }).length, Projects.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 1 * 24 * 60 * 60 * 1000 : false }).length]}]}
                                 options={{
                                     chart: {
                                         height: 160,
@@ -317,13 +317,13 @@ const AdminDashboard = () => {
                                 <IconLink className="w-5 h-5" />
                             </div>
                             <div className="ltr:ml-3 rtl:mr-3 font-semibold">
-                                <p className="text-xl dark:text-white-light">{companies.length - activeUsers}</p>
-                                <h5 className="text-[#506690] text-xs">Inactive Companies</h5>
+                                <p className="text-xl dark:text-white-light">{Projects.length - activeUsers}</p>
+                                <h5 className="text-[#506690] text-xs">Inactive Projects</h5>
                             </div>
                         </div>
                         <div className="h-40">
                             <ReactApexChart
-                                series={[{ data: [companies.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 30 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, companies.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 15 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, companies.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 10 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, companies.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 5 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, companies.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 1 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length] }]}
+                                series={[{ data: [Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 30 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 15 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 10 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 5 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 1 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length] }]}
                                 options={{
                                     chart: {
                                         height: 160,
@@ -371,7 +371,7 @@ const AdminDashboard = () => {
                     <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
                         <div className="panel h-full w-full">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Recent Companies</h5>
+                                <h5 className="font-semibold text-lg dark:text-white-light">Recent Projects</h5>
                             </div>
                             <div className="table-responsive">
                                 <table>
@@ -385,7 +385,7 @@ const AdminDashboard = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {companies.slice(0, 4).map((company, i) => {
+                                        {Projects.slice(0, 4).map((company, i) => {
                                             return (
                                                 <tr key={i} className="text-white-dark hover:text-black dark:hover:text-white-light/90 group">
                                                     <td className="min-w-[150px] text-black dark:text-white">
@@ -408,7 +408,7 @@ const AdminDashboard = () => {
                                                         </span>
                                                     </td>
                                                     {/* <td>
-                                                        <Link className="text-danger flex items-center" to="/companies">
+                                                        <Link className="text-danger flex items-center" to="/Projects">
                                                             <IconMultipleForwardRight className="rtl:rotate-180 ltr:mr-1 rtl:ml-1" />
                                                             Go
                                                         </Link>

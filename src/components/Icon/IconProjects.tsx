@@ -1,6 +1,6 @@
 import * as React from "react";
 
-function IconCompanies(props: React.SVGProps<SVGSVGElement>) {
+function IconProjects(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -15,4 +15,4 @@ function IconCompanies(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export default IconCompanies;
+export default IconProjects;

@@ -88,7 +88,7 @@ const TaxFiles = () => {
                 showAlert(response.data.msg);
             }
         } catch (error) {
-            console.log("failed to fetch the companies");
+            console.log("failed to fetch the Projects");
             console.error(error);
         }
     }
@@ -321,7 +321,7 @@ const TaxFiles = () => {
                 showAlert("Error while marking as completed");
             }
         } catch (error) {
-            console.log("failed to fetch the companies");
+            console.log("failed to fetch the Projects");
             console.error(error);
         }
     }
@@ -351,7 +351,7 @@ const TaxFiles = () => {
               showAlert("Error while rejecting tax file");
           }
         } catch (error) {
-          console.log("failed to fetch the companies");
+          console.log("failed to fetch the Projects");
           console.error(error);
         }
     }

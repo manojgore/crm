@@ -31,7 +31,7 @@ import IconEyeClosed from '../components/Icon/IconEyeClosed';
 
 const col = ['company_name', 'company_email', 'company_address', 'city', 'state', 'country', 'pincode', 'phone_number', 'plan_type', 'registered_on', 'purchased_on', 'expiring_on'];;
 
-const Companies = () => {
+const Projects = () => {
     const { download } = useDownloader();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -73,22 +73,22 @@ const Companies = () => {
         ["Yearly", 365],
     ]);
 
-    const [companies, setCompanies] = useState([]);
+    const [Projects, setProjects] = useState([]);
 
     const [planValue, setPlanValue] = useState(new Map([]));
     const [packages, setPackages] = useState([]);
 
-    const fetchCompanies = async () => {
+    const fetchProjects = async () => {
         try {
-          const response = await axios.get(`${api}/admin/getallcompanies`);
+          const response = await axios.get(`${api}/admin/getallProjects`);
     
-          console.log("companies result: ", response.data);
+          console.log("Projects result: ", response.data);
           if (response.data.success) {
-            setCompanies(response.data.results);
+            setProjects(response.data.results);
             setInitialRecords(response.data.results);
           }
         } catch (error) {
-          console.log("failed to fetch the companies");
+          console.log("failed to fetch the Projects");
           console.error(error);
         }
     };
@@ -114,7 +114,7 @@ const Companies = () => {
         if (!localStorage.getItem('adminidtaxrx')) {
             navigate('/');
         }
-        fetchCompanies();
+        fetchProjects();
         fetchPackeges();
     }, []);
 
@@ -130,7 +130,7 @@ const Companies = () => {
 
     useEffect(() => {
         setInitialRecords(() => {
-            return companies.filter((company: any) => {
+            return Projects.filter((company: any) => {
                 return (
                     company.company_name.toLowerCase().includes(search.toLowerCase()) ||
                     company.plan_type.toLowerCase().includes(search.toLowerCase())
@@ -161,7 +161,7 @@ const Companies = () => {
     function handleDownloadExcel() {
         console.log('expenses: ', recordsData);
         const payloadBody = [];
-        for(let company of companies){
+        for(let company of Projects){
             const tempRow = {};
             tempRow.company_name = company.company_name;
             tempRow.company_email = company.company_email;
@@ -189,7 +189,7 @@ const Companies = () => {
 
     const exportTable = (type: any) => {
         let columns: any = col;
-        let records = companies;
+        let records = Projects;
         let filename = 'table';
 
         let newVariable: any;
@@ -408,7 +408,7 @@ const Companies = () => {
             showAlert("Company Edited Successfully");
             setModal6(false);
             setModal7(false);
-            fetchCompanies();
+            fetchProjects();
           } else {
             showAlert("Company Can not be Edited");
           }
@@ -446,7 +446,7 @@ const Companies = () => {
           console.log("response: ", response.data);
           if (response.data.success) {
             showAlert("Company Deleted Successfully");
-            fetchCompanies();
+            fetchProjects();
             setModal2(false);
           } else {
             showAlert("Company Can not be Deleted");
@@ -466,7 +466,7 @@ const Companies = () => {
     
           console.log("user result: ", response.data);
           if (response.data.success) {
-            fetchCompanies();
+            fetchProjects();
             showAlert("Subscription Cancelled Successfully");
           }
         } catch (error) {
@@ -563,7 +563,7 @@ const Companies = () => {
           if (response.data.result !== 0) {
             showAlert("registered successfully");
             setModal3(false);
-            fetchCompanies();
+            fetchProjects();
           } else {
             showAlert("something went wrong");
           }
@@ -603,10 +603,10 @@ const Companies = () => {
 
     return (
         <div>
-            <h1 className='text-4xl font-semibold'>All Companies</h1>
-            <p>All registered companies</p>
+            <h1 className='text-4xl font-semibold'>All Projects</h1>
+            <p>All registered Projects</p>
             <div className='flex items-center justify-end'>
-                <button className='btn btn-primary' onClick={() => setModal3(true)}><IconPlusCircle className='mx-2'/> Add Company</button>
+                <button className='btn btn-primary' onClick={() => setModal3(true)}><IconPlusCircle className='mx-2'/> Add Project</button>
             </div>
             <div className="panel mt-6">
                 <div className="flex md:expenses-center justify-between md:flex-row flex-col mb-4.5 gap-5">
@@ -662,7 +662,7 @@ const Companies = () => {
                                 ),
                             },
                             {
-                                accessor: 'Companies Action',
+                                accessor: 'Projects Action',
                                 render: ({ id, company_name, company_email, phone_number, company_website, password, company_address, plan_type, plan, purchased_on, expiring_on }) => (
                                     <div className="flex w-full justify-around expenses-center">
                                         <Tippy content="Delete">
@@ -1288,4 +1288,4 @@ const Companies = () => {
     );
 };
 
-export default Companies;
+export default Projects;

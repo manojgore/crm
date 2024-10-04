@@ -12,7 +12,7 @@ import Expenses from '../pages/Expenses';
 import LoginPage from '../pages/LoginPage';
 import SignupPage from '../pages/SignupPage';
 import AdminDashboard from '../pages/AdminDashboard';
-import Companies from '../pages/Companies';
+import Projects from '../pages/Projects';
 import Subscriptions from '../pages/Subscription';
 import AdminPlans from '../pages/AdminPlans';
 import TaxFiles from '../pages/TaxFiles';
@@ -164,8 +164,8 @@ const routes = [
         layout: 'admin',
     },
     {
-        path: '/companies',
-        element: <Companies />,
+        path: '/Projects',
+        element: <Projects />,
         layout: 'admin',
     },
     {

@@ -413,10 +413,10 @@ CREATE TABLE `subscription_packages` (
 --
 
 INSERT INTO `subscription_packages` (`id`, `Type`, `Duration`, `Price`, `Discount`, `Number_of_users`, `Number_of_suppliers`, `Number_of_products`, `Number_of_invoices`, `Description`, `Status`) VALUES
-(15, 'GST Return Filing', 'Monthly', '500', 0, 'Unlimited', 'Unlimited', 'Unlimited', 'Unlimited', 'Monthly subscription for companies and individuals for gst return filing.', 1),
-(16, 'GST Return Filing', 'Yearly', '5000', 0, 'Unlimited', 'Unlimited', 'Unlimited', 'Unlimited', 'Yearly subscription for companies and individuals for gst return filing.', 1),
-(17, 'GST Return Filing', 'Half Yearly', '2500', 0, 'Unlimited', 'Unlimited', 'Unlimited', 'Unlimited', 'Half Yearly subscription for companies and individuals for gst return filing.', 1),
-(18, 'GST Return Filing', 'Lifetime', '0', 0, 'Unlimited', 'Unlimited', 'Unlimited', 'Unlimited', 'Lifetime free subscription for companies and individuals for one time gst return filing.', 1);
+(15, 'GST Return Filing', 'Monthly', '500', 0, 'Unlimited', 'Unlimited', 'Unlimited', 'Unlimited', 'Monthly subscription for Projects and individuals for gst return filing.', 1),
+(16, 'GST Return Filing', 'Yearly', '5000', 0, 'Unlimited', 'Unlimited', 'Unlimited', 'Unlimited', 'Yearly subscription for Projects and individuals for gst return filing.', 1),
+(17, 'GST Return Filing', 'Half Yearly', '2500', 0, 'Unlimited', 'Unlimited', 'Unlimited', 'Unlimited', 'Half Yearly subscription for Projects and individuals for gst return filing.', 1),
+(18, 'GST Return Filing', 'Lifetime', '0', 0, 'Unlimited', 'Unlimited', 'Unlimited', 'Unlimited', 'Lifetime free subscription for Projects and individuals for one time gst return filing.', 1);
 
 -- --------------------------------------------------------
 

@@ -70,22 +70,22 @@ const Subscriptions = () => {
         ["Yearly", 365],
     ]);
 
-    const [companies, setCompanies] = useState([]);
+    const [Projects, setProjects] = useState([]);
 
     const [planValue, setPlanValue] = useState(new Map([]));
     const [packages, setPackages] = useState([]);
 
-    const fetchCompanies = async () => {
+    const fetchProjects = async () => {
         try {
-          const response = await axios.get(`${api}/admin/getallcompanies`);
+          const response = await axios.get(`${api}/admin/getallProjects`);
     
-          console.log("companies result: ", response.data);
+          console.log("Projects result: ", response.data);
           if (response.data.success) {
-            setCompanies(response.data.results);
+            setProjects(response.data.results);
             setInitialRecords(response.data.results);
           }
         } catch (error) {
-          console.log("failed to fetch the companies");
+          console.log("failed to fetch the Projects");
           console.error(error);
         }
     };
@@ -111,7 +111,7 @@ const Subscriptions = () => {
         if (!localStorage.getItem('adminidtaxrx')) {
             navigate('/');
         }
-        fetchCompanies();
+        fetchProjects();
         fetchPackeges();
     }, []);
 
@@ -127,7 +127,7 @@ const Subscriptions = () => {
 
     useEffect(() => {
         setInitialRecords(() => {
-            return companies.filter((company: any) => {
+            return Projects.filter((company: any) => {
                 return (
                     company.company_name.toLowerCase().includes(search.toLowerCase()) ||
                     company.plan_type.toLowerCase().includes(search.toLowerCase())
@@ -162,7 +162,7 @@ const Subscriptions = () => {
             sheet: 'react-export-table-to-excel',
             tablePayload: {
                 header,
-                body: companies,
+                body: Projects,
             },
         });
     }
@@ -251,7 +251,7 @@ const Subscriptions = () => {
             showAlert("Company Edited Successfully");
             setModal6(false);
             setModal7(false);
-            fetchCompanies();
+            fetchProjects();
           } else {
             showAlert("Company Can not be Edited");
           }
@@ -288,7 +288,7 @@ const Subscriptions = () => {
           console.log("response: ", response.data);
           if (response.data.success) {
             showAlert("Company Deleted Successfully");
-            fetchCompanies();
+            fetchProjects();
           } else {
             showAlert("Company Can not be Deleted");
           }
@@ -307,7 +307,7 @@ const Subscriptions = () => {
     
           console.log("user result: ", response.data);
           if (response.data.success) {
-            fetchCompanies();
+            fetchProjects();
             showAlert("Subscription Cancelled Successfully");
           }
         } catch (error) {
