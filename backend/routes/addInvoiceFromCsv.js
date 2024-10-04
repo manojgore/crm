@@ -56,7 +56,7 @@ function createInvoice(
   // Draw header
   drawHeader();
 
-  // Add company logo
+  // Add Projects logo
   const logoBase64 = ""; // Add your logo as a base64 encoded string
   if (logoBase64) {
     doc.addImage(
@@ -69,7 +69,7 @@ function createInvoice(
     );
   }
 
-  // Add company, billing, and shipping information
+  // Add Projects, billing, and shipping information
   doc.setTextColor(textColor);
   doc.setFontSize(10);
 

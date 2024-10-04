@@ -397,7 +397,7 @@ const TaxFiles = () => {
                             { accessor: 'user_name', title: 'Username', sortable: false },
                             {
                                 accessor: 'company_name',
-                                title: 'Company Name',
+                                title: 'Project Name',
                                 sortable: false
                             },
                             {

@@ -504,7 +504,7 @@ const Subscriptions = () => {
                                                         <input
                                                             id="company_name"
                                                             type="text"
-                                                            placeholder="Company name"
+                                                            placeholder="Project Name"
                                                             className="form-input w-full"
                                                             name="name"
                                                             value={editCompanyData.name}

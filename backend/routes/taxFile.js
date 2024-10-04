@@ -26,7 +26,7 @@ router.post("/taxFile", (req, res) => {
                     return res.status(500).json({ error: customerError });
                 }
 
-                // Getting company name with given id
+                // Getting Project Name with given id
                 pool.query("SELECT * FROM company_settings WHERE id = ?", [id], (companyerror, companyResult)=>{
                     if (companyerror) {
                         console.error("Error checking for user with id = id:", companyerror);

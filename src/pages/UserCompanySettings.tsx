@@ -129,12 +129,12 @@ const UserCompanySettings = () => {
                             <div className="flex flex-col md:flex-row w-full justify-between items-center">
                                 <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
                                     <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Company Name
+                                        Project Name
                                     </label>
                                     <input
                                         id="item-code"
                                         type="text"
-                                        placeholder="Company Name"
+                                        placeholder="Project Name"
                                         className="form-input w-full"
                                         name="company_name"
                                         value={formData.company_name}

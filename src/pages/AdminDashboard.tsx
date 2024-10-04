@@ -377,7 +377,7 @@ const AdminDashboard = () => {
                                 <table>
                                     <thead>
                                         <tr className="border-b-0">
-                                            <th className="ltr:rounded-l-md rtl:rounded-r-md">Company Name</th>
+                                            <th className="ltr:rounded-l-md rtl:rounded-r-md">Project Name</th>
                                             <th>Email</th>
                                             <th>Created On</th>
                                             <th>Status</th>

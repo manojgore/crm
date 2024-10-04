@@ -838,7 +838,7 @@ const Projects = () => {
                                                         <input
                                                             id="company_name"
                                                             type="text"
-                                                            placeholder="Company name"
+                                                            placeholder="Project Name"
                                                             className="form-input w-full"
                                                             name="name"
                                                             value={editCompanyData.name}
@@ -1072,7 +1072,7 @@ const Projects = () => {
                 </Dialog>
             </Transition>
 
-            {/* { Add Company Modal } */}
+            {/* { Add Projects Modal } */}
             <Transition appear show={modal3} as={Fragment}>
                 <Dialog as="div" open={modal3} onClose={() => setModal3(false)}>
                     <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
@@ -1091,7 +1091,7 @@ const Projects = () => {
                             >
                                 <Dialog.Panel className="panel my-8 w-full max-w-xl overflow-hidden  rounded-lg border-0 p-0 text-black dark:text-white-dark h-[90svh] overflow-y-scroll">
                                     <div className="flex expenses-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                                        <h5 className="text-lg font-bold">Add Company</h5>
+                                        <h5 className="text-lg font-bold">Add Projects</h5>
                                         <button onClick={() => setModal3(false)} type="button" className="text-white-dark hover:text-dark">
                                             <IconX />
                                         </button>
@@ -1099,16 +1099,16 @@ const Projects = () => {
                                     <div className="p-2">
                                         <form onSubmit={handleAddCompany}>
                                             <div className="flex flex-col p-2 w-full">
-                                                <h2 className='font-semibold text-lg'>Add Company Details</h2>
+                                                <h2 className='font-semibold text-lg'>Add Projects Details</h2>
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="company_name" className="my-2 text-gray-600">
-                                                            Company Name
+                                                            Project Name
                                                         </label>
                                                         <input
                                                             id="company_name"
                                                             type="text"
-                                                            placeholder="Company Name"
+                                                            placeholder="Project Name"
                                                             className="form-input w-full"
                                                             name="username"
                                                             value={formdata.username}
