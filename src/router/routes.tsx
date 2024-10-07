@@ -76,67 +76,67 @@ const routes = [
     {
         path: '/purchase-plan',
         element: <Plans />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/add-customer',
         element: <AddCustomer />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/add-vendor',
         element: <AddVendor />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/add-item',
         element: <AddItem />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/add-invoice',
         element: <AddInvoice />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/add-expense',
         element: <AddExpenses />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/user-account-settings',
         element: <UserAccountSettings />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/user-company-settings',
         element: <UserCompanySettings />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/items',
         element: <Items />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/invoices',
         element: <Invoices />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/expenses',
         element: <Expenses />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/customers',
         element: <Customers />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/vendors',
         element: <Vendors />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/login',
@@ -166,27 +166,27 @@ const routes = [
     {
         path: '/Projects',
         element: <Projects />,
-        layout: 'admin',
+        layout: 'default',
     },
     {
         path: '/subscriptions',
         element: <Subscriptions />,
-        layout: 'admin',
+        layout: 'default',
     },
     {
         path: '/admin-plans',
         element: <AdminPlans />,
-        layout: 'admin',
+        layout: 'default',
     },
     {
         path: '/admin-taxfiles',
         element: <TaxFiles />,
-        layout: 'admin',
+        layout: 'default',
     },
     {
         path: '/admin-account-settings',
         element: <AdminAccountSettings />,
-        layout: 'admin',
+        layout: 'default',
     }
 ];
 

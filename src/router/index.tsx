@@ -7,7 +7,11 @@ import { routes } from './routes';
 const finalRoutes = routes.map((route) => {
     return {
         ...route,
-        element: route.layout === 'blank' ? <BlankLayout>{route.element}</BlankLayout> : route.layout === 'default' ? <DefaultLayout>{route.element}</DefaultLayout> : <AdminLayout>{route.element}</AdminLayout>,
+        element: route.layout === 'blank' ? 
+            <BlankLayout>{route.element}</BlankLayout> : 
+            route.layout === 'admin' ? 
+            <DefaultLayout>{route.element}</DefaultLayout> : 
+            <AdminLayout>{route.element}</AdminLayout>,
     };
 });
 

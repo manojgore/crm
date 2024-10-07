@@ -94,6 +94,7 @@ const LoginPage = () => {
             } else {
                 navigate('/user-dashboard');
                 localStorage.setItem('customeridtaxrx', response.data.id);
+                localStorage.setItem('adminidtaxrx', response.data.id);
             }
         } catch (error) {
             console.error('Error:', error);

@@ -91,6 +91,7 @@ const AdminLogin = () => {
 
             if (response.data.role === 'admin') {
                 navigate('/admin-dashboard');
+                localStorage.setItem('customeridtaxrx', response.data.id);
                 localStorage.setItem('adminidtaxrx', response.data.id);
             } else {
                 showAlert("can not login to user account here");

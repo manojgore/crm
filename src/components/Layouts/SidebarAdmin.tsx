@@ -96,7 +96,7 @@ const SidebarAdmin = () => {
                     <PerfectScrollbar className="h-[calc(100vh-80px)] relative">
                         <ul className="relative font-semibold space-y-0.5 p-4 py-0">
                             <li className="menu nav-item">
-                                <NavLink to="/admin-dashboard">
+                                <NavLink to="/user-dashboard">
                                     <button type="button" className={`${currentMenu === 'dashboard' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('dashboard')}>
                                         <div className="flex items-center">
                                             <IconMenuDashboard className="group-hover:!text-primary shrink-0" />
