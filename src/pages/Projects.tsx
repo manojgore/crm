@@ -93,11 +93,11 @@ const Projects = () => {
         }
     };
 
-    const fetchPackeges = async () => {
+    const fetchPackages = async () => {
         try {
           const response = await axios.get(`${api}/admin/getallpackages`);
     
-          console.log("packeges result: ", response.data);
+          console.log("Packages result: ", response.data);
           if (response.data.success) {
             setPackages(response.data.results);
             response.data.results.forEach((pkg) => {
@@ -115,7 +115,7 @@ const Projects = () => {
             navigate('/');
         }
         fetchProjects();
-        fetchPackeges();
+        fetchPackages();
     }, []);
 
     useEffect(() => {

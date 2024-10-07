@@ -54,11 +54,11 @@ const AdminPlans = () => {
     
 
     const [packages, setPackages] = useState<packageInterface[]>([]);
-    const fetchPackeges = async () => {
+    const fetchPackages = async () => {
         try {
             const response = await axios.get(`${api}/admin/getallpackages`);
 
-            console.log('packeges result: ', response.data);
+            console.log('Packages result: ', response.data);
             if (response.data.success) {
                 setPackages(response.data.results);
             }
@@ -102,7 +102,7 @@ const AdminPlans = () => {
     
           console.log("packege edit result: ", response.data);
           if (response.data.success) {
-            fetchPackeges();
+            fetchPackages();
             showAlert("package edited succesfully");
             setModal6(false);
           }else{
@@ -131,7 +131,7 @@ const AdminPlans = () => {
     
           console.log("packege add result: ", response.data);
           if (response.data.success) {
-            fetchPackeges();
+            fetchPackages();
             showAlert("package deleted succesfully");
             setModal17(false);
           }else{
@@ -170,7 +170,7 @@ const AdminPlans = () => {
     
           console.log("packege add result: ", response.data);
           if (response.data.success) {
-            fetchPackeges();
+            fetchPackages();
             showAlert("package added succesfully");
             setModal18(false);
           }else{
@@ -183,7 +183,7 @@ const AdminPlans = () => {
     }
 
     useEffect(() => {
-        fetchPackeges();
+        fetchPackages();
     }, []);
     return (
         <div>

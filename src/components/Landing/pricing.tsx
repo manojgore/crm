@@ -17,11 +17,11 @@ interface packageInterface {
 
 export default function Pricing(){
     const [packages, setPackages] = useState<packageInterface[]>([]);
-    const fetchPackeges = async () => {
+    const fetchPackages = async () => {
         try {
             const response = await axios.get(`${api}/admin/getallpackages`);
 
-            console.log('packeges result: ', response.data);
+            console.log('Packages result: ', response.data);
             if (response.data.success) {
                 setPackages(response.data.results);
             }
@@ -32,7 +32,7 @@ export default function Pricing(){
     };
 
     useEffect(() => {
-        fetchPackeges();
+        fetchPackages();
     }, []);
     return(
         <section className="relative py-10 bg-slate-50 dark:bg-slate-800" id="landing-pricing">

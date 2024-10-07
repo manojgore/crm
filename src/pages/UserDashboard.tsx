@@ -389,11 +389,11 @@ const UserDashboard = () => {
     const [subscribed, setSubscribed] = useState(false);
     const [subsCriptionType, setSubsCriptionType] = useState('');
     const [packages, setPackages] = useState([]);
-    const fetchPackeges = async () => {
+    const fetchPackages = async () => {
         try {
             const response = await axios.get(`${api}/admin/getallpackages`);
 
-            console.log('packeges result: ', response.data);
+            console.log('Packages result: ', response.data);
             if (response.data.success) {
                 setPackages(response.data.results);
             }
@@ -533,7 +533,7 @@ const UserDashboard = () => {
         fetchInvoices();
         fetchExpenses();
         fetchMembers();
-        fetchPackeges();
+        fetchPackages();
         checkSubscription();
         checkTaxFileStatus();
     }, []);
