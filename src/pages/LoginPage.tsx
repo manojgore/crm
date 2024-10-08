@@ -260,7 +260,7 @@ const LoginPage = () => {
                                 </Link>
                             </div>
                         </div>
-                        <p className="absolute bottom-6 w-full text-center max-w-[65%] dark:text-white"><Link to='https://psyber.co/'>SOLUTION TORRENT LLP 2024 © All Rights Reserved | Cooked with ❤️ by Psyber Inc</Link></p>
+                        <p className="absolute bottom-6 w-full text-center max-w-[65%] dark:text-white"><Link to='https://psyber.co/'>  © All Rights Reserved | Cooked with ❤️ by Psyber Inc</Link></p>
                     </div>
                 </div>
             </div>

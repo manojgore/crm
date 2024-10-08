@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { setPageTitle, toggleRTL } from '../store/themeConfigSlice';
 import { useEffect, useState } from 'react';
+import Navbar from "../components/Landing/navbar";
 import Dropdown from '../components/Dropdown';
 import i18next from 'i18next';
 import IconCaretDown from '../components/Icon/IconCaretDown';
@@ -253,9 +254,7 @@ const SignupPage = () => {
 
     return (
         <div>
-            <div className="absolute inset-0">
-                <img src="/assets/images/auth/bg-gradient.png" alt="image" className="h-full w-full object-cover" />
-            </div>
+            
 
             <div className="relative flex min-h-screen items-center justify-center bg-[url(/assets/images/auth/map.png)] bg-cover bg-center bg-no-repeat px-6 py-10 dark:bg-[#060818] sm:px-16">
                 <img src="/assets/images/auth/coming-soon-object1.png" alt="image" className="absolute left-0 top-1/2 h-full max-h-[893px] -translate-y-1/2" />
@@ -271,7 +270,16 @@ const SignupPage = () => {
                             </div>
                             <form className="space-y-5 dark:text-white" onSubmit={handleSubmit}>
                                 <div>
-                                    <label htmlFor="Name">Username</label>
+                                    <label htmlFor="Name">First Name</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Name" type="text" placeholder="Enter Name" className="form-input ps-10 placeholder:text-white-dark" name='username' value={formData.username} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconUser fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="Name">Last Name</label>
                                     <div className="relative text-white-dark">
                                         <input id="Name" type="text" placeholder="Enter Name" className="form-input ps-10 placeholder:text-white-dark" name='username' value={formData.username} onChange={handleChange} required/>
                                         <span className="absolute start-4 top-1/2 -translate-y-1/2">
@@ -348,6 +356,22 @@ const SignupPage = () => {
                                     </div>
                                 }
                                 <div>
+                                    <label htmlFor="Name">Website</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Name" type="text" className="form-input ps-10 placeholder:text-white-dark" name='username' value={formData.username} onChange={handleChange} required/>
+                                        
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="Name">Position</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Name" type="text" className="form-input ps-10 placeholder:text-white-dark" name='username' value={formData.username} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconUser fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
                                     <label htmlFor="Password">Password</label>
                                     <div className="relative text-white-dark">
                                         <input id="Password" type={passView ? 'text' : 'password'} placeholder="Enter Password" className="form-input ps-10 placeholder:text-white-dark" name='password' value={formData.password} onChange={handleChange} required/>
@@ -415,7 +439,7 @@ const SignupPage = () => {
                             </div>
                         </div>
                     </div>
-                    <p className="absolute bottom-6 w-full text-center dark:text-white"><Link to='https://psyber.co/'>SOLUTION TORRENT LLP 2024 © All Rights Reserved | Cooked with ❤️ by Psyber Inc</Link></p>
+                    <p className="absolute bottom-6 w-full text-center dark:text-white"><Link to='https://psyber.co/'>  © All Rights Reserved | Cooked with ❤️ by Psyber Inc</Link></p>
                 </div>
             </div>
         </div>

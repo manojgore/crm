@@ -1,11 +1,6 @@
 import React, { useEffect } from "react";
 import Navbar from "../components/Landing/navbar";
-import HeroThree from "../components/Landing/herothree";
-import About from "../components/Landing/about";
-import Services from "../components/Landing/services";
-import Pricing from "../components/Landing/pricing";
-import Footer from "../components/Landing/footer";
-import Cta from "../components/Landing/cta";
+import SignupPage from "../pages/SignupPage"
 import { useLocation, useNavigate } from "react-router-dom";
 export default function LandingPage(){
     const navigate = useNavigate();
@@ -23,12 +18,7 @@ export default function LandingPage(){
     return(
         <div className={`font-libre_franklin text-base text-black dark:text-white bg-white dark:bg-slate-900`}>
             <Navbar/>
-            <HeroThree/>
-            <About/>
-            <Services/>
-            <Cta/>
-            <Pricing/>
-            <Footer/>
+            <SignupPage />
         </div>
     )
 }

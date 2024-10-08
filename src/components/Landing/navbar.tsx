@@ -34,12 +34,7 @@ export default function Navbar() {
                 <img width={132} height={32} src="/assets/images/logo.png" alt="" className='cursor-pointer' onClick={()=>window.location.reload()} />
             </div>
             <div className="w-[50%] justify-end items-center hidden md:flex">
-                <ul className="flex w-[50%] justify-around items-center">
-                    <Link to='/'>Home</Link>
-                    <Link to='/refund-policy'>Refund Policy</Link>
-                    <HashLink to='#landing-pricing'>Pricing</HashLink>
-                    <HashLink to='#landing-footer'>Contact Us</HashLink>
-                </ul>
+                
                 <div className="nav-icons flex items-center lg_992:order-2 ms-auto md:ms-8">
                     <ul className="list-none menu-social mb-0">
                         <li className="inline">
@@ -62,9 +57,6 @@ export default function Navbar() {
                 </div>
                 <ul className='flex flex-col justify-start items-start w-[70%] px-5 mt-[5rem]'>
                     <Link to='/' className='my-6 text-lg'>Home</Link>
-                    <Link to='/refund-policy' className='my-6 text-lg'>Refund Policy</Link>
-                    <HashLink to='#landing-pricing' className='my-6 text-lg'>Pricing</HashLink>
-                    <HashLink to='#landing-footer' className='my-6 text-lg'>Contact Us</HashLink>
                 </ul>
                 <Link to='/login' className="h-8 px-4 text-[12px] tracking-wider inline-flex items-center justify-center font-medium rounded-md bg-primary text-white uppercase">{localStorage.getItem('customeridtaxrx') || localStorage.getItem('adminidtaxrx') ? 'Dashboard' : 'Login' }</Link>
             </div>

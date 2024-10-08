@@ -54,7 +54,7 @@ export default function Footer(){
                         </div>
 
                         <div className="lg:col-span-5 text-center text-gray-500 mt-6 md:mt-0">
-                            <p className="mb-0"><Link to='https://psyber.co/'>SOLUTION TORRENT LLP 2024 © All Rights Reserved | Cooked with ❤️ by Psyber Inc</Link>.</p>
+                            <p className="mb-0"><Link to='https://psyber.co/'>  © All Rights Reserved | Cooked with ❤️ by Psyber Inc</Link>.</p>
                         </div>
 
                         <ul className="lg:col-span-4 list-none md:text-end text-center mt-6 md:mt-0 space-x-1">
