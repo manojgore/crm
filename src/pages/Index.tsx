@@ -16,7 +16,7 @@ export default function LandingPage(){
         }
     }, []);
     return(
-        <div className={`font-libre_franklin text-base text-black dark:text-white bg-white dark:bg-slate-900`}>
+        <div>
             <Navbar/>
             <SignupPage />
         </div>
