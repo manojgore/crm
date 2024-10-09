@@ -22,4 +22,24 @@ router.get('/getallitems', async(req, res)=>{
    } 
 });
 
+router.get('/getallservices', async(req, res)=>{
+    const { id } = req.headers;
+   try {
+        pool.query("SELECT * FROM items",(err, results) => {
+            if (err) {
+                console.error("Error while checking items:", err);
+                return res.status(500).json({ error: err });
+            }
+            
+            if (results && results.length > 0) {
+                return res.status(200).json({ success:true , results: results });
+            } else {
+                return res.status(200).json({ success: false, msg: "no items where found" });   
+            }
+        });
+   } catch (error) {
+        console.log("Some error occured while fetching from database")
+   } 
+});
+
 module.exports = router;

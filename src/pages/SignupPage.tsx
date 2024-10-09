@@ -34,6 +34,10 @@ const SignupPage = () => {
     useEffect(() => {
         dispatch(setPageTitle('Register Boxed'));
     });
+    useEffect(() => {
+        fetchServices();
+        fetchPackages();
+    },[]);
     const navigate = useNavigate();
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
@@ -47,9 +51,32 @@ const SignupPage = () => {
         }
     };
     const [flag, setFlag] = useState(themeConfig.locale);
+    const [packages, setPackages] = useState([]);
+
+    const [services, setServices] = useState([]);
 
     const MySwal = withReactContent(Swal);
+    const months = new Map([
+        [1, 'January'],
+        [2, 'February'],
+        [3, 'March'],
+        [4, 'April'],
+        [5, 'May'],
+        [6, 'June'],
+        [7, 'July'],
+        [8, 'August'],
+        [9, 'September'],
+        [10, 'October'],
+        [11, 'November'],
+        [12, 'December'],
+    ]);
 
+    const days = new Map([
+        ["Monthly", 30],
+        ["Weekly", 7],
+        ["Half Yearly", 180],
+        ["Yearly", 365],
+    ]);
     const showAlert = (msg) => {
         MySwal.fire({
             title: msg,
@@ -93,6 +120,19 @@ const SignupPage = () => {
         password: '',
         emailverified: '',
         confirmPassword: '',
+        position:'',
+        direction: '',
+        companyName:'',
+        city:'',
+        company_address:'',
+        website:'',
+        county:'',
+        zipcode:'',
+        defaultLanguage:'',
+        state:'',
+        gst:'',
+        serviceType:'',
+        planType:''
     });
     const [passwordMatchError, setPasswordMatchError] = useState('');
 
@@ -166,21 +206,40 @@ const SignupPage = () => {
             setPasswordMatchError("Passwords don't match");
             return;
         }
-        if (!otpMatched) {
-            showAlert('Email OTP not matched');
-            return;
-        }
-        if (!isMobileOtpMatched) {
-            showAlert('Mobile OTP not matched');
-            return;
-        }
+        // if (!otpMatched) {
+        //     showAlert('Email OTP not matched');
+        //     return;
+        // }
+        // if (!isMobileOtpMatched) {
+        //     showAlert('Mobile OTP not matched');
+        //     return;
+        // }
 
         if(!isAgreeChecked){
             showAlert('Agree to the terms & conditions');
             return;
         }
         try {
-            const response = await axios.post(`${api}/api/customers/register`, formData);
+            const response = await axios.post(`${api}/api/customers/register`, 
+                {...formData,
+                    address_line_1 :"",
+                    address_line_2: "",
+                    plan: formData.planType === "" ? 0 : 1,
+                    registered_on: new Date(),
+                    purchased_on: formData.planType === "" ? null : new Date(),
+                    expiring_on:
+                    formData.planType === "" ||
+                    formData.planType.split(" ")[0] === "Yearly"
+                        ? null
+                        : new Date(
+                            new Date().getTime() +
+                            days.get(formData.planType.split(" ")[0]) *
+                                24 *
+                                60 *
+                                60 *
+                                1000
+                        ),
+                });
             console.log(response.data); // For debugging purposes
             // Handle successful registration (e.g., redirect to a success page)
             if (!response.data.success) {
@@ -189,9 +248,10 @@ const SignupPage = () => {
             }
             showAlert('Registration successful!');
             console.log('customer id: ', response.data.customerId);
+            localStorage.setItem('adminidtaxrx', response.data.id);
             localStorage.setItem('customeridtaxrx', response.data.customerId);
             // Redirect to vendor-profile page
-            navigate('/user-account-settings');
+            navigate('/admin-account-settings');
             if (response.data.result !== 0) {
                 showAlert('registered successfully');
             } else {
@@ -204,6 +264,34 @@ const SignupPage = () => {
         }
     };
 
+    const fetchServices = async () => {
+        try {
+          const response = await axios.get(`${api}/api/items/getallservices`);
+    
+          console.log("Service result: ", response.data);
+          if (response.data.success) {
+            setServices(response.data.results);
+          }
+        } catch (error) {
+          console.log("failed to fetch the service");
+          console.error(error);
+        }
+    };
+
+    const fetchPackages = async () => {
+        try {
+          const response = await axios.get(`${api}/admin/getallpackages`);
+    
+          console.log("Packages result: ", response.data);
+          if (response.data.success) {
+            setPackages(response.data.results);
+          }
+        } catch (error) {
+          console.log("failed to fetch the packages");
+          console.error(error);
+        }
+    };
+    
     const OauthOnSuccess = async (credentialResponse) => {
         const decoded = jwtDecode(credentialResponse?.credential);
         console.log(decoded);
@@ -261,16 +349,18 @@ const SignupPage = () => {
                 <img src="/assets/images/auth/coming-soon-object2.png" alt="image" className="absolute left-24 top-0 h-40 md:left-[30%]" />
                 <img src="/assets/images/auth/coming-soon-object3.png" alt="image" className="absolute right-0 top-0 h-[300px]" />
                 <img src="/assets/images/auth/polygon-object.svg" alt="image" className="absolute bottom-0 end-[28%]" />
-                <div className="relative w-full max-w-[870px] rounded-md bg-[linear-gradient(45deg,#fff9f9_0%,rgba(255,255,255,0)_25%,rgba(255,255,255,0)_75%,_#fff9f9_100%)] p-2 dark:bg-[linear-gradient(52.22deg,#0E1726_0%,rgba(14,23,38,0)_18.66%,rgba(14,23,38,0)_51.04%,rgba(14,23,38,0)_80.07%,#0E1726_100%)]">
+                <div className="relative w-full max-w-[100%] rounded-md bg-[linear-gradient(45deg,#fff9f9_0%,rgba(255,255,255,0)_25%,rgba(255,255,255,0)_75%,_#fff9f9_100%)] p-2 dark:bg-[linear-gradient(52.22deg,#0E1726_0%,rgba(14,23,38,0)_18.66%,rgba(14,23,38,0)_51.04%,rgba(14,23,38,0)_80.07%,#0E1726_100%)]">
                     <div className="relative flex flex-col justify-center rounded-md bg-white/60 backdrop-blur-lg dark:bg-black/50 px-6 lg:min-h-[758px] py-20">
-                        <div className="mx-auto w-full max-w-[440px]">
+                        <div className="mx-auto w-full max-w-[100%]">
                             <div className="mb-10">
                                 <h1 className="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">Sign Up</h1>
                                 <p className="text-base font-bold leading-normal text-white-dark">Enter your email and password to register</p>
                             </div>
                             <form className="space-y-5 dark:text-white" onSubmit={handleSubmit}>
-                                <div>
-                                    <label htmlFor="Name">First Name</label>
+                            <p className="text-base font-bold leading-normal text-white-dark">Profile Information</p>
+                            <div className="flex flex-wrap md:flex-row flex-col items-normal justify-start">
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Username</label>
                                     <div className="relative text-white-dark">
                                         <input id="Name" type="text" placeholder="Enter Name" className="form-input ps-10 placeholder:text-white-dark" name='username' value={formData.username} onChange={handleChange} required/>
                                         <span className="absolute start-4 top-1/2 -translate-y-1/2">
@@ -278,100 +368,83 @@ const SignupPage = () => {
                                         </span>
                                     </div>
                                 </div>
-                                <div>
-                                    <label htmlFor="Name">Last Name</label>
-                                    <div className="relative text-white-dark">
-                                        <input id="Name" type="text" placeholder="Enter Name" className="form-input ps-10 placeholder:text-white-dark" name='username' value={formData.username} onChange={handleChange} required/>
-                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                                            <IconUser fill={true} />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
                                     <label htmlFor="Email">Email</label>
-                                    <div className="relative text-white-dark">
-                                        <input id="Email" type="email" placeholder="Enter Email" className="form-input ps-10 placeholder:text-white-dark" name='email' value={formData.email} onChange={handleChange} required/>
-                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                                            <IconMail fill={true} />
+                                    <div className="flex justify-between">
+                                        <div className="relative text-white-dark">
+                                            <input id="Email" type="email" placeholder="Enter Email" className="form-input ps-10 placeholder:text-white-dark" name='email' value={formData.email} onChange={handleChange} required/>
+                                            <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                                <IconMail fill={true} />
+                                            </span>
+                                        </div>
+                                        <span
+                                            className="btn btn-gradient text-white cursor-pointer w-fit border-0 uppercase"
+                                            style={{ boxShadow: '0 10px 20px -10px rgba(67, 97, 238, 0.44)', background: 'linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)' }}
+                                            onClick={sendEmailOTP}
+                                        >
+                                            Send OTP
                                         </span>
                                     </div>
-                                    <span
-                                        className="btn btn-gradient text-white cursor-pointer !mt-6 w-fit border-0 uppercase"
-                                        style={{ boxShadow: '0 10px 20px -10px rgba(67, 97, 238, 0.44)', background: 'linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)' }}
-                                        onClick={sendEmailOTP}
-                                    >
-                                        Send OTP
-                                    </span>
                                 </div>
                                 {   formData.email &&
-                                    <div>
+                                    <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
                                         <label htmlFor="Email">Email OTP</label>
+                                        <div className="flex justify-between">
+                                            <div className="relative text-white-dark">
+                                                <input id="Email" type="text" placeholder="Enter Email" className="form-input ps-10 placeholder:text-white-dark" name='emailOtp' value={formData.emailOtp} onChange={handleChange} required/>
+                                                <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                                    <IconMail fill={true} />
+                                                </span>
+                                            </div>
+                                            <span
+                                                className="btn btn-gradient text-white cursor-pointer w-fit border-0 uppercase"
+                                                style={{ boxShadow: '0 10px 20px -10px rgba(67, 97, 238, 0.44)', background: 'linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)' }}
+                                                onClick={verifyEmail}
+                                            >
+                                                Verify
+                                            </span>
+                                        </div>
+                                    </div>
+                                }
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Phone Number">Phone Number</label>
+                                    <div className="flex justify-between">
                                         <div className="relative text-white-dark">
-                                            <input id="Email" type="text" placeholder="Enter Email" className="form-input ps-10 placeholder:text-white-dark" name='emailOtp' value={formData.emailOtp} onChange={handleChange} required/>
+                                            <input id="Phone Number" type="number" placeholder="Enter Phone Number" className="form-input ps-10 placeholder:text-white-dark" name='phoneNumber' value={formData.phoneNumber} onChange={handleChange} required/>
                                             <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                                                <IconMail fill={true} />
+                                                <IconPhoneCall fill={true} />
                                             </span>
                                         </div>
                                         <span
-                                            className="btn btn-gradient text-white cursor-pointer !mt-6 w-fit border-0 uppercase"
+                                            className="btn btn-gradient text-white cursor-pointer w-fit border-0 uppercase"
                                             style={{ boxShadow: '0 10px 20px -10px rgba(67, 97, 238, 0.44)', background: 'linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)' }}
-                                            onClick={verifyEmail}
+                                            onClick={sendMobileOtp}
                                         >
-                                            Verify
+                                            Send OTP
                                         </span>
                                     </div>
-                                }
-                                <div>
-                                    <label htmlFor="Phone Number">Phone Number</label>
-                                    <div className="relative text-white-dark">
-                                        <input id="Phone Number" type="number" placeholder="Enter Phone Number" className="form-input ps-10 placeholder:text-white-dark" name='phoneNumber' value={formData.phoneNumber} onChange={handleChange} required/>
-                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                                            <IconPhoneCall fill={true} />
-                                        </span>
-                                    </div>
-                                    <span
-                                        className="btn btn-gradient text-white cursor-pointer !mt-6 w-fit border-0 uppercase"
-                                        style={{ boxShadow: '0 10px 20px -10px rgba(67, 97, 238, 0.44)', background: 'linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)' }}
-                                        onClick={sendMobileOtp}
-                                    >
-                                        Send OTP
-                                    </span>
                                 </div>
                                 {   formData.phoneNumber &&
-                                    <div>
+                                    <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
                                         <label htmlFor="Email">Mobile OTP</label>
-                                        <div className="relative text-white-dark">
-                                            <input id="Email" type="text" placeholder="Enter Email" className="form-input ps-10 placeholder:text-white-dark" name='mobileOtp' value={formData.mobileOtp} onChange={handleChange} required/>
-                                            <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                                                <IconMail fill={true} />
+                                        <div className="flex justify-between">
+                                            <div className="relative text-white-dark">
+                                                <input id="Email" type="text" placeholder="Enter OTP" className="form-input ps-10 placeholder:text-white-dark" name='mobileOtp' value={formData.mobileOtp} onChange={handleChange} required/>
+                                                <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                                    <IconMail fill={true} />
+                                                </span>
+                                            </div>
+                                            <span
+                                                className="btn btn-gradient text-white cursor-pointer w-fit border-0 uppercase"
+                                                style={{ boxShadow: '0 10px 20px -10px rgba(67, 97, 238, 0.44)', background: 'linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)' }}
+                                                onClick={verifyMobile}
+                                            >
+                                                Verify
                                             </span>
                                         </div>
-                                        <span
-                                            className="btn btn-gradient text-white cursor-pointer !mt-6 w-fit border-0 uppercase"
-                                            style={{ boxShadow: '0 10px 20px -10px rgba(67, 97, 238, 0.44)', background: 'linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)' }}
-                                            onClick={verifyMobile}
-                                        >
-                                            Verify
-                                        </span>
                                     </div>
                                 }
-                                <div>
-                                    <label htmlFor="Name">Website</label>
-                                    <div className="relative text-white-dark">
-                                        <input id="Name" type="text" className="form-input ps-10 placeholder:text-white-dark" name='username' value={formData.username} onChange={handleChange} required/>
-                                        
-                                    </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="Name">Position</label>
-                                    <div className="relative text-white-dark">
-                                        <input id="Name" type="text" className="form-input ps-10 placeholder:text-white-dark" name='username' value={formData.username} onChange={handleChange} required/>
-                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                                            <IconUser fill={true} />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
                                     <label htmlFor="Password">Password</label>
                                     <div className="relative text-white-dark">
                                         <input id="Password" type={passView ? 'text' : 'password'} placeholder="Enter Password" className="form-input ps-10 placeholder:text-white-dark" name='password' value={formData.password} onChange={handleChange} required/>
@@ -384,7 +457,7 @@ const SignupPage = () => {
                                         </span>
                                     </div>
                                 </div>
-                                <div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
                                     <label htmlFor="Confirm Password">Confirm Password</label>
                                     <div className="relative text-white-dark">
                                         <input
@@ -405,6 +478,160 @@ const SignupPage = () => {
                                     </div>
                                     <p className='text-red-600 text-sm my-1'>{passwordMatchError}</p>
                                 </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Position</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Position" type="text" placeholder="Enter Position" className="form-input ps-10 placeholder:text-white-dark" name='position' value={formData.position} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconUser fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Direction</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Direction" type="text" placeholder="Enter Direction" className="form-input ps-10 placeholder:text-white-dark" name='direction' value={formData.direction} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconUser fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p className="text-base font-bold leading-normal text-white-dark">Company Information</p>
+                            <div className="flex flex-wrap md:flex-row flex-col items-center justify-start">
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Company Name</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="CompanyName" type="text" placeholder="Company Name" className="form-input ps-10 placeholder:text-white-dark" name='companyName' value={formData.companyName} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconUser fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">City</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="City" type="text" placeholder="City" className="form-input ps-10 placeholder:text-white-dark" name='city' value={formData.city} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Address</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Address" type="text" placeholder="Address" className="form-input ps-10 placeholder:text-white-dark" name='company_address' value={formData.company_address} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Website</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Website" type="text" placeholder="Website" className="form-input ps-10 placeholder:text-white-dark" name='website' value={formData.website} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">State</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="State" type="text" placeholder="State" className="form-input ps-10 placeholder:text-white-dark" name='state' value={formData.state} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">County</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="County" type="text" placeholder="County" className="form-input ps-10 placeholder:text-white-dark" name='county' value={formData.county} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Zipcode</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Zipcode" type="number" placeholder="Zipcode" className="form-input ps-10 placeholder:text-white-dark" name='zipcode' value={formData.zipcode} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Default Language</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Default Language" type="text" placeholder="Default Language" className="form-input ps-10 placeholder:text-white-dark" name='defaultLanguage' value={formData.defaultLanguage} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconUser fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">GST</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="GST" type="text" placeholder="GST" className="form-input ps-10 placeholder:text-white-dark" name='gst' value={formData.gst} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconUser fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <p className="text-base font-bold leading-normal text-white-dark">Project Details</p>
+                            <div className="flex flex-wrap md:flex-row flex-col items-center justify-start">
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Project/Service Name </label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Service Name" type="text" placeholder="Enter Project/Service Name" className="form-input ps-10 placeholder:text-white-dark" name='serviceName' value={formData.serviceName} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconLockDots fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="company_choose_plan">Choose Service/Product </label>
+                                    <select
+                                        id="company_choose_plan"
+                                        className="form-select text-white-dark"
+                                        name="serviceType"
+                                        value={formData.serviceType}
+                                        onChange={handleChange}
+                                    >
+                                        <option>Select Service/Project</option>
+                                        {services.map((pkg, i) => {
+                                            return (
+                                            <option key={i} value={`${pkg.name}`}>
+                                                {pkg.name}
+                                            </option>
+                                            );
+                                        })}
+                                    </select>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="company_choose_plan">Choose Plan </label>
+                                    <select
+                                        id="company_choose_plan"
+                                        className="form-select text-white-dark"
+                                        name="planType"
+                                        value={formData.planType}
+                                        onChange={handleChange}
+                                    >
+                                        <option>Select Plan</option>
+                                        {packages.map((pkg, i) => {
+                                            return (
+                                            <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
+                                                {pkg.Type} {pkg.Duration}
+                                            </option>
+                                            );
+                                        })}
+                                    </select>
+                                </div>
+                            </div>
                                 <div>
                                     <label className="flex cursor-pointer items-center">
                                         <input type="checkbox" className="form-checkbox bg-white dark:bg-black" checked={isAgreeChecked} onChange={() => setIsAgreeChecked(true)} />
@@ -413,7 +640,7 @@ const SignupPage = () => {
                                 </div>
                                 <button
                                     type="submit"
-                                    className="btn btn-gradient text-white !mt-6 w-full border-0 uppercase"
+                                    className="btn btn-gradient text-white cursor-pointer !mt-6 w-fit border-0 uppercase"
                                     style={{ boxShadow: '0 10px 20px -10px rgba(67, 97, 238, 0.44)', background: 'linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)' }}
                                 >
                                     Sign Up

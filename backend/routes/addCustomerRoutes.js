@@ -5,7 +5,7 @@ const sendAccountOpenMail = require('./sendAccOpenMail');
 const sendAccountOpenAlertToAdmin = require('./sendUserJoinAlert');
 
 router.post('/register', async (req, res) => {
-    const { username, phoneNumber, email, emailOtp, password, confirmPassword, image } = req.body;
+    const { username, phoneNumber, email, emailOtp, password, confirmPassword, image, company_address, emailverified, address_line_1, address_line_2, country, state, city, pincode, plan, plan_type, company_website, registered_on, purchased_on, expiring_on, serviceType } = req.body;
    
     // Check if passwords match
     if (password !== confirmPassword) {
@@ -35,9 +35,9 @@ router.post('/register', async (req, res) => {
                         console.error('Error inserting data:', ferr);
                         return res.status(500).json({ error: 'Error inserting data', success: false });
                     }
-                    pool.query("INSERT INTO company_settings (id) VALUES (?)", [insertResults.insertId], async (err, secResult) => {
-                        if (err) {
-                            console.error('Error inserting data:', err);
+                    pool.query("INSERT INTO company_settings (id, company_name, company_address, phone_number, company_email, address_line_1, address_line_2, country, state, city, pincode, plan, plan_type, company_website, registered_on, purchased_on, expiring_on, serviceType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [insertResults.insertId, username, company_address, phoneNumber, email, address_line_1, address_line_2, country, state, city, pincode, plan, plan_type, company_website, registered_on.slice(0, 19).replace('T', ' '), purchased_on ? purchased_on.slice(0, 19).replace('T', ' ') : null, expiring_on ? expiring_on.slice(0, 19).replace('T', ' ') : null, serviceType], (selectErr, secResult) => {
+                        if (selectErr) {
+                            console.error('Error inserting data:', selectErr);
                             return res.status(500).json({ error: 'Error inserting data', success: false });
                         }
                         // Sned Account oppening mail to admins and user

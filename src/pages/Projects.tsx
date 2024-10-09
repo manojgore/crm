@@ -648,6 +648,7 @@ const Projects = () => {
                                 sortable: true,
                                 render: ({ registered_on }) => <p>{`${new Date(registered_on).getDate()} ${months.get(new Date(registered_on).getMonth() + 1)} ${new Date(registered_on).getFullYear()}`}</p>
                             },
+                            { accessor: 'serviceType', title: 'Service Type', sortable: false },
                             {
                                 accessor: 'plan',
                                 title: 'Status',
