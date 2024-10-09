@@ -5,7 +5,7 @@ const sendAccountOpenMail = require('./sendAccOpenMail');
 const sendAccountOpenAlertToAdmin = require('./sendUserJoinAlert');
 
 router.post('/register', async (req, res) => {
-    const { username, phoneNumber, email, emailOtp, password, confirmPassword, image, company_address, emailverified, address_line_1, address_line_2, country, state, city, pincode, plan, plan_type, company_website, registered_on, purchased_on, expiring_on, serviceType } = req.body;
+    const { username, phoneNumber, email, emailOtp, password, confirmPassword, image, company_address, emailverified, address_line_1, address_line_2, country, state, city, zipcode, plan, plan_type, company_website, registered_on, purchased_on, expiring_on, serviceType, gst } = req.body;
    
     // Check if passwords match
     if (password !== confirmPassword) {
@@ -30,12 +30,13 @@ router.post('/register', async (req, res) => {
                     return res.status(500).json({ error: insertErr, success: false })
                 }
                 console.log("res1", insertResults);
-                pool.query("INSERT INTO accountsettings (id, image) VALUES (?, ?)", [insertResults.insertId, image], async (ferr, fResult) => {
+                pool.query("INSERT INTO accountsettings (TradeName, GSTNo, OfficeAddress, State, StateCode, PhoneNumber, EmailID) VALUES (?,?,?,?,?,?,?)",
+                ["", gst, company_address, state, zipcode, phoneNumber, email], async (ferr, fResult) => {
                     if (ferr) {
                         console.error('Error inserting data:', ferr);
                         return res.status(500).json({ error: 'Error inserting data', success: false });
                     }
-                    pool.query("INSERT INTO company_settings (id, company_name, company_address, phone_number, company_email, address_line_1, address_line_2, country, state, city, pincode, plan, plan_type, company_website, registered_on, purchased_on, expiring_on, serviceType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [insertResults.insertId, username, company_address, phoneNumber, email, address_line_1, address_line_2, country, state, city, pincode, plan, plan_type, company_website, registered_on.slice(0, 19).replace('T', ' '), purchased_on ? purchased_on.slice(0, 19).replace('T', ' ') : null, expiring_on ? expiring_on.slice(0, 19).replace('T', ' ') : null, serviceType], (selectErr, secResult) => {
+                    pool.query("INSERT INTO company_settings (id, company_name, company_address, phone_number, company_email, address_line_1, address_line_2, country, state, city, pincode, plan, plan_type, company_website, registered_on, purchased_on, expiring_on, serviceType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [insertResults.insertId, username, company_address, phoneNumber, email, address_line_1, address_line_2, country, state, city, zipcode, plan, plan_type, company_website, registered_on.slice(0, 19).replace('T', ' '), purchased_on ? purchased_on.slice(0, 19).replace('T', ' ') : null, expiring_on ? expiring_on.slice(0, 19).replace('T', ' ') : null, serviceType], (selectErr, secResult) => {
                         if (selectErr) {
                             console.error('Error inserting data:', selectErr);
                             return res.status(500).json({ error: 'Error inserting data', success: false });

@@ -248,7 +248,7 @@ const SignupPage = () => {
             }
             showAlert('Registration successful!');
             console.log('customer id: ', response.data.customerId);
-            localStorage.setItem('adminidtaxrx', response.data.id);
+            localStorage.setItem('adminidtaxrx', response.data.customerId);
             localStorage.setItem('customeridtaxrx', response.data.customerId);
             // Redirect to vendor-profile page
             navigate('/admin-account-settings');
