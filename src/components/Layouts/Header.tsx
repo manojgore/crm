@@ -321,14 +321,14 @@ const Header = () => {
                                         </div>
                                     </li>
                                     <li>
-                                        {localStorage.getItem('customeridtaxrx') &&
-                                            <Link to="/user-account-settings" className="dark:hover:text-white">
+                                        {localStorage.getItem('isUser') &&
+                                            <Link to="/admin-account-settings" className="dark:hover:text-white">
                                                 <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
                                                 Profile
                                             </Link>
                                         }
-                                        {localStorage.getItem('adminidtaxrx') &&
-                                            <Link to="/admin-account-settings" className="dark:hover:text-white">
+                                        {localStorage.getItem('isAdmin') &&
+                                            <Link to="/user-account-settings" className="dark:hover:text-white">
                                                 <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
                                                 Profile
                                             </Link>
@@ -340,6 +340,8 @@ const Header = () => {
                                             onClick={() => {
                                                 localStorage.removeItem('customeridtaxrx');
                                                 localStorage.removeItem('adminidtaxrx');
+                                                localStorage.removeItem('isAdmin');
+                                                localStorage.removeItem('isUser');
                                             }} 
                                             className="text-danger !py-3"
                                         >

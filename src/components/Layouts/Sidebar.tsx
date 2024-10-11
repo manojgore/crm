@@ -289,6 +289,8 @@ const Sidebar = () => {
                                             onClick={() => {
                                                 localStorage.removeItem('customeridtaxrx');
                                                 localStorage.removeItem('adminidtaxrx');
+                                                localStorage.removeItem('isAdmin');
+                                                localStorage.removeItem('isUser');
                                             }}
                                             className="group"
                                         >

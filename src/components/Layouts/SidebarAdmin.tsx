@@ -183,6 +183,8 @@ const SidebarAdmin = () => {
                                             onClick={() => {
                                                 localStorage.removeItem('customeridtaxrx');
                                                 localStorage.removeItem('adminidtaxrx');
+                                                localStorage.removeItem('isUser');
+                                                localStorage.removeItem('isAdmin');
                                             }}
                                             className="group"
                                         >
