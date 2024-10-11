@@ -5,7 +5,7 @@ const pool = require('../db');
 router.get('/getallcustomers', async(req, res)=>{
     const { id } = req.headers;
    try {
-        pool.query("SELECT * FROM customers WHERE owner_id = ?", [id], (err, results) => {
+        pool.query("SELECT * FROM customers", (err, results) => {
             if (err) {
                 console.error("Error checking for duplicate invoice owner id:", err);
                 return res.status(500).json({ error: err });
