@@ -93,6 +93,7 @@ const LoginPage = () => {
                 showAlert("can not login to admin account here");
             } else {
                 navigate('/user-dashboard');
+                localStorage.setItem('isUser', response.data.id);
                 localStorage.setItem('customeridtaxrx', response.data.id);
                 localStorage.setItem('adminidtaxrx', response.data.id);
             }
