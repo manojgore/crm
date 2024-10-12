@@ -250,6 +250,7 @@ const SignupPage = () => {
             console.log('customer id: ', response.data.customerId);
             localStorage.setItem('adminidtaxrx', response.data.customerId);
             localStorage.setItem('customeridtaxrx', response.data.customerId);
+            localStorage.setItem('isUser', response.data.customerId)
             // Redirect to vendor-profile page
             navigate('/admin-account-settings');
             if (response.data.result !== 0) {

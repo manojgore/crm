@@ -77,7 +77,17 @@ const Subscriptions = () => {
 
     const fetchProjects = async () => {
         try {
-          const response = await axios.get(`${api}/admin/getallProjects`);
+            let response;
+            if (localStorage.getItem("isUser")) {
+                response = await axios.get(`${api}/admin/getallProjects`,{
+                    headers :{
+                        id: localStorage.getItem("adminidtaxrx")
+                    }
+                });
+            } else {
+                response = await axios.get(`${api}/admin/getallProjects`);
+            }
+          
     
           console.log("Projects result: ", response.data);
           if (response.data.success) {

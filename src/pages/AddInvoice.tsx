@@ -12,6 +12,7 @@ import 'flatpickr/dist/flatpickr.css';
 import IconTrashLines from '../components/Icon/IconTrashLines';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
+import { array } from 'yup';
 
 interface selectedCustomerInterface{
     account_holder_name: string,
@@ -117,7 +118,8 @@ const AddInvoice = () => {
 
         setFormData({ ...formData, products: productList });
         setProduct({ item: '', quantity: 0, price: '', uqc: '' });
-
+        setSelectedItem(null);
+        setItemSearchResult([])
         let taxableValue = calculateTaxableValue(productList);
 
         let finalAmount = calculateFinalAmount(taxableValue);
@@ -270,6 +272,16 @@ const AddInvoice = () => {
 
     const [items, setItems] = useState([]);
 
+    let transformServiceIntoProjects = (services : any) => {
+        return services.map((service :any)=>{
+            return {
+                id: service.id,       
+                name: service.Type + " " + service.Duration,
+                price: service.Price         
+            }
+        });
+    }
+
     const fetchAllItems = async () => {
         try {
             const response = await axios.get(`${api}/api/items/getallitems`, {
@@ -277,8 +289,14 @@ const AddInvoice = () => {
                     id: localStorage.getItem('customeridtaxrx'),
                 },
             });
+            const pacakgesResponse = await axios.get(`${api}/admin/getallpackages`, {
+                headers: {
+                    id: localStorage.getItem('customeridtaxrx'),
+                },
+            });
             console.log(response.data);
-            if (response.data.success) {
+            if (response.data.success || pacakgesResponse.data.success) {
+                response.data.results.push(...transformServiceIntoProjects(pacakgesResponse.data.results));
                 setItems(response.data.results);
             }
         } catch (error) {
