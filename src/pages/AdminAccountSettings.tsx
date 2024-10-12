@@ -40,11 +40,6 @@ const AdminAccountSettings = () => {
         EmailID: '',
         PANNo: '',
         AuthorisedSignatoryName: '',
-        BankName: '',
-        Branch: '',
-        AccountHolderName: '',
-        AccountNumber: '',
-        IFSC: '',
         image: '',
     });
 
@@ -246,58 +241,6 @@ const AdminAccountSettings = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* {Bank Details} */}
-                        <h2 className="font-semibold text-2xl my-4">Bank Details</h2>
-                        <div className="flex flex-wrap flex-col md:flex-rows">
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="item-code" className="my-2 text-gray-600">
-                                    Bank Name
-                                </label>
-                                <input id="item-code" type="text" placeholder="Bank Name" className="form-input w-full" name="BankName" value={formData.BankName} onChange={handleChange} required />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="item-code" className="my-2 text-gray-600">
-                                    Branch
-                                </label>
-                                <input id="item-code" type="text" placeholder="Branch" className="form-input w-full" name="Branch" value={formData.Branch} onChange={handleChange} required />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="item-code" className="my-2 text-gray-600">
-                                    Account Holder Name
-                                </label>
-                                <input
-                                    id="item-code"
-                                    type="text"
-                                    placeholder="Account Holder Name"
-                                    className="form-input w-full"
-                                    name="AccountHolderName"
-                                    value={formData.AccountHolderName}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="item-code" className="my-2 text-gray-600">
-                                    Account Number
-                                </label>
-                                <input
-                                    id="item-code"
-                                    type="text"
-                                    placeholder="Account Number"
-                                    className="form-input w-full"
-                                    name="AccountNumber"
-                                    value={formData.AccountNumber}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="item-code" className="my-2 text-gray-600">
-                                    IFSC
-                                </label>
-                                <input id="item-code" type="text" placeholder="IFSC" className="form-input w-full" name="IFSC" value={formData.IFSC} onChange={handleChange} required />
-                            </div>
-                        </div>
                         <div className="flex w-full justify-center md:justify-end items-center my-4">
                             <button type="submit" className="btn btn-primary mt-6">
                                 Save Changes
@@ -317,11 +260,6 @@ const AdminAccountSettings = () => {
                                         EmailID: '',
                                         PANNo: '',
                                         AuthorisedSignatoryName: '',
-                                        BankName: '',
-                                        Branch: '',
-                                        AccountHolderName: '',
-                                        AccountNumber: '',
-                                        IFSC: '',
                                         image: '',
                                     });
                                 }}

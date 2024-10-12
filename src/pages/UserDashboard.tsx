@@ -589,31 +589,6 @@ const UserDashboard = () => {
             {subscribed && (
                 <div>
                     <h1 className="text-4xl font-semibold">Dashboard</h1>
-                    <div className="flex justify-end items-center">
-                        {!subsCriptionType.includes('Free') && (
-                            <button
-                                className="btn btn-primary"
-                                onClick={() => {
-                                    if (!taxFiled) {
-                                        setModal2(true);
-                                    }
-                                }}>
-                                Tax File
-                            </button>
-                        )}
-                        {!freeTaxFiled && (
-                            <button
-                                className="btn btn-primary"
-                                onClick={() => {
-                                    if (!taxFiled) {
-                                        setModal2(true);
-                                    }
-                                }}
-                            >
-                                {taxFiled ? 'Already Filed' : 'Tax File'}
-                            </button>
-                        )}
-                    </div>
                     <div className="flex justify-between flex-col md:flex-row items-center">
                         <div className="panel h-full w-[90%] md:w-[24%]">
                             <div className="flex justify-between dark:text-white-light mb-5">

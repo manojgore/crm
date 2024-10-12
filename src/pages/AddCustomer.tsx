@@ -3,6 +3,8 @@ import IconArrowLeft from '../components/Icon/IconArrowLeft';
 import IconUser from '../components/Icon/IconUser';
 import IconMail from '../components/Icon/IconMail';
 import IconLockDots from '../components/Icon/IconLockDots';
+import IconEyeOpen from '../components/Icon/IconEyeOpen';
+import IconEyeClosed from '../components/Icon/IconEyeClosed';
 import axios from 'axios';
 import { api } from '../utils/apiProvider';
 import { useNavigate } from 'react-router-dom';
@@ -50,6 +52,7 @@ const AddCustomer = () => {
         state: '',
         profileimg: '',
     });
+    const [passwordMatchError, setPasswordMatchError] = useState('');
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, files } = e.target;
         if (name === 'profileimg') {
@@ -66,6 +69,23 @@ const AddCustomer = () => {
             ...prevState,
             [name]: value,
         }));
+    };
+    const [passView, setPassView] = useState(false);
+    const toggleViewPassword = () => {
+        if (passView) {
+            setPassView(false);
+        } else {
+            setPassView(true);
+        }
+    };
+
+    const [confirmPassView, setConfirmPassView] = useState(false);
+    const toggleViewConfirmPassword = () => {
+        if (confirmPassView) {
+            setConfirmPassView(false);
+        } else {
+            setConfirmPassView(true);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -100,7 +120,7 @@ const AddCustomer = () => {
             console.error('Error:', error);
         }
     };
-
+    
     const MySwal = withReactContent(Swal);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
@@ -114,6 +134,15 @@ const AddCustomer = () => {
             showCloseButton: true,
         });
     };
+
+
+    useEffect(()=>{
+        if(formData.password !== formData.confirmPassword && formData.password !== '' && formData.confirmPassword !== ''){
+            setPasswordMatchError('password and confirm password must be same');
+        }else{
+            setPasswordMatchError('');
+        }
+    })
 
     useEffect(() => {
         if (!localStorage.getItem('customeridtaxrx')) {
@@ -168,6 +197,40 @@ const AddCustomer = () => {
                                 </label>
                                 <input id="customer-phone" type="number" placeholder="Phone" className="form-input w-full" name="phone" value={formData.phone} onChange={handleChange} required />
                             </div>
+                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Password">Password</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Password" type={passView ? 'text' : 'password'} placeholder="Enter Password" className="form-input ps-10 placeholder:text-white-dark" name='password' value={formData.password} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconLockDots fill={true} />
+                                        </span>
+                                        <span className="absolute end-4 top-1/2 -translate-y-1/2 cursor-pointer" onClick={toggleViewPassword}>
+                                            {!passView && <IconEyeOpen />}
+                                            {passView && <IconEyeClosed />}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Confirm Password">Confirm Password</label>
+                                    <div className="relative text-white-dark">
+                                        <input
+                                            id="Confirm Password"
+                                            type={confirmPassView ? 'text' : 'password'}
+                                            placeholder="Enter Confirm Password"
+                                            className="form-input ps-10 placeholder:text-white-dark"
+                                            name='confirmPassword' value={formData.confirmPassword} onChange={handleChange}
+                                            required
+                                        />
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconLockDots fill={true} />
+                                        </span>
+                                        <span className="absolute end-4 top-1/2 -translate-y-1/2 cursor-pointer" onClick={toggleViewConfirmPassword}>
+                                            {!confirmPassView && <IconEyeOpen />}
+                                            {confirmPassView && <IconEyeClosed />}
+                                        </span>
+                                    </div>
+                                    <p className='text-red-600 text-sm my-1'>{passwordMatchError}</p>
+                                </div>
                             <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
                                 <label htmlFor="customer-gst" className="my-2 text-gray-600 ">
                                     GST Number (if available)

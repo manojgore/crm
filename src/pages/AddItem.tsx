@@ -83,8 +83,8 @@ const AddItem = () => {
     }, []);
     return (
         <div>
-            <h1 className="text-4xl font-semibold">Add Item</h1>
-            <p>Add a new item</p>
+            <h1 className="text-4xl font-semibold">Add Project</h1>
+            <p>Add a new Project</p>
             <div className="add-customer-form py-4 px-2 flex justify-center items-center w-full">
                 <form className="w-full flex justify-center items-center flex-col" onSubmit={handleSubmit}>
                     <div className="mb-5 w-full md:w-[60%] flex justify-start items-center">
@@ -98,13 +98,13 @@ const AddItem = () => {
                     <div className="flex md:flex-row flex-col w-full md:w-[60%]">
                         <div className="flex flex-col w-[50%] mx-4 my-2">
                             <label htmlFor="item-code" className="my-2 text-gray-600">
-                                Item Code
+                            Project Code
                             </label>
                             <input id="item-code" type="text" placeholder="Item Code" className="form-input w-full" name="product_code" value={formData.product_code} onChange={handleChange} required />
                         </div>
                         <div className="flex flex-col w-[50%] mx-4 my-2">
                             <label htmlFor="item-code" className="my-2 text-gray-600">
-                                Item Name
+                            Project Name
                             </label>
                             <input id="item-code" type="text" placeholder="Item Name" className="form-input w-full" name="name" value={formData.name} onChange={handleChange} required />
                         </div>
