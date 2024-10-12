@@ -124,6 +124,11 @@ const routes = [
         layout: 'admin',
     },
     {
+        path: '/user-invoice',
+        element: <Invoices />,
+        layout: 'default',
+    },
+    {
         path: '/expenses',
         element: <Expenses />,
         layout: 'admin',
@@ -172,6 +177,11 @@ const routes = [
         path: '/subscriptions',
         element: <Subscriptions />,
         layout: 'default',
+    },
+    {
+        path: '/admin-subscriptions',
+        element: <Subscriptions />,
+        layout: 'admin',
     },
     {
         path: '/admin-plans',

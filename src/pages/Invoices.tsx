@@ -60,11 +60,16 @@ const Invoices = () => {
 
     const fetchInvoices = async () => {
         try {
-            const response = await axios.get(`${api}/api/invoices/getallinvoices`, {
-                headers: {
-                    id: localStorage.getItem('customeridtaxrx'),
-                },
-            });
+            let response;
+            if (localStorage.getItem("isUser")) {
+                response = await axios.get(`${api}/api/invoices/getallinvoices`, {
+                    headers: {
+                        id: localStorage.getItem('customeridtaxrx'),
+                    },
+                });
+            } else {
+                response = await axios.get(`${api}/api/invoices/getallinvoices`);
+            }
 
             console.log('invoices result: ', response.data);
             if (response.data.success) {
