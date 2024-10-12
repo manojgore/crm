@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import IconArrowLeft from '../components/Icon/IconArrowLeft';
+import IconUser from '../components/Icon/IconUser';
+import IconMail from '../components/Icon/IconMail';
+import IconLockDots from '../components/Icon/IconLockDots';
 import axios from 'axios';
 import { api } from '../utils/apiProvider';
 import { useNavigate } from 'react-router-dom';
@@ -16,17 +19,14 @@ interface formDataInterface{
         phone: string,
         gstNumber: string,
         panNo: string,
-        addressLine1: string,
-        addressLine2: string,
-        country: string,
-        city: string,
+        position:string,
+        companyName:string,
+        company_address:string,
+        city:string,
+        website:string,
+        county:string,
+        zipcode:string,
         state: string,
-        pincode: string,
-        bankName: string,
-        branch: string,
-        accountHolderName: string,
-        accountNumber: string,
-        ifsc: string,
         profileimg: string
 }
 
@@ -40,17 +40,14 @@ const AddCustomer = () => {
         phone: '',
         gstNumber: '',
         panNo: '',
-        addressLine1: '',
-        addressLine2: '',
-        country: '',
-        city: '',
+        position:'',
+        companyName:'',
+        city:'',
+        company_address:'',
+        website:'',
+        county:'',
+        zipcode:'',
         state: '',
-        pincode: '',
-        bankName: '',
-        branch: '',
-        accountHolderName: '',
-        accountNumber: '',
-        ifsc: '',
         profileimg: '',
     });
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -81,22 +78,19 @@ const AddCustomer = () => {
                 setFormData({
                     owner_id: localStorage.getItem('customeridtaxrx'),
                     number: '',
-                    name: '',
                     email: '',
-                    phone: '',
+                    name: '',
                     gstNumber: '',
+                    phone: '',
+                    position:'',
                     panNo: '',
-                    addressLine1: '',
-                    addressLine2: '',
-                    country: '',
-                    city: '',
+                    city:'',
+                    companyName:'',
+                    website:'',
+                    company_address:'',
+                    zipcode:'',
+                    county:'',
                     state: '',
-                    pincode: '',
-                    bankName: '',
-                    branch: '',
-                    accountHolderName: '',
-                    accountNumber: '',
-                    ifsc: '',
                     profileimg: '',
                 });
             } else {
@@ -157,12 +151,6 @@ const AddCustomer = () => {
                         </div>
                         <div className="flex flex-wrap md:flex-row flex-col items-center justify-start">
                             <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-number" className="my-2 text-gray-600">
-                                    Number
-                                </label>
-                                <input id="customer-number" type="number" placeholder="Number" className="form-input w-full" name="number" value={formData.number} onChange={handleChange} required />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
                                 <label htmlFor="customer-name" className="my-2 text-gray-600 ">
                                     Name
                                 </label>
@@ -202,146 +190,80 @@ const AddCustomer = () => {
                                 <input id="customer-pan" type="text" placeholder="PAN No" className="form-input w-full" name="panNo" value={formData.panNo} onChange={handleChange} required />
                             </div>
                         </div>
-
-                        {/* {Address} */}
-                        <h2 className="text-lg font-semibold my-2">Address</h2>
-                        <div className="flex flex-wrap md:flex-row flex-col items-center justify-start">
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-address-line-1" className="my-2 text-gray-600 ">
-                                    Address Line 1
-                                </label>
-                                <input
-                                    id="customer-address-line-1"
-                                    type="text"
-                                    placeholder="Address Line 1"
-                                    className="form-input w-full"
-                                    name="addressLine1"
-                                    value={formData.addressLine1}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-address-line-2" className="my-2 text-gray-600 ">
-                                    Address Line 2
-                                </label>
-                                <input
-                                    id="customer-address-line-2"
-                                    type="text"
-                                    placeholder="Address Line 2"
-                                    className="form-input w-full"
-                                    name="addressLine2"
-                                    value={formData.addressLine2}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-country" className="my-2 text-gray-600 ">
-                                    Country
-                                </label>
-                                <input id="customer-country" type="text" placeholder="Country" className="form-input w-full" name="country" value={formData.country} onChange={handleChange} required />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-city" className="my-2 text-gray-600 ">
-                                    City
-                                </label>
-                                <input id="customer-city" type="text" placeholder="City" className="form-input w-full" name="city" value={formData.city} onChange={handleChange} required />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-state" className="my-2 text-gray-600 ">
-                                    State
-                                </label>
-                                <input id="customer-state" type="text" placeholder="State" className="form-input w-full" name="state" value={formData.state} onChange={handleChange} required />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-pincode" className="my-2 text-gray-600 ">
-                                    Pincode
-                                </label>
-                                <input
-                                    id="customer-pincode"
-                                    type="number"
-                                    placeholder="Pincode"
-                                    className="form-input w-full"
-                                    name="pincode"
-                                    value={formData.pincode}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        {/* {Bank Details} */}
-                        <h2 className="text-lg font-semibold my-2">Bank Details</h2>
-                        <div className="flex flex-wrap md:flex-row flex-col items-center justify-start">
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-bank-name" className="my-2 text-gray-600">
-                                    Bank Name
-                                </label>
-                                <input
-                                    id="customer-bank-name"
-                                    type="text"
-                                    placeholder="Bank Name"
-                                    className="form-input w-full"
-                                    name="bankName"
-                                    value={formData.bankName}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-bank-branch" className="my-2 text-gray-600">
-                                    Branch
-                                </label>
-                                <input
-                                    id="customer-bank-branch"
-                                    type="text"
-                                    placeholder="Branch"
-                                    className="form-input w-full"
-                                    name="branch"
-                                    value={formData.branch}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-bank-holder-name" className="my-2 text-gray-600">
-                                    Account Holder Name
-                                </label>
-                                <input
-                                    id="customer-bank-holder-name"
-                                    type="text"
-                                    placeholder="Account Holder Name"
-                                    className="form-input w-full"
-                                    name="accountHolderName"
-                                    value={formData.accountHolderName}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-bank-acc-number" className="my-2 text-gray-600">
-                                    Account Number
-                                </label>
-                                <input
-                                    id="customer-bank-acc-number"
-                                    type="number"
-                                    placeholder="Account Number"
-                                    className="form-input w-full"
-                                    name="accountNumber"
-                                    value={formData.accountNumber}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-bank-ifsc" className="my-2 text-gray-600">
-                                    IFSC
-                                </label>
-                                <input id="customer-bank-ifsc" type="text" placeholder="IFSC" className="form-input w-full" name="ifsc" value={formData.ifsc} onChange={handleChange} required />
-                            </div>
-                        </div>
-
+                            <div className="flex flex-wrap md:flex-row flex-col items-center justify-start">
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Company Name</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="CompanyName" type="text" placeholder="Company Name" className="form-input ps-10 placeholder:text-white-dark" name='companyName' value={formData.companyName} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconUser fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Position</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Position" type="text" placeholder="Enter Position" className="form-input ps-10 placeholder:text-white-dark" name='position' value={formData.position} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconUser fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">City</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="City" type="text" placeholder="City" className="form-input ps-10 placeholder:text-white-dark" name='city' value={formData.city} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Address</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Address" type="text" placeholder="Address" className="form-input ps-10 placeholder:text-white-dark" name='company_address' value={formData.company_address} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Website</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Website" type="text" placeholder="Website" className="form-input ps-10 placeholder:text-white-dark" name='website' value={formData.website} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">State</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="State" type="text" placeholder="State" className="form-input ps-10 placeholder:text-white-dark" name='state' value={formData.state} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Country</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="County" type="text" placeholder="County" className="form-input ps-10 placeholder:text-white-dark" name='county' value={formData.county} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Zipcode</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Zipcode" type="number" placeholder="Zipcode" className="form-input ps-10 placeholder:text-white-dark" name='zipcode' value={formData.zipcode} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>                                
+                            </div>      
                         <div className="flex w-full justify-center md:justify-end items-center">
                             <button type="submit" className="btn btn-primary mt-6">
                                 Add Customer
@@ -350,22 +272,19 @@ const AddCustomer = () => {
                                 setFormData({
                                     owner_id: localStorage.getItem('customeridtaxrx'),
                                     number: '',
-                                    name: '',
                                     email: '',
-                                    phone: '',
+                                    name: '',
                                     gstNumber: '',
+                                    phone: '',
+                                    position:'',
                                     panNo: '',
-                                    addressLine1: '',
-                                    addressLine2: '',
-                                    country: '',
-                                    city: '',
+                                    city:'',
+                                    companyName:'',
+                                    website:'',
+                                    company_address:'',
+                                    zipcode:'',
+                                    county:'',
                                     state: '',
-                                    pincode: '',
-                                    bankName: '',
-                                    branch: '',
-                                    accountHolderName: '',
-                                    accountNumber: '',
-                                    ifsc: '',
                                     profileimg: ''
                                 })
                             }}>

@@ -121,7 +121,6 @@ const SignupPage = () => {
         emailverified: '',
         confirmPassword: '',
         position:'',
-        direction: '',
         companyName:'',
         city:'',
         company_address:'',
@@ -131,7 +130,9 @@ const SignupPage = () => {
         defaultLanguage:'',
         state:'',
         gst:'',
+        panNo:'',
         serviceType:'',
+        serviceName:'',
         planType:''
     });
     const [passwordMatchError, setPasswordMatchError] = useState('');
@@ -488,15 +489,7 @@ const SignupPage = () => {
                                         </span>
                                     </div>
                                 </div>
-                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                    <label htmlFor="Name">Direction</label>
-                                    <div className="relative text-white-dark">
-                                        <input id="Direction" type="text" placeholder="Enter Direction" className="form-input ps-10 placeholder:text-white-dark" name='direction' value={formData.direction} onChange={handleChange} required/>
-                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                                            <IconUser fill={true} />
-                                        </span>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <p className="text-base font-bold leading-normal text-white-dark">Company Information</p>
                             <div className="flex flex-wrap md:flex-row flex-col items-center justify-start">
@@ -582,56 +575,6 @@ const SignupPage = () => {
                                     </div>
                                 </div>
 
-                            </div>
-                            <p className="text-base font-bold leading-normal text-white-dark">Project Details</p>
-                            <div className="flex flex-wrap md:flex-row flex-col items-center justify-start">
-                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                    <label htmlFor="Name">Project/Service Name </label>
-                                    <div className="relative text-white-dark">
-                                        <input id="Service Name" type="text" placeholder="Enter Project/Service Name" className="form-input ps-10 placeholder:text-white-dark" name='serviceName' value={formData.serviceName} onChange={handleChange} required/>
-                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
-                                            <IconLockDots fill={true} />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                    <label htmlFor="company_choose_plan">Choose Service/Product </label>
-                                    <select
-                                        id="company_choose_plan"
-                                        className="form-select text-white-dark"
-                                        name="serviceType"
-                                        value={formData.serviceType}
-                                        onChange={handleChange}
-                                    >
-                                        <option>Select Service/Project</option>
-                                        {services.map((pkg, i) => {
-                                            return (
-                                            <option key={i} value={`${pkg.name}`}>
-                                                {pkg.name}
-                                            </option>
-                                            );
-                                        })}
-                                    </select>
-                                </div>
-                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                    <label htmlFor="company_choose_plan">Choose Plan </label>
-                                    <select
-                                        id="company_choose_plan"
-                                        className="form-select text-white-dark"
-                                        name="planType"
-                                        value={formData.planType}
-                                        onChange={handleChange}
-                                    >
-                                        <option>Select Plan</option>
-                                        {packages.map((pkg, i) => {
-                                            return (
-                                            <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
-                                                {pkg.Type} {pkg.Duration}
-                                            </option>
-                                            );
-                                        })}
-                                    </select>
-                                </div>
                             </div>
                                 <div>
                                     <label className="flex cursor-pointer items-center">
