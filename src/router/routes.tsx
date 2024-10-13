@@ -76,7 +76,7 @@ const routes = [
     {
         path: '/purchase-plan',
         element: <Plans />,
-        layout: 'admin',
+        layout: 'default',
     },
     {
         path: '/add-customer',
@@ -106,12 +106,12 @@ const routes = [
     {
         path: '/user-account-settings',
         element: <UserAccountSettings />,
-        layout: 'admin',
+        layout: 'default',
     },
     {
         path: '/user-company-settings',
         element: <UserCompanySettings />,
-        layout: 'admin',
+        layout: 'default',
     },
     {
         path: '/items',
@@ -169,6 +169,11 @@ const routes = [
         layout: 'admin',
     },
     {
+        path: '/admin-projects',
+        element: <Projects />,
+        layout: 'admin',
+    },
+    {
         path: '/Projects',
         element: <Projects />,
         layout: 'default',
@@ -186,7 +191,7 @@ const routes = [
     {
         path: '/admin-plans',
         element: <AdminPlans />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/admin-taxfiles',
@@ -196,7 +201,7 @@ const routes = [
     {
         path: '/admin-account-settings',
         element: <AdminAccountSettings />,
-        layout: 'default',
+        layout: 'admin',
     }
 ];
 

@@ -253,7 +253,7 @@ const SignupPage = () => {
             localStorage.setItem('customeridtaxrx', response.data.customerId);
             localStorage.setItem('isUser', response.data.customerId)
             // Redirect to vendor-profile page
-            navigate('/admin-account-settings');
+            navigate('/user-account-settings');
             if (response.data.result !== 0) {
                 showAlert('registered successfully');
             } else {
@@ -556,7 +556,7 @@ const SignupPage = () => {
                                         </span>
                                     </div>
                                 </div>
-                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                {/* <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
                                     <label htmlFor="Name">Default Language</label>
                                     <div className="relative text-white-dark">
                                         <input id="Default Language" type="text" placeholder="Default Language" className="form-input ps-10 placeholder:text-white-dark" name='defaultLanguage' value={formData.defaultLanguage} onChange={handleChange} required/>
@@ -564,7 +564,7 @@ const SignupPage = () => {
                                             <IconUser fill={true} />
                                         </span>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
                                     <label htmlFor="Name">GST</label>
                                     <div className="relative text-white-dark">

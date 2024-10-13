@@ -192,7 +192,7 @@ const AdminDashboard = () => {
                             </span>
                             <div className="flex w-full">
                                 <span className="flex justify-start items-center">
-                                    <button className="md:py-2 py-1 px-1 md:px-3 mr-2 bg-primary text-white rounded-md border-2 border-primary" onClick={()=>navigate('/Projects')}>View Projects</button>
+                                    <button className="md:py-2 py-1 px-1 md:px-3 mr-2 bg-primary text-white rounded-md border-2 border-primary" onClick={()=>navigate('/admin-projects')}>View Projects</button>
                                     <button className="md:py-2 py-1 px-1 md:px-3 ml-2 bg-white text-primary border-2 border-primary rounded-md" onClick={()=>navigate('/admin-plans')}>All Packages</button>
                                 </span>
                             </div>
@@ -423,7 +423,7 @@ const AdminDashboard = () => {
 
                         <div className="panel h-full w-full">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Top Plans</h5>
+                                <h5 className="font-semibold text-lg dark:text-white-light">Projects</h5>
                             </div>
                             <div className="table-responsive">
                                 <table>

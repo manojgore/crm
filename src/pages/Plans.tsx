@@ -114,7 +114,6 @@ const Plans = () => {
     return (
         <div>
             <h1 className='text-4xl font-semibold'>All Plans</h1>
-            <p>Purchase any plan</p>
             <div className="flex justify-center flex-wrap py-8">
                 {packages.map((pkg, i) => {
                     return (

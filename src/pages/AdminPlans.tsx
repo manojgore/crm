@@ -187,10 +187,10 @@ const AdminPlans = () => {
     }, []);
     return (
         <div>
-            <h1 className='text-4xl font-semibold'>All Plans</h1>
-            <p>All existing plans</p>
+            <h1 className='text-4xl font-semibold'>All Services</h1>
+            <p>All existing Services</p>
             <div className='flex items-center justify-end'>
-                <button className='btn btn-primary' onClick={() => setModal18(true)}><IconPlusCircle className='mx-2'/> Add Plan</button>
+                <button className='btn btn-primary' onClick={() => setModal18(true)}><IconPlusCircle className='mx-2'/> Add Service</button>
             </div>
             <div className="flex justify-center flex-wrap py-8">
                 {packages.map((pkg, i) => {

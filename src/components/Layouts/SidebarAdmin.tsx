@@ -131,10 +131,10 @@ const SidebarAdmin = () => {
                                         </NavLink>
                                     </li>
                                     <li className="nav-item">
-                                        <NavLink to="/admin-plans" className="group">
+                                        <NavLink to="/purchase-plan" className="group">
                                             <div className="flex items-center">
-                                                <IconBox fill={true} className="group-hover:!text-primary shrink-0" />
-                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Packages')}</span>
+                                                <IconCrown className="group-hover:!text-primary shrink-0" />
+                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Plans')}</span>
                                             </div>
                                         </NavLink>
                                     </li>
@@ -172,7 +172,10 @@ const SidebarAdmin = () => {
                                         <AnimateHeight duration={300} height={currentMenu === 'invoice' ? 'auto' : 0}>
                                             <ul className="sub-menu text-gray-500">
                                                 <li>
-                                                    <NavLink to="/admin-account-settings">{t('Account Settings')}</NavLink>
+                                                    <NavLink to="/user-account-settings">{t('Account Settings')}</NavLink>
+                                                </li>
+                                                <li>
+                                                    <NavLink to="/user-company-settings">{t('Company Settings')}</NavLink>
                                                 </li>
                                             </ul>
                                         </AnimateHeight>

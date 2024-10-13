@@ -330,8 +330,8 @@ const Subscriptions = () => {
 
     return (
         <div>
-            <h1 className='text-4xl font-semibold'>All Subscriptions</h1>
-            <p>All purchased subscriptions</p>
+            <h1 className='text-4xl font-semibold'>All Customer Services</h1>
+            <p>All Purchased Customer Services</p>
             <div className="panel mt-6">
                 <div className="flex md:expenses-center justify-between md:flex-row flex-col mb-4.5 gap-5">
                     <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
