@@ -136,7 +136,7 @@ const Subscriptions = () => {
     }, [page, pageSize, initialRecords]);
 
     useEffect(() => {
-        setInitialRecords(() => {
+        setInitialRecords(() => { 
             return Projects.filter((company: any) => {
                 return (
                     company.company_name.toLowerCase().includes(search.toLowerCase()) ||
