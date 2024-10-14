@@ -797,39 +797,8 @@ const Customers = () => {
                                                         />
                                                     </div>
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="customer_bank_account_holder_name" className="my-2 text-gray-600">
-                                                            Account Holder Name
-                                                        </label>
-                                                        <input
-                                                            id="customer_bank_account_holder_name"
-                                                            type="text"
-                                                            placeholder="Account Holder Name"
-                                                            className="form-input w-full"
-                                                            name="account_holder_name"
-                                                            value={editCustomerData.account_holder_name}
-                                                            onChange={handleEditOnchange}
-                                                            required
-                                                        />
                                                     </div>
                                                 </div>
-                                                <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="customer_bank_account_number" className="my-2 text-gray-600">
-                                                            Account Number
-                                                        </label>
-                                                        <input
-                                                            id="customer_bank_account_number"
-                                                            type="number"
-                                                            placeholder="Account Number"
-                                                            className="form-input w-full"
-                                                            name="account_number"
-                                                            value={editCustomerData.account_number}
-                                                            onChange={handleEditOnchange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                </div>
-
                                                 <div className="flex justify-between expenses-center w-full flex-col">
                                                     <p className="my-2 text-gray-600">Profile Image</p>
                                                     <label htmlFor="customer_image">
