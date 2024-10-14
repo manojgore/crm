@@ -23,7 +23,7 @@ import 'flatpickr/dist/flatpickr.css';
 import useDownloader from 'react-use-downloader';
 import IconDownload from '../components/Icon/IconDownload';
 
-const col = ['account_holder_name', 'account_number', 'address_line_1', 'address_line_2', 'bank_name', 'branch', 'city', 'country', 'email', 'gst_number', 'ifsc', 'name', 'number', 'panNo', 'phone', 'pincode', 'registration_date', 'state'];
+const col = ['account_holder_name', 'account_number', 'company_address' , 'bank_name', 'branch', 'city', 'country', 'email', 'gst_number', 'ifsc', 'name', 'number', 'panNo', 'phone', 'pincode', 'registration_date', 'state'];
 
 const Customers = () => {
     const { download } = useDownloader();
@@ -115,8 +115,7 @@ const Customers = () => {
                     customer.phone.toLowerCase().includes(search.toLowerCase()) ||
                     customer.email.toLowerCase().includes(search.toLowerCase()) ||
                     customer.gst_number.toLowerCase().includes(search.toLowerCase()) ||
-                    customer.address_line_1.toLowerCase().includes(search.toLowerCase()) ||
-                    customer.address_line_2.toLowerCase().includes(search.toLowerCase()) || 
+                    customer.company_address.toLowerCase().includes(search.toLowerCase()) || 
                     customer.city.toLowerCase().includes(search.toLowerCase()) ||
                     customer.state.toLowerCase().includes(search.toLowerCase()) ||
                     customer.panNo.toLowerCase().includes(search.toLowerCase())
@@ -132,7 +131,7 @@ const Customers = () => {
         setPage(1);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sortStatus]);
-    const header = ['account_holder_name', 'account_number', 'address_line_1', 'address_line_2', 'bank_name', 'branch', 'city', 'country', 'email', 'gst_number', 'ifsc', 'name', 'number', 'panNo', 'phone', 'pincode', 'registration_date', 'state'];
+    const header = ['account_holder_name', 'account_number', 'company_address', 'bank_name', 'branch', 'city', 'country', 'email', 'gst_number', 'ifsc', 'name', 'number', 'panNo', 'phone', 'pincode', 'registration_date', 'state'];
 
     const formatDate = (date: any) => {
         if (date) {
@@ -151,8 +150,7 @@ const Customers = () => {
             const tempRow = {};
             tempRow.account_holder_name = customer.account_holder_name;
             tempRow.account_number = customer.account_number;
-            tempRow.address_line_1 = customer.address_line_1;
-            tempRow.address_line_2 = customer.address_line_2;
+            tempRow.company_address = customer.company_address;
             tempRow.bank_name = customer.bank_name;
             tempRow.branch = customer.branch;
             tempRow.city = customer.city;
@@ -327,8 +325,7 @@ const Customers = () => {
         email: '',
         panNo: '',
         gst_number: '',
-        address_line_1: '',
-        address_line_2: '',
+        company_address:'',
         city: '',
         state: '',
         pincode: '',
@@ -371,8 +368,7 @@ const Customers = () => {
                     email: '',
                     panNo: '',
                     gst_number: '',
-                    address_line_1: '',
-                    address_line_2: '',
+                    company_address:'',
                     city: '',
                     state: '',
                     pincode: '',
@@ -474,7 +470,7 @@ const Customers = () => {
                             { accessor: 'gst_number', title: 'GST No.' },
                             {
                                 accessor: 'Address',
-                                render: ({ address_line_1, address_line_2 }) => <p>{address_line_1}, {address_line_2}</p>,
+                                render: ({ company_address }) => <p>{company_address}</p>,
                             },
                             {
                                 accessor: 'city',
@@ -484,7 +480,7 @@ const Customers = () => {
                             { accessor: 'country', title: 'Country' },
                             {
                                 accessor: 'Customers Action',
-                                render: ({ id, name, phone, email, panNo, gst_number, address_line_1, address_line_2, city, state, pincode, country, bank_name, account_holder_name, branch, ifsc, account_number, image }) => (
+                                render: ({ id, name, phone, email, panNo, gst_number, company_address, city, state, pincode, country, bank_name, account_holder_name, branch, ifsc, account_number, image }) => (
                                     <div className="flex w-full justify-around expenses-center">
                                         <Tippy content="Delete">
                                             <button
@@ -512,8 +508,7 @@ const Customers = () => {
                                                         email: email,
                                                         panNo: panNo,
                                                         gst_number: gst_number,
-                                                        address_line_1: address_line_1,
-                                                        address_line_2: address_line_2,
+                                                        company_address:company_address,
                                                         city: city,
                                                         state: state,
                                                         pincode: pincode,
@@ -704,15 +699,15 @@ const Customers = () => {
                                                     </div>
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="customer_address_line_1" className="my-2 text-gray-600">
-                                                            Address Line 1
+                                                            Address
                                                         </label>
                                                         <input
-                                                            id="customer_address_line_1"
+                                                            id="customer_company_address"
                                                             type="text"
                                                             placeholder="Address Line 1"
                                                             className="form-input w-full"
-                                                            name="address_line_1"
-                                                            value={editCustomerData.address_line_1}
+                                                            name="company_address"
+                                                            value={editCustomerData.company_address}
                                                             onChange={handleEditOnchange}
                                                             required
                                                         />
@@ -720,21 +715,6 @@ const Customers = () => {
                                                 </div>
 
                                                 <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="customer_address_line_2" className="my-2 text-gray-600">
-                                                            Address Line 2
-                                                        </label>
-                                                        <input
-                                                            id="customer_address_line_2"
-                                                            type="text"
-                                                            placeholder="Address Line 2"
-                                                            className="form-input w-full"
-                                                            name="address_line_2"
-                                                            value={editCustomerData.address_line_2}
-                                                            onChange={handleEditOnchange}
-                                                            required
-                                                        />
-                                                    </div>
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="customer_city" className="my-2 text-gray-600">
                                                             City
