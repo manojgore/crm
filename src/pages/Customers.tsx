@@ -769,12 +769,12 @@ const Customers = () => {
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="customer_bank_name" className="my-2 text-gray-600">
-                                                            Bank Name
+                                                            Company Name
                                                         </label>
                                                         <input
                                                             id="customer_bank_name"
                                                             type="text"
-                                                            placeholder="Bank Name"
+                                                            placeholder="Company Name"
                                                             className="form-input w-full"
                                                             name="bank_name"
                                                             value={editCustomerData.bank_name}
@@ -784,12 +784,12 @@ const Customers = () => {
                                                     </div>
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="customer_bank_branch" className="my-2 text-gray-600">
-                                                            Branch
+                                                            Website
                                                         </label>
                                                         <input
                                                             id="customer_bank_branch"
                                                             type="text"
-                                                            placeholder="Branch"
+                                                            placeholder="Website"
                                                             className="form-input w-full"
                                                             name="branch"
                                                             value={editCustomerData.branch}
