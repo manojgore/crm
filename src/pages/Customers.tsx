@@ -683,21 +683,6 @@ const Customers = () => {
 
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="customer_gst" className="my-2 text-gray-600">
-                                                            GST No.
-                                                        </label>
-                                                        <input
-                                                            id="customer_gst"
-                                                            type="text"
-                                                            placeholder="GST No."
-                                                            className="form-input w-full"
-                                                            name="gst_number"
-                                                            value={editCustomerData.gst_number}
-                                                            onChange={handleEditOnchange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="customer_company_address" className="my-2 text-gray-600">
                                                             Address
                                                         </label>
@@ -712,9 +697,6 @@ const Customers = () => {
                                                             required
                                                         />
                                                     </div>
-                                                </div>
-
-                                                <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="customer_city" className="my-2 text-gray-600">
                                                             City
@@ -731,7 +713,6 @@ const Customers = () => {
                                                         />
                                                     </div>
                                                 </div>
-
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="customer_state" className="my-2 text-gray-600">
@@ -801,16 +782,16 @@ const Customers = () => {
 
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="customer_bank_ifsc" className="my-2 text-gray-600">
-                                                            IFSC
+                                                        <label htmlFor="customer_gst" className="my-2 text-gray-600">
+                                                            GST No.
                                                         </label>
                                                         <input
-                                                            id="customer_bank_ifsc"
+                                                            id="customer_gst"
                                                             type="text"
-                                                            placeholder="IFSC"
+                                                            placeholder="GST No."
                                                             className="form-input w-full"
-                                                            name="ifsc"
-                                                            value={editCustomerData.ifsc}
+                                                            name="gst_number"
+                                                            value={editCustomerData.gst_number}
                                                             onChange={handleEditOnchange}
                                                             required
                                                         />
