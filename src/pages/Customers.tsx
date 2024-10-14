@@ -633,7 +633,7 @@ const Customers = () => {
                                                     </div>
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="customer_email" className="my-2 text-gray-600">
-                                                            Customer Email
+                                                            Email
                                                         </label>
                                                         <input
                                                             id="customer_email"
@@ -651,7 +651,7 @@ const Customers = () => {
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="customer_phone" className="my-2 text-gray-600">
-                                                            Customer Phone
+                                                            Phone
                                                         </label>
                                                         <input
                                                             id="customer_phone"
