@@ -539,9 +539,9 @@ const SignupPage = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                    <label htmlFor="Name">County</label>
+                                    <label htmlFor="Name">Country</label>
                                     <div className="relative text-white-dark">
-                                        <input id="County" type="text" placeholder="County" className="form-input ps-10 placeholder:text-white-dark" name='county' value={formData.county} onChange={handleChange} required/>
+                                        <input id="County" type="text" placeholder="Country" className="form-input ps-10 placeholder:text-white-dark" name='county' value={formData.county} onChange={handleChange} required/>
                                         <span className="absolute start-4 top-1/2 -translate-y-1/2">
                                             <IconMail fill={true} />
                                         </span>
