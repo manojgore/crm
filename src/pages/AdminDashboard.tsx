@@ -3,6 +3,7 @@ import ReactApexChart from 'react-apexcharts';
 import IconUsersGroup from '../components/Icon/IconUsersGroup';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import IconTrendingUp from '../components/Icon/IconTrendingUp';
 import axios from 'axios';
 import { api } from '../utils/apiProvider';
 import IconLink from '../components/Icon/IconLink';
@@ -12,7 +13,27 @@ import IconMultipleForwardRight from '../components/Icon/IconMultipleForwardRigh
 const AdminDashboard = () => {
     const [mostUsedPlan, setMostUsedPlan] = useState('');
     const [totalOrderMostUsed, setTotalOrderMostUsed] = useState(0);
-    const planTypeCount = (Projects) => {
+
+    const [invoices, setInvoices] = useState([]);
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [totalAmountInvAnl, setTotalAmountInvAnl] = useState(0);
+    const [invoiceGrowth, setInvoiceGrowth] = useState(0);
+    const [totalAmountGrowth, setTotalAmountGrowth] = useState(0);
+    const [salesAnlMode, setSalesAnlMode] = useState('All Time'); 
+    const [expenses, setExpenses] = useState([]);
+    const [totalAmountExpenses, setTotalAmountExpenses] = useState(0);
+    const [expensesGrowth, setExpensesGrowth] = useState(0);
+    const [expenseStatusCount, setExpenseStatusCount] = useState({
+        paid: 0,
+        pending: 0,
+        cancelled: 0,
+    });
+
+    const [expenseCancelled, setExpenseCancelled] = useState(0);
+    const [expensePending, setExpensePending] = useState(0);
+    const [expensePaid, setExpensePaid] = useState(0);
+    
+    const planTypeCount = (Projects:any) => {
         let prevcount = 0;
         let planType = '';
         let mostUsed = '';
@@ -63,9 +84,232 @@ const AdminDashboard = () => {
         return ((totalThisWeek / comapnies.length) * 100).toFixed(2);
     };
 
+    useEffect(() => {
+        fetchInvoices();
+        fetchExpenses();
+        fetchMembers();
+        fetchPackages();
+    }, []);
+
     const [activeProjectsGrowth, setActiveProjectsGrowth] = useState(0);
 
-    const calculateActiveProjectsGrowth = (comapnies, totalActive) => {
+    const handleChangeSaleAnMode = (mode:any) => {
+        let total = calculateTotalInvoiceAmnt(invoices, mode);
+        setTotalAmount(total);
+        let totalExpenses = calculateTotalExpenseAmnt(expenses, mode);
+        setTotalAmountExpenses(totalExpenses);
+        setSalesAnlMode(mode);
+    };
+
+    const fetchExpenses = async () => {
+        try {
+            const response = await axios.get(`${api}/expenses/searchExpense`, {
+                headers: {
+                    id: localStorage.getItem('customeridtaxrx'),
+                },
+            });
+
+            console.log('expenses result: ', response.data);
+            if (response.data.success) {
+                setExpenses(response.data.results);
+                let total = calculateTotalExpenseAmnt(response.data.results, salesAnlMode);
+                setTotalAmountExpenses(total);
+
+                let statusCountTotal = calcutateExpensesStatus(response.data.results);
+                setExpenseStatusCount(statusCountTotal);
+
+                let expenseGrth = calculateExpensesGrowth(response.data.results);
+                console.log(expenseGrth);
+
+                calculateExpenseNumberByCategory(response.data.results);
+
+                setExpensesGrowth(expenseGrth);
+            }
+        } catch (error) {
+            console.log('failed to fetch the expenses');
+            console.error(error);
+        }
+    };
+
+    const calculateExpenseNumberByCategory = (expences) => {
+        let expnCancelled = 0;
+        let expnPending = 0;
+        let expnPaid = 0;
+
+        for (let expence of expences) {
+            if (expence.Payment_Status === 'Paid') {
+                expnPaid = expnPaid + 1;
+            } else if (expence.Payment_Status === 'Pending') {
+                expnPending = expensePending + 1;
+            } else {
+                expnCancelled = expnCancelled + 1;
+            }
+        }
+
+        setExpensePaid(expnPaid);
+        setExpenseCancelled(expnCancelled);
+        setExpensePending(expnPending);
+    };
+
+    const calculateExpensesGrowth = (expences:any) => {
+        let thisWeekCount = 0;
+        for (let expence of expences) {
+            if (new Date(expence.Expense_Date).getTime() >= new Date().getTime() - 7 * 24 * 60 * 60 * 1000) {
+                thisWeekCount = thisWeekCount + 1;
+            }
+        }
+
+        return ((thisWeekCount / expences.length) * 100).toFixed(2);
+    };
+    
+    const calcutateExpensesStatus = (expenses:any) => {
+        let statusCount = {
+            paid: 0,
+            pending: 0,
+            cancelled: 0,
+        };
+
+        for (let expense of expenses) {
+            if (expense.Payment_Status === 'Paid') {
+                statusCount.paid++;
+            } else if (expense.Payment_Status === 'Pending') {
+                statusCount.pending++;
+            } else if (expense.Payment_Status === 'Cancelled') {
+                statusCount.cancelled++;
+            }
+        }
+
+        return statusCount;
+    };
+
+    const calculateTotalExpenseAmnt = (expences:any, mode:any) => {
+        let t = 0;
+        expences.forEach((element:any) => {
+            if (mode === 'All Time') {
+                if (element.Payment_Status !== 'Cancelled') {
+                    t = t + element.Amount;
+                }
+            } else if (mode === 'Last Month') {
+                if (new Date(element.Expense_Date).getTime() >= new Date().getTime() - 30 * 24 * 60 * 60 * 1000) {
+                    if (element.Payment_Status !== 'Cancelled') {
+                        t = t + element.Amount;
+                    }
+                }
+            } else if (mode === 'Last Year') {
+                if (new Date(element.Expense_Date).getTime() >= new Date().getTime() - 365 * 24 * 60 * 60 * 1000) {
+                    if (element.Payment_Status !== 'Cancelled') {
+                        t = t + element.Amount;
+                    }
+                }
+            }
+        });
+        console.log('total expense amount: ', t);
+        return t;
+    };
+
+    const fetchInvoices = async () => {
+        try {
+            const response = await axios.get(`${api}/api/invoices/getallinvoices`, {
+                headers: {
+                    id: localStorage.getItem('customeridtaxrx'),
+                },
+            });
+
+            console.log('invoices result: ', response.data);
+            if (response.data.success) {
+                setInvoices(response.data.results);
+                let total = calculateTotalInvoiceAmnt(response.data.results, salesAnlMode);
+                setTotalAmount(total);
+                setTotalAmountInvAnl(total);
+                let totalAmntGrth = calculateTotalAmountGrowth(response.data.results, total);
+                setTotalAmountGrowth(totalAmntGrth);
+                let invgrth = calculateInvoiceGrowth(response.data.results);
+                console.log(invgrth);
+                setInvoiceGrowth(invgrth);
+            }
+        } catch (error) {
+            console.log('failed to fetch the invoices');
+            console.error(error);
+        }
+    };
+
+    const calculateInvoiceGrowth = (invoices:any) => {
+        let thisWeekCount = 0;
+        for (let invoice of invoices) {
+            if (new Date(invoice.invoice_date).getTime() >= new Date().getTime() - 7 * 24 * 60 * 60 * 1000) {
+                thisWeekCount = thisWeekCount + 1;
+            }
+        }
+
+        return ((thisWeekCount / invoices.length) * 100).toFixed(2);
+    };
+
+    const calculateTotalAmountGrowth = (invoices:any, total:any) => {
+        let thisWeekCount = 0;
+        for (let invoice of invoices) {
+            if (new Date(invoice.invoice_date).getTime() >= new Date().getTime() - 7 * 24 * 60 * 60 * 1000) {
+                thisWeekCount = thisWeekCount + invoice.taxable_value;
+            }
+        }
+
+        return ((thisWeekCount / total) * 100).toFixed(2);
+    };
+
+    const calculateTotalInvoiceAmnt = (invoices : any, mode: any) => {
+        let t = 0;
+
+        invoices.forEach((element: any) => {
+            if (mode === 'All Time') {
+                t = t + element.final_amount;
+            } else if (mode === 'Last Month') {
+                if (new Date(element.invoice_date).getTime() >= new Date().getTime() - 30 * 24 * 60 * 60 * 1000) {
+                    t = t + element.final_amount;
+                }
+            } else if (mode === 'Last Year') {
+                if (new Date(element.invoice_date).getTime() >= new Date().getTime() - 365 * 24 * 60 * 60 * 1000) {
+                    t = t + element.final_amount;
+                }
+            }
+        });
+
+        return t;
+    };
+
+    const [customers, setCustomers] = useState([]);
+    const [customersGrwth, setCustomersGrwth] = useState(0);
+
+    const fetchMembers = async () => {
+        try {
+            const response = await axios.get(`${api}/api/customers/getallcustomers`, {
+                headers: {
+                    id: localStorage.getItem('customeridtaxrx'),
+                },
+            });
+
+            console.log('members result: ', response.data);
+            if (response.data.success) {
+                setCustomers(response.data.results);
+                let cusgrth = calculateCustomersGrowth(response.data.results);
+                setCustomersGrwth(cusgrth);
+            }
+        } catch (error) {
+            console.log('failed to fetch the customers');
+            console.error(error);
+        }
+    };
+
+    const calculateCustomersGrowth = (customers:any) => {
+        let thisWeekCount = 0;
+        for (let customer of customers) {
+            if (new Date(customer.registration_date).getTime() >= new Date().getTime() - 7 * 24 * 60 * 60 * 1000) {
+                thisWeekCount = thisWeekCount + 1;
+            }
+        }
+
+        return ((thisWeekCount / customers.length) * 100).toFixed(2);
+    };
+
+    const calculateActiveProjectsGrowth = (comapnies:any, totalActive:any) => {
         let totalThisWeek = 0;
 
         for (let comapny of comapnies) {
@@ -363,6 +607,107 @@ const AdminDashboard = () => {
                                 height={160}
                                 className="w-full absolute bottom-0 overflow-hidden"
                             />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex justify-between flex-col md:flex-row items-center">
+                    <div className="panel h-full w-[90%] md:w-[24%]">
+                        <div className="flex justify-between dark:text-white-light mb-5">
+                            <h5 className="font-semibold text-lg ">Sales</h5>
+                        </div>
+                        <div className=" text-[#e95f2b] text-3xl font-bold my-10">
+                            <span>
+                                ₹{' '}
+                                {totalAmount
+                                    .toFixed(2)
+                                    .toString()
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+                            </span>
+                            <span className="text-black text-sm dark:text-white-light ltr:mr-2 rtl:ml-2">this week</span>
+                            {totalAmountGrowth > 0 && <IconTrendingUp className="text-success inline" />}
+                            {totalAmountGrowth < 0 && <IconTrendingUp className="text-success inline" />}
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <div className="w-full rounded-full h-5 p-1 bg-dark-light overflow-hidden shadow-3xl dark:shadow-none dark:bg-dark-light/10">
+                                <div
+                                    className="bg-gradient-to-r from-[#43e0ee] to-[#40a0ff] w-full h-full rounded-full relative before:absolute before:inset-y-0 ltr:before:right-0.5 rtl:before:left-0.5 before:bg-white before:w-2 before:h-2 before:rounded-full before:m-auto"
+                                    style={{ width: `${totalAmountGrowth}%` }}
+                                ></div>
+                            </div>
+                            <span className="ltr:ml-5 rtl:mr-5 dark:text-white-light">{totalAmountGrowth}%</span>
+                        </div>
+                    </div>
+
+                    <div className="panel h-full w-[90%] md:w-[24%]">
+                        <div className="flex justify-between dark:text-white-light mb-5">
+                            <h5 className="font-semibold text-lg ">Customers</h5>
+                        </div>
+                        <div className=" text-[#e95f2b] text-3xl font-bold my-10">
+                            <span>{customers.length} </span>
+                            <span className="text-black text-sm dark:text-white-light ltr:mr-2 rtl:ml-2">this week</span>
+                            <IconTrendingUp className="text-success inline" />
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <div className="w-full rounded-full h-5 p-1 bg-dark-light overflow-hidden shadow-3xl dark:shadow-none dark:bg-dark-light/10">
+                                <div
+                                    className="bg-gradient-to-r from-[#4361ee] to-[#805dca] w-full h-full rounded-full relative before:absolute before:inset-y-0 ltr:before:right-0.5 rtl:before:left-0.5 before:bg-white before:w-2 before:h-2 before:rounded-full before:m-auto"
+                                    style={{ width: `${customersGrwth}%` }}
+                                ></div>
+                            </div>
+                            <span className="ltr:ml-5 rtl:mr-5 dark:text-white-light">{customersGrwth}%</span>
+                        </div>
+                    </div>
+
+                    <div className="panel h-full w-[90%] md:w-[24%]">
+                        <div className="flex justify-between dark:text-white-light mb-5">
+                            <h5 className="font-semibold text-lg ">Invoices</h5>
+                        </div>
+                        <div className=" text-[#e95f2b] text-3xl font-bold my-10">
+                            <span>
+                                ₹{' '}
+                                {totalAmount
+                                    .toFixed(2)
+                                    .toString()
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+                            </span>
+                            <span className="text-black text-sm dark:text-white-light ltr:mr-2 rtl:ml-2">this week</span>
+                            <IconTrendingUp className="text-success inline" />
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <div className="w-full rounded-full h-5 p-1 bg-dark-light overflow-hidden shadow-3xl dark:shadow-none dark:bg-dark-light/10">
+                                <div
+                                    className="bg-gradient-to-r from-[#5aee43] to-[#5dca99] w-full h-full rounded-full relative before:absolute before:inset-y-0 ltr:before:right-0.5 rtl:before:left-0.5 before:bg-white before:w-2 before:h-2 before:rounded-full before:m-auto"
+                                    style={{ width: `${invoiceGrowth}%` }}
+                                ></div>
+                            </div>
+                            <span className="ltr:ml-5 rtl:mr-5 dark:text-white-light">{invoiceGrowth}%</span>
+                        </div>
+                    </div>
+
+                    <div className="panel h-full w-[90%] md:w-[24%]">
+                        <div className="flex justify-between dark:text-white-light mb-5">
+                            <h5 className="font-semibold text-lg ">Expenses</h5>
+                        </div>
+                        <div className=" text-[#e95f2b] text-3xl font-bold my-10">
+                            <span>
+                                ₹{' '}
+                                {totalAmountExpenses
+                                    .toFixed(2)
+                                    .toString()
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+                            </span>
+                            <span className="text-black text-sm dark:text-white-light ltr:mr-2 rtl:ml-2">this week</span>
+                            <IconTrendingUp className="text-success inline" />
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <div className="w-full rounded-full h-5 p-1 bg-dark-light overflow-hidden shadow-3xl dark:shadow-none dark:bg-dark-light/10">
+                                <div
+                                    className="bg-gradient-to-r from-[#ee434e] to-[#ca5d6a] w-full h-full rounded-full relative before:absolute before:inset-y-0 ltr:before:right-0.5 rtl:before:left-0.5 before:bg-white before:w-2 before:h-2 before:rounded-full before:m-auto"
+                                    style={{ width: `${expensesGrowth}%` }}
+                                ></div>
+                            </div>
+                            <span className="ltr:ml-5 rtl:mr-5 dark:text-white-light">{expensesGrowth}%</span>
                         </div>
                     </div>
                 </div>
