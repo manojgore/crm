@@ -765,7 +765,7 @@ const Customers = () => {
                                                     </div>
                                                 </div>
 
-                                                <h2>Customer's Bank Details</h2>
+                                                <h2>Company Information</h2>
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="customer_bank_name" className="my-2 text-gray-600">
