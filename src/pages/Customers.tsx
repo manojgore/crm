@@ -698,13 +698,13 @@ const Customers = () => {
                                                         />
                                                     </div>
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="customer_address_line_1" className="my-2 text-gray-600">
+                                                        <label htmlFor="customer_company_address" className="my-2 text-gray-600">
                                                             Address
                                                         </label>
                                                         <input
                                                             id="customer_company_address"
                                                             type="text"
-                                                            placeholder="Address Line 1"
+                                                            placeholder="Address"
                                                             className="form-input w-full"
                                                             name="company_address"
                                                             value={editCustomerData.company_address}
