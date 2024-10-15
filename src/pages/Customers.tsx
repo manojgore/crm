@@ -63,9 +63,7 @@ const Customers = () => {
     const fetchData = async () => {
         try {
             const response = await axios.get(`${api}/api/customers/getallcustomers`, {
-                headers: {
-                    id: localStorage.getItem('customeridtaxrx'),
-                },
+                
             });
             console.log('customers data: ', response.data);
             if (response.data.success) {
