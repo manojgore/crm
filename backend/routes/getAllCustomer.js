@@ -12,6 +12,9 @@ router.get('/getallcustomers', async(req, res)=>{
             }
             
             if (results && results.length > 0) {
+                if(id != undefined) {
+                    return res.status(200).json({ success:true , results: results.filter((cust)=>{return cust.owner_id == id}) });
+                }
                 return res.status(200).json({ success:true , results: results });
             } else {
                 return res.status(200).json({ success: false, msg: "no customers where found" });

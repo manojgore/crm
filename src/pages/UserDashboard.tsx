@@ -152,7 +152,6 @@ const UserDashboard = () => {
     };
 
     const [salesAnlMode, setSalesAnlMode] = useState('All Time');
-    const [invoiceAnlMode, setInvoiceAnlMode] = useState('All Time');
 
     const handleChangeSaleAnMode = (mode) => {
         let total = calculateTotalInvoiceAmnt(invoices, mode);
@@ -162,17 +161,8 @@ const UserDashboard = () => {
         setSalesAnlMode(mode);
     };
 
-    const handleChangeInvoiceAnMode = (mode) => {
-        let total = calculateTotalInvoiceAmnt(invoices, mode);
-        setTotalAmountInvAnl(total);
-        setInvoiceAnlMode(mode);
-    };
-
     const [invoices, setInvoices] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
-    const [totalAmountInvAnl, setTotalAmountInvAnl] = useState(0);
-    const [invoiceGrowth, setInvoiceGrowth] = useState(0);
-    const [totalAmountGrowth, setTotalAmountGrowth] = useState(0);
 
     const calculateTotalInvoiceAmnt = (invoices, mode) => {
         let t = 0;
@@ -241,42 +231,10 @@ const UserDashboard = () => {
         return ((thisWeekCount / invoices.length) * 100).toFixed(2);
     };
 
-    const fetchInvoices = async () => {
-        try {
-            const response = await axios.get(`${api}/api/invoices/getallinvoices`, {
-                headers: {
-                    id: localStorage.getItem('customeridtaxrx'),
-                },
-            });
-
-            console.log('invoices result: ', response.data);
-            if (response.data.success) {
-                setInvoices(response.data.results);
-                let total = calculateTotalInvoiceAmnt(response.data.results, salesAnlMode);
-                setTotalAmount(total);
-                setTotalAmountInvAnl(total);
-                let totalAmntGrth = calculateTotalAmountGrowth(response.data.results, total);
-                setTotalAmountGrowth(totalAmntGrth);
-                let invgrth = calculateInvoiceGrowth(response.data.results);
-                console.log(invgrth);
-                setInvoiceGrowth(invgrth);
-            }
-        } catch (error) {
-            console.log('failed to fetch the invoices');
-            console.error(error);
-        }
-    };
-
     const [modal2, setModal2] = useState(false);
 
     const [expenses, setExpenses] = useState([]);
     const [totalAmountExpenses, setTotalAmountExpenses] = useState(0);
-    const [expensesGrowth, setExpensesGrowth] = useState(0);
-    const [expenseStatusCount, setExpenseStatusCount] = useState({
-        paid: 0,
-        pending: 0,
-        cancelled: 0,
-    });
 
     const calcutateExpensesStatus = (expenses) => {
         let statusCount = {
@@ -307,36 +265,6 @@ const UserDashboard = () => {
         }
 
         return ((thisWeekCount / expences.length) * 100).toFixed(2);
-    };
-
-    const fetchExpenses = async () => {
-        try {
-            const response = await axios.get(`${api}/expenses/searchExpense`, {
-                headers: {
-                    id: localStorage.getItem('customeridtaxrx'),
-                },
-            });
-
-            console.log('expenses result: ', response.data);
-            if (response.data.success) {
-                setExpenses(response.data.results);
-                let total = calculateTotalExpenseAmnt(response.data.results, salesAnlMode);
-                setTotalAmountExpenses(total);
-
-                let statusCountTotal = calcutateExpensesStatus(response.data.results);
-                setExpenseStatusCount(statusCountTotal);
-
-                let expenseGrth = calculateExpensesGrowth(response.data.results);
-                console.log(expenseGrth);
-
-                calculateExpenseNumberByCategory(response.data.results);
-
-                setExpensesGrowth(expenseGrth);
-            }
-        } catch (error) {
-            console.log('failed to fetch the expenses');
-            console.error(error);
-        }
     };
 
     const calculateCustomersGrowth = (customers) => {
@@ -530,8 +458,6 @@ const UserDashboard = () => {
     };
 
     useEffect(() => {
-        fetchInvoices();
-        fetchExpenses();
         fetchMembers();
         fetchPackages();
         checkSubscription();
