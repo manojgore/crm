@@ -81,11 +81,6 @@ const AdminProjects = () => {
     const fetchProjects = async () => {
         try {
           const response = await axios.get(`${api}/admin/getallProjects`, 
-            {
-                headers: {
-                    id: localStorage.getItem('customeridtaxrx'),
-                }
-            }
           );
     
           console.log("Projects result: ", response.data);
