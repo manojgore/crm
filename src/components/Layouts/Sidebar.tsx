@@ -29,6 +29,7 @@ import IconUserPlusDark from '../Icon/IconUserPlusDark';
 import IconBox from '../Icon/IconBox';
 import IconBoxPlus from '../Icon/IconBoxPlus';
 import IconPlus from '../Icon/IconPlus';
+import IconProjects from '../Icon/IconProjects';
 import IconClipboardText from '../Icon/IconClipboardText';
 import IconSettings from '../Icon/IconSettings';
 import IconLogout from '../Icon/IconLogout';
@@ -170,6 +171,14 @@ const Sidebar = () => {
                                             <div className="flex items-center">
                                                 <IconBox fill={true} className="group-hover:!text-primary shrink-0" />
                                                 <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Services')}</span>
+                                            </div>
+                                        </NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink to="/admin-projects" className="group">
+                                            <div className="flex items-center">
+                                                <IconProjects className="group-hover:!text-primary shrink-0" />
+                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Projects')}</span>
                                             </div>
                                         </NavLink>
                                     </li>

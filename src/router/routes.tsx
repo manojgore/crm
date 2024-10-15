@@ -13,6 +13,7 @@ import LoginPage from '../pages/LoginPage';
 import SignupPage from '../pages/SignupPage';
 import AdminDashboard from '../pages/AdminDashboard';
 import Projects from '../pages/Projects';
+import AdminProjects from '../pages/AdminProjects';
 import Subscriptions from '../pages/Subscription';
 import AdminPlans from '../pages/AdminPlans';
 import TaxFiles from '../pages/TaxFiles';
@@ -170,7 +171,7 @@ const routes = [
     },
     {
         path: '/admin-projects',
-        element: <Projects />,
+        element: <AdminProjects />,
         layout: 'admin',
     },
     {
