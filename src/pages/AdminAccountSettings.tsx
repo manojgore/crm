@@ -4,6 +4,9 @@ import { api } from '../utils/apiProvider';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import IconLockDots from '../components/Icon/IconLockDots';
+import IconEyeOpen from '../components/Icon/IconEyeOpen';
+import IconEyeClosed from '../components/Icon/IconEyeClosed';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import 'flatpickr/dist/flatpickr.css';
@@ -38,6 +41,7 @@ const AdminAccountSettings = () => {
         StateCode: '',
         PhoneNumber: '',
         EmailID: '',
+        Password:'',
         PANNo: '',
         AuthorisedSignatoryName: '',
         image: '',
@@ -98,6 +102,16 @@ const AdminAccountSettings = () => {
         }
     };
 
+    const [passView, setPassView] = useState(false);
+
+    const toggleViewPassword = () => {
+        if (passView) {
+            setPassView(false);
+        } else {
+            setPassView(true);
+        }
+    };
+
     useEffect(() => {
         if (!localStorage.getItem('adminidtaxrx')) {
             navigate('/');
@@ -134,111 +148,24 @@ const AdminAccountSettings = () => {
                             <div className="flex flex-col md:flex-row w-full justify-between items-center">
                                 <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
                                     <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Trade Name / Business Name
-                                    </label>
-                                    <input
-                                        id="item-code"
-                                        type="text"
-                                        placeholder="Trade Name / Business Name"
-                                        className="form-input w-full"
-                                        name="TradeName"
-                                        value={formData.TradeName}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        GST No (if available)
-                                    </label>
-                                    <input id="item-code" type="text" placeholder="GST No" className="form-input w-full" name="GSTNo" value={formData.GSTNo} onChange={handleChange} required />
-                                </div>
-                            </div>
-                            <div className="flex flex-col md:flex-row w-full justify-between items-center">
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Office Address
-                                    </label>
-                                    <textarea
-                                        id="item-code"
-                                        rows={5}
-                                        placeholder="Office Address"
-                                        className="form-input w-full"
-                                        name="OfficeAddress"
-                                        value={formData.OfficeAddress}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex flex-col md:flex-row w-full justify-between items-center">
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        State
-                                    </label>
-                                    <input id="item-code" type="text" placeholder="State" className="form-input w-full" name="State" value={formData.State} onChange={handleChange} required />
-                                </div>
-                                <div className="flex flex-col w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        State Code
-                                    </label>
-                                    <input
-                                        id="item-code"
-                                        type="text"
-                                        placeholder="State Code"
-                                        className="form-input w-full"
-                                        name="StateCode"
-                                        value={formData.StateCode}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex flex-col md:flex-row w-full justify-between items-center">
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Number
-                                    </label>
-                                    <input
-                                        id="item-code"
-                                        type="number"
-                                        placeholder="Number"
-                                        className="form-input w-full"
-                                        name="PhoneNumber"
-                                        value={formData.PhoneNumber}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
                                         Email ID
                                     </label>
                                     <input id="item-code" type="email" placeholder="Email ID" className="form-input w-full" name="EmailID" value={formData.EmailID} onChange={handleChange} required />
                                 </div>
-                            </div>
-                            <div className="flex flex-col md:flex-row w-full justify-between items-center">
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        PAN No
-                                    </label>
-                                    <input id="item-code" type="text" placeholder="PAN No" className="form-input w-full" name="PANNo" value={formData.PANNo} onChange={handleChange} required />
-                                </div>
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Authorized Signatory Person's Name
-                                    </label>
-                                    <input
-                                        id="item-code"
-                                        type="text"
-                                        placeholder="Authorized Signatory Person's Name"
-                                        className="form-input w-full"
-                                        name="AuthorisedSignatoryName"
-                                        value={formData.AuthorisedSignatoryName}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
+                                    <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
+                                        <label htmlFor="item-code" className="my-2 text-gray-600">
+                                            Password
+                                        </label>
+                                        <input
+                                            id="Password"
+                                            type={passView ? "text" : "password"}
+                                            placeholder="Enter Password"
+                                            className="form-input ps-10 placeholder:text-white-dark"
+                                            name="Password"
+                                            value={formData.Password}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
                             </div>
                         </div>
                         <div className="flex w-full justify-center md:justify-end items-center my-4">
@@ -258,6 +185,7 @@ const AdminAccountSettings = () => {
                                         StateCode: '',
                                         PhoneNumber: '',
                                         EmailID: '',
+                                        Password:'',
                                         PANNo: '',
                                         AuthorisedSignatoryName: '',
                                         image: '',
