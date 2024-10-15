@@ -131,27 +131,30 @@ const UserAccountSettings = () => {
                             <div className="flex flex-col md:flex-row w-full justify-between items-center">
                                 <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
                                     <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Trade Name / Business Name
+                                        Username
                                     </label>
-                                    <input
-                                        id="item-code"
-                                        type="text"
-                                        placeholder="Trade Name / Business Name"
-                                        className="form-input w-full"
-                                        name="TradeName"
-                                        value={formData.TradeName}
-                                        onChange={handleChange}
-                                        required
-                                    />
+                                        <input id="item-code" type="text" placeholder="Enter User Name" className="form-input w-full" name='username' value={formData.username} onChange={handleChange} required/>
                                 </div>
                                 <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
                                     <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        GST No (if available)
+                                        Email ID
+                                    </label>
+                                    <input id="item-code" type="email" placeholder="Email ID" className="form-input w-full" name="EmailID" value={formData.EmailID} onChange={handleChange} required />
+                                </div>
+                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
+                                    <label htmlFor="item-code" className="my-2 text-gray-600">
+                                        GST No
                                     </label>
                                     <input id="item-code" type="text" placeholder="GST No" className="form-input w-full" name="GSTNo" value={formData.GSTNo} onChange={handleChange} required />
                                 </div>
                             </div>
                             <div className="flex flex-col md:flex-row w-full justify-between items-center">
+                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
+                                    <label htmlFor="item-code" className="my-2 text-gray-600">
+                                        Phone Number
+                                    </label>
+                                    <input id="item-codes" type="number" placeholder="Enter Phone Number" className="form-input w-full" name='phoneNumber' value={formData.phoneNumber} onChange={handleChange} required/>
+                                </div>
                                 <div className="flex flex-col w-full mx-4 my-2">
                                     <label htmlFor="item-code" className="my-2 text-gray-600">
                                         Office Address
@@ -206,12 +209,6 @@ const UserAccountSettings = () => {
                                         onChange={handleChange}
                                         required
                                     />
-                                </div>
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Email ID
-                                    </label>
-                                    <input id="item-code" type="email" placeholder="Email ID" className="form-input w-full" name="EmailID" value={formData.EmailID} onChange={handleChange} required />
                                 </div>
                             </div>
                             <div className="flex w-full flex-col md:flex-row justify-between items-center">
