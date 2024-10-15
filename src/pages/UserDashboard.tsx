@@ -590,7 +590,7 @@ const UserDashboard = () => {
                 <div>
                     <h1 className="text-4xl font-semibold">Dashboard</h1>
 
-                    <div className="flex justify-between flex-col md:flex-row my-4">
+                    {/*<div className="flex justify-between flex-col md:flex-row my-4">
                         <div className="panel h-full w-full md:w-[70%] mr-4">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
                                 <h5 className="font-semibold text-lg">Summary</h5>
@@ -711,7 +711,7 @@ const UserDashboard = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="flex justify-between my-4">
                         <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
