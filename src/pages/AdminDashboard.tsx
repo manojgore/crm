@@ -768,13 +768,13 @@ const AdminDashboard = () => {
 
                         <div className="panel h-full w-full">
                             <div className="flex items-center justify-between mb-5">
-                                <h5 className="font-semibold text-lg dark:text-white-light">Projects</h5>
+                                <h5 className="font-semibold text-lg dark:text-white-light">Services</h5>
                             </div>
                             <div className="table-responsive">
                                 <table>
                                     <thead>
                                         <tr className="border-b-0">
-                                            <th className="ltr:rounded-l-md rtl:rounded-r-md">Plan Name</th>
+                                            <th className="ltr:rounded-l-md rtl:rounded-r-md">Service Name</th>
                                             <th>Duration</th>
                                             <th>Price</th>
                                             <th>Purchases</th>

@@ -7,7 +7,11 @@ import IconTag from '../components/Icon/IconTag';
 import IconInbox from '../components/Icon/IconInbox';
 import { Fragment, useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import IconLayoutGrid from '../components/Icon/IconLayoutGrid';
+import IconUsersGroup from '../components/Icon/IconUsersGroup';
 import IconMultipleForwardRight from '../components/Icon/IconMultipleForwardRight';
+import IconChatDots from '../components/Icon/IconChatDots';
+import IconLink from '../components/Icon/IconLink';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { api } from '../utils/apiProvider';
@@ -40,6 +44,31 @@ const UserDashboard = () => {
         ['Yearly', 365],
     ]);
 
+    const planTypeCount = (Projects:any) => {
+        let prevcount = 0;
+        let planType = '';
+        let mostUsed = '';
+        for (let company of Projects) {
+            let count = 0;
+            if (company.plan === 1) {
+                planType = company.plan_type;
+            }
+            for (let c of Projects) {
+                if (c.plan_type === planType) {
+                    count = count + 1;
+                }
+            }
+            if (count > prevcount) {
+                prevcount = count;
+                mostUsed = planType;
+            }
+        }
+
+        return [mostUsed, prevcount];
+    };
+
+    const [Projects, setProjects] = useState([]);
+    const [activeUsers, setActiveUsers] = useState(0);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const [loading] = useState(false);
@@ -466,56 +495,197 @@ const UserDashboard = () => {
 
     return (
         <>
-            {!subscribed && (
-                <div>
-                    <h1 className="text-4xl font-semibold">All Plans</h1>
-                    <p>Purchase any plan</p>
-                    <div className="flex justify-center flex-wrap py-8">
-                        {packages.map((pkg, i) => {
-                            return (
-                                <div className="p-3 lg:p-5 border border-black dark:border-[#1b2e4b] text-center rounded group hover:border-primary w-[25%] my-2 mx-4">
-                                    <h3 className="text-xl lg:text-2xl">{pkg.Type}</h3>
-                                    <div className="border-t border-black dark:border-white-dark w-1/5 mx-auto my-6 group-hover:border-primary"></div>
-                                    <p className="text-[15px]">{pkg.Description}</p>
-                                    <div className="my-7 p-2.5 text-center text-lg group-hover:text-primary">
-                                        <strong className="text-[#3b3f5c] dark:text-white-dark text-3xl lg:text-5xl group-hover:text-primary">₹{pkg.Price}</strong> / {pkg.Duration}
-                                    </div>
-                                    <ul className="space-y-2.5 mb-5 font-semibold group-hover:text-primary">
-                                        <li className="flex justify-center items-center">
-                                            <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                            {pkg.Number_of_invoices} Invoices
-                                        </li>
-                                        <li className="flex justify-center items-center">
-                                            <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                            {pkg.Number_of_products} Products
-                                        </li>
-                                        <li className="flex justify-center items-center">
-                                            <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                            {pkg.Number_of_suppliers} Suppliers
-                                        </li>
-                                        <li className="flex justify-center items-center">
-                                            <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                            {pkg.Number_of_users} Users
-                                        </li>
-                                    </ul>
-                                    <button
-                                        type="button"
-                                        className="btn text-black shadow-none group-hover:text-primary group-hover:border-primary group-hover:bg-primary/10 dark:text-white-dark dark:border-white-dark/50 w-full"
-                                        onClick={() => PurchasePlan(pkg)}
-                                    >
-                                        Buy Now
-                                    </button>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            )}
+            
 
             {subscribed && (
                 <div>
                     <h1 className="text-4xl font-semibold">Dashboard</h1>
+                    <div className="w-full flex-col md:flex-row flex items-center justify-between md:h-[35svh] my-4">
+                    <div className="flex items-center justify-between border-2 border-primary rounded-md h-full p-5 w-full md:w-[45%]">
+                        <div className="md:h-full h-[10svh] flex flex-col items-center justify-between">
+                            <span className="flex flex-col justify-start items-start">
+                                <span className="flex justify-start items-center">
+                                    <IconLayoutGrid className="mr-2" />
+                                    <h3 className="text-lg md:text-2xl text-gray-500 font-semibold">Good Morning, Admin !!</h3>
+                                </span>
+                                <p className='text-xs'>Get controll over your Project here.</p>
+                            </span>
+                            <div className="flex w-full">
+                                <span className="flex justify-start items-center">
+                                    <button className="md:py-2 py-1 px-1 md:px-3 mr-2 bg-primary text-white rounded-md border-2 border-primary" onClick={()=>navigate('/admin-projects')}>View Projects</button>
+                                    <button className="md:py-2 py-1 px-1 md:px-3 ml-2 bg-white text-primary border-2 border-primary rounded-md" onClick={()=>navigate('/admin-plans')}>All Packages</button>
+                                </span>
+                            </div>
+                        </div>
+                        <span className="justify-end items-center w-[30%] md:w-[40%] flex">
+                            <img src="/assets/images/stat-adm-dashboard.png" alt="" />
+                        </span>
+                    </div>
+                    <div className="panel h-full p-0 mx-2 w-full md:w-[18%]">
+                        <div className="flex p-5">
+                            <div className="shrink-0 bg-primary/10 text-primary rounded-xl w-11 h-11 flex justify-center items-center dark:bg-primary dark:text-white-light">
+                                <IconUsersGroup className="w-5 h-5" />
+                            </div>
+                            <div className="ltr:ml-3 rtl:mr-3 font-semibold">
+                                <p className="text-xl dark:text-white-light">{Projects.length}</p>
+                                <h5 className="text-[#506690] text-xs">Total Projects</h5>
+                            </div>
+                        </div>
+                        <div className="h-40">
+                            <ReactApexChart
+                                series={[{ data: [Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 30 * 24 * 60 * 60 * 1000 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 15 * 24 * 60 * 60 * 1000 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 10 * 24 * 60 * 60 * 1000 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 5 * 24 * 60 * 60 * 1000 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 1 * 24 * 60 * 60 * 1000 }).length] }]}
+                                options={{
+                                    chart: {
+                                        height: 160,
+                                        type: 'area',
+                                        fontFamily: 'Nunito, sans-serif',
+                                        sparkline: {
+                                            enabled: true,
+                                        },
+                                    },
+                                    stroke: {
+                                        curve: 'smooth',
+                                        width: 2,
+                                    },
+                                    colors: ['#4361ee'],
+                                    grid: {
+                                        padding: {
+                                            top: 5,
+                                        },
+                                    },
+                                    yaxis: {
+                                        show: false,
+                                    },
+                                    tooltip: {
+                                        x: {
+                                            show: false,
+                                        },
+                                        y: {
+                                            title: {
+                                                formatter: () => {
+                                                    return '';
+                                                },
+                                            },
+                                        },
+                                    },
+                                }}
+                                type="area"
+                                height={160}
+                                className="w-full absolute bottom-0 overflow-hidden"
+                            />
+                        </div>
+                    </div>
 
+                    <div className="panel h-full p-0 mx-2 w-full md:w-[18%]">
+                        <div className="flex p-5">
+                            <div className="shrink-0 bg-success/10 text-success rounded-xl w-11 h-11 flex justify-center items-center dark:bg-success dark:text-white-light">
+                                <IconChatDots className="w-5 h-5" />
+                            </div>
+                            <div className="ltr:ml-3 rtl:mr-3 font-semibold">
+                                <p className="text-xl dark:text-white-light">{activeUsers}</p>
+                                <h5 className="text-[#506690] text-xs">Active Projects</h5>
+                            </div>
+                        </div>
+                        <div className="h-40">
+                            <ReactApexChart
+                                series={[{ data: [Projects.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 30 * 24 * 60 * 60 * 1000 : false }).length, Projects.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 15 * 24 * 60 * 60 * 1000 : false }).length, Projects.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 10 * 24 * 60 * 60 * 1000 : false }).length, Projects.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 5 * 24 * 60 * 60 * 1000 : false }).length, Projects.filter((company)=> { return company.purchased_on ? new Date(company.purchased_on).getTime() >= new Date().getTime() - 1 * 24 * 60 * 60 * 1000 : false }).length]}]}
+                                options={{
+                                    chart: {
+                                        height: 160,
+                                        type: 'area',
+                                        fontFamily: 'Nunito, sans-serif',
+                                        sparkline: {
+                                            enabled: true,
+                                        },
+                                    },
+                                    stroke: {
+                                        curve: 'smooth',
+                                        width: 2,
+                                    },
+                                    colors: ['#1abc9c'],
+                                    grid: {
+                                        padding: {
+                                            top: 5,
+                                        },
+                                    },
+                                    yaxis: {
+                                        show: false,
+                                    },
+                                    tooltip: {
+                                        x: {
+                                            show: false,
+                                        },
+                                        y: {
+                                            title: {
+                                                formatter: () => {
+                                                    return '';
+                                                },
+                                            },
+                                        },
+                                    },
+                                }}
+                                type="area"
+                                height={160}
+                                className="w-full absolute bottom-0 overflow-hidden"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="panel h-full p-0 mx-2 w-full md:w-[18%]">
+                        <div className="flex p-5">
+                            <div className="shrink-0 bg-danger/10 text-danger rounded-xl w-11 h-11 flex justify-center items-center dark:bg-danger dark:text-white-light">
+                                <IconLink className="w-5 h-5" />
+                            </div>
+                            <div className="ltr:ml-3 rtl:mr-3 font-semibold">
+                                <p className="text-xl dark:text-white-light">{Projects.length - activeUsers}</p>
+                                <h5 className="text-[#506690] text-xs">Inactive Projects</h5>
+                            </div>
+                        </div>
+                        <div className="h-40">
+                            <ReactApexChart
+                                series={[{ data: [Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 30 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 15 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 10 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 5 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length, Projects.filter((company)=> { return new Date(company.registered_on).getTime() >= new Date().getTime() - 1 * 24 * 60 * 60 * 1000 && company.plan !==1 }).length] }]}
+                                options={{
+                                    chart: {
+                                        height: 160,
+                                        type: 'area',
+                                        fontFamily: 'Nunito, sans-serif',
+                                        sparkline: {
+                                            enabled: true,
+                                        },
+                                    },
+                                    stroke: {
+                                        curve: 'smooth',
+                                        width: 2,
+                                    },
+                                    colors: ['#e7515a'],
+                                    grid: {
+                                        padding: {
+                                            top: 5,
+                                        },
+                                    },
+                                    yaxis: {
+                                        show: false,
+                                    },
+                                    tooltip: {
+                                        x: {
+                                            show: false,
+                                        },
+                                        y: {
+                                            title: {
+                                                formatter: () => {
+                                                    return '';
+                                                },
+                                            },
+                                        },
+                                    },
+                                }}
+                                type="area"
+                                height={160}
+                                className="w-full absolute bottom-0 overflow-hidden"
+                            />
+                        </div>
+                    </div>
+                </div>
                     {/*<div className="flex justify-between flex-col md:flex-row my-4">
                         <div className="panel h-full w-full md:w-[70%] mr-4">
                             <div className="flex items-center justify-between dark:text-white-light mb-5">
@@ -643,7 +813,7 @@ const UserDashboard = () => {
                         <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
                             <div className="panel h-full w-full">
                                 <div className="flex items-center justify-between mb-5">
-                                    <h5 className="font-semibold text-lg dark:text-white-light">Recent Invoices</h5>
+                                    <h5 className="font-semibold text-lg dark:text-white-light">Recent Invoice</h5>
                                 </div>
                                 <div className="table-responsive">
                                     <table>
@@ -685,118 +855,12 @@ const UserDashboard = () => {
                                     </table>
                                 </div>
                             </div>
-
-                            <div className="panel h-full w-full">
-                                <div className="flex items-center justify-between mb-5">
-                                    <h5 className="font-semibold text-lg dark:text-white-light">Recent Expenses</h5>
-                                </div>
-                                <div className="table-responsive">
-                                    <table>
-                                        <thead>
-                                            <tr className="border-b-0">
-                                                <th className="ltr:rounded-l-md rtl:rounded-r-md">Expense ID</th>
-                                                <th>Date</th>
-                                                <th>Amount</th>
-                                                <th>Status</th>
-                                                <th className="ltr:rounded-r-md rtl:rounded-l-md">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {expenses.map((expense, i) => {
-                                                return (
-                                                    <tr className="text-white-dark hover:text-black dark:hover:text-white-light/90 group">
-                                                        <td className="min-w-[150px] text-black dark:text-white">
-                                                            <p className="whitespace-nowrap">{expense.Expense_ID}</p>
-                                                        </td>
-                                                        <td>
-                                                            {new Date(expense.Expense_Date).getDate()} {months.get(new Date(expense.Expense_Date).getMonth() + 1)}{' '}
-                                                            {new Date(expense.Expense_Date).getFullYear()}
-                                                        </td>
-                                                        <td className="text-primary">₹ {expense.Amount}</td>
-                                                        <td>
-                                                            <span
-                                                                className={`badge ${
-                                                                    expense.Payment_Status === 'Paid' ? 'bg-success' : expense.Payment_Status === 'Pending' ? 'bg-yellow-500' : 'bg-red-500'
-                                                                }  shadow-md dark:group-hover:bg-transparent`}
-                                                            >
-                                                                {expense.Payment_Status}
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <Link className="text-danger flex items-center" to="/expenses">
-                                                                <IconMultipleForwardRight className="rtl:rotate-180 ltr:mr-1 rtl:ml-1" />
-                                                                Go
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* {Tax File Modal} */}
-            <Transition appear show={modal2} as={Fragment}>
-                <Dialog as="div" open={modal2} onClose={() => setModal2(false)}>
-                    <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
-                        <div className="fixed inset-0" />
-                    </Transition.Child>
-                    <div className="fixed inset-0 z-[999] overflow-y-auto bg-[black]/60">
-                        <div className="flex min-h-screen items-center justify-center px-4">
-                            <Transition.Child
-                                as={Fragment}
-                                enter="ease-out duration-300"
-                                enterFrom="opacity-0 scale-95"
-                                enterTo="opacity-100 scale-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100 scale-100"
-                                leaveTo="opacity-0 scale-95"
-                            >
-                                <Dialog.Panel as="div" className="panel my-8 w-full max-w-lg overflow-hidden rounded-lg border-0 p-0 text-black dark:text-white-dark">
-                                    <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                                        <h5 className="text-lg font-bold">Tax File</h5>
-                                        <button type="button" className="text-white-dark hover:text-dark" onClick={() => setModal2(false)}>
-                                            <IconX />
-                                        </button>
-                                    </div>
-                                    <p className="text-gray-500 text-sm px-5 py-1">Upload your balance sheet here</p>
-                                    <div className="p-5">
-                                        <form onSubmit={handleTaxFileSubmit}>
-                                            <div className="flex flex-col">
-                                                <div className="w-full my-3">
-                                                    <label htmlFor="taxfileinput">Upload File</label>
-                                                    <input name="file" type="file" id="taxfileinput" accept=".csv, .xlsx, .xls" onChange={taxFileDataOnChange} />
-                                                </div>
-                                                <div className="w-full my-3">
-                                                    <label htmlFor="taxfiletype">Type</label>
-                                                    <select id="taxfiletype" name="type" className="form-select text-white-dark" value={taxFileData.type} onChange={taxFileDataOnChange} required>
-                                                        <option>Select a type</option>
-                                                        <option value="Monthly">Monthly</option>
-                                                        {subsCriptionType.split(' ')[0] === 'Yearly' && <option value="Yearly">Yearly</option>}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center justify-between mt-4">
-                                                <button type="reset" className="btn btn-outline-primary w-full" onClick={() => setModal2(false)}>
-                                                    Cancel
-                                                </button>
-                                                <button type="submit" className="btn btn-primary w-full ltr:ml-4 rtl:mr-4">
-                                                    Upload
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </Dialog.Panel>
-                            </Transition.Child>
-                        </div>
-                    </div>
-                </Dialog>
-            </Transition>
+            
         </>
     );
 };

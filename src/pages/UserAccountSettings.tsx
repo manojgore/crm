@@ -9,6 +9,11 @@ import { IRootState } from '../store';
 import 'flatpickr/dist/flatpickr.css';
 import { Dialog, Transition } from '@headlessui/react';
 import IconX from '../components/Icon/IconX';
+import IconLockDots from '../components/Icon/IconLockDots';
+import IconEyeOpen from '../components/Icon/IconEyeOpen';
+import IconEyeClosed from '../components/Icon/IconEyeClosed';
+import IconUser from '../components/Icon/IconUser';
+import IconMail from '../components/Icon/IconMail';
 
 const UserAccountSettings = () => {
     const navigate = useNavigate();
@@ -73,7 +78,23 @@ const UserAccountSettings = () => {
             console.error('Error:', error);
         }
     };
-
+    const [passwordMatchError, setPasswordMatchError] = useState('');
+    const [passView, setPassView] = useState(false);
+    const toggleViewPassword = () => {
+        if (passView) {
+            setPassView(false);
+        } else {
+            setPassView(true);
+        }
+    };
+    const [confirmPassView, setConfirmPassView] = useState(false);
+    const toggleViewConfirmPassword = () => {
+        if (confirmPassView) {
+            setConfirmPassView(false);
+        } else {
+            setConfirmPassView(true);
+        }
+    };
     const getAccountDetails = async () => {
         try {
             const response = await axios.get(`${api}/api/get/getaccountsettiings`, {
@@ -102,6 +123,14 @@ const UserAccountSettings = () => {
             getAccountDetails();
         }
     }, []);
+
+    useEffect(()=>{
+        if(formData.password !== formData.confirmPassword && formData.password !== '' && formData.confirmPassword !== ''){
+            setPasswordMatchError('password and confirm password must be same');
+        }else{
+            setPasswordMatchError('');
+        }
+    })
     return (
         <div>
             <h1 className="text-4xl font-semibold">Account Settings</h1>
@@ -127,114 +156,155 @@ const UserAccountSettings = () => {
                                 </span>
                             </div>
                         </div>
-                        <div className="flex flex-col items-center justify-start w-full">
-                            <div className="flex flex-col md:flex-row w-full justify-between items-center">
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Username
-                                    </label>
-                                        <input id="item-code" type="text" placeholder="Enter User Name" className="form-input w-full" name='username' value={formData.username} onChange={handleChange} required/>
-                                </div>
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Email ID
-                                    </label>
-                                    <input id="item-code" type="email" placeholder="Email ID" className="form-input w-full" name="EmailID" value={formData.EmailID} onChange={handleChange} required />
-                                </div>
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        GST No
-                                    </label>
-                                    <input id="item-code" type="text" placeholder="GST No" className="form-input w-full" name="GSTNo" value={formData.GSTNo} onChange={handleChange} required />
-                                </div>
+                        <div className="flex flex-wrap md:flex-row flex-col items-center justify-start">
+                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                <label htmlFor="customer-name" className="my-2 text-gray-600 ">
+                                    Name
+                                </label>
+                                <input id="customer-name" type="text" placeholder="Name" className="form-input w-full" name="name" value={formData.name} onChange={handleChange} required />
                             </div>
-                            <div className="flex flex-col md:flex-row w-full justify-between items-center">
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Phone Number
-                                    </label>
-                                    <input id="item-codes" type="number" placeholder="Enter Phone Number" className="form-input w-full" name='phoneNumber' value={formData.phoneNumber} onChange={handleChange} required/>
-                                </div>
-                                <div className="flex flex-col w-full mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Office Address
-                                    </label>
-                                    <textarea
-                                        id="item-code"
-                                        rows={5}
-                                        placeholder="Office Address"
-                                        className="form-input w-full"
-                                        name="OfficeAddress"
-                                        value={formData.OfficeAddress}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
+                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                <label htmlFor="customer-email" className="my-2 text-gray-600 ">
+                                    Email
+                                </label>
+                                <input id="customer-email" type="email" placeholder="Email" className="form-input w-full" name="email" value={formData.email} onChange={handleChange} required />
                             </div>
-                            <div className="flex w-full flex-col md:flex-row justify-between items-center">
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        State
-                                    </label>
-                                    <input id="item-code" type="text" placeholder="State" className="form-input w-full" name="State" value={formData.State} onChange={handleChange} required />
-                                </div>
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        State Code
-                                    </label>
-                                    <input
-                                        id="item-code"
-                                        type="text"
-                                        placeholder="State Code"
-                                        className="form-input w-full"
-                                        name="StateCode"
-                                        value={formData.StateCode}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
+                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                <label htmlFor="customer-phone" className="my-2 text-gray-600 ">
+                                    Phone
+                                </label>
+                                <input id="customer-phone" type="number" placeholder="Phone" className="form-input w-full" name="phone" value={formData.phone} onChange={handleChange} required />
                             </div>
-                            <div className="flex w-full flex-col md:flex-row justify-between items-center">
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Number
-                                    </label>
-                                    <input
-                                        id="item-code"
-                                        type="number"
-                                        placeholder="Number"
-                                        className="form-input w-full"
-                                        name="PhoneNumber"
-                                        value={formData.PhoneNumber}
-                                        onChange={handleChange}
-                                        required
-                                    />
+                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Password">Password</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Password" type={passView ? 'text' : 'password'} placeholder="Enter Password" className="form-input ps-10 placeholder:text-white-dark" name='password' value={formData.password} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconLockDots fill={true} />
+                                        </span>
+                                        <span className="absolute end-4 top-1/2 -translate-y-1/2 cursor-pointer" onClick={toggleViewPassword}>
+                                            {!passView && <IconEyeOpen />}
+                                            {passView && <IconEyeClosed />}
+                                        </span>
+                                    </div>
                                 </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Confirm Password">Confirm Password</label>
+                                    <div className="relative text-white-dark">
+                                        <input
+                                            id="Confirm Password"
+                                            type={confirmPassView ? 'text' : 'password'}
+                                            placeholder="Enter Confirm Password"
+                                            className="form-input ps-10 placeholder:text-white-dark"
+                                            name='confirmPassword' value={formData.confirmPassword} onChange={handleChange}
+                                            required
+                                        />
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconLockDots fill={true} />
+                                        </span>
+                                        <span className="absolute end-4 top-1/2 -translate-y-1/2 cursor-pointer" onClick={toggleViewConfirmPassword}>
+                                            {!confirmPassView && <IconEyeOpen />}
+                                            {confirmPassView && <IconEyeClosed />}
+                                        </span>
+                                    </div>
+                                    <p className='text-red-600 text-sm my-1'>{passwordMatchError}</p>
+                                </div>
+                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                <label htmlFor="customer-gst" className="my-2 text-gray-600 ">
+                                    GST Number (if available)
+                                </label>
+                                <input
+                                    id="customer-gst"
+                                    type="text"
+                                    placeholder="GST Number"
+                                    className="form-input w-full"
+                                    name="gstNumber"
+                                    value={formData.gstNumber}
+                                    onChange={handleChange}
+                                    required
+                                />
                             </div>
-                            <div className="flex w-full flex-col md:flex-row justify-between items-center">
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        PAN No
-                                    </label>
-                                    <input id="item-code" type="text" placeholder="PAN No" className="form-input w-full" name="PANNo" value={formData.PANNo} onChange={handleChange} required />
-                                </div>
-                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
-                                    <label htmlFor="item-code" className="my-2 text-gray-600">
-                                        Authorized Signatory Person's Name
-                                    </label>
-                                    <input
-                                        id="item-code"
-                                        type="text"
-                                        placeholder="Authorized Signatory Person's Name"
-                                        className="form-input w-full"
-                                        name="AuthorisedSignatoryName"
-                                        value={formData.AuthorisedSignatoryName}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
+                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                <label htmlFor="customer-pan" className="my-2 text-gray-600 ">
+                                    PAN No
+                                </label>
+                                <input id="customer-pan" type="text" placeholder="PAN No" className="form-input w-full" name="panNo" value={formData.panNo} onChange={handleChange} required />
                             </div>
                         </div>
+                            <div className="flex flex-wrap md:flex-row flex-col items-center justify-start">
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Company Name</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="CompanyName" type="text" placeholder="Company Name" className="form-input ps-10 placeholder:text-white-dark" name='companyName' value={formData.companyName} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconUser fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Position</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Position" type="text" placeholder="Enter Position" className="form-input ps-10 placeholder:text-white-dark" name='position' value={formData.position} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconUser fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">City</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="City" type="text" placeholder="City" className="form-input ps-10 placeholder:text-white-dark" name='city' value={formData.city} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Address</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Address" type="text" placeholder="Address" className="form-input ps-10 placeholder:text-white-dark" name='company_address' value={formData.company_address} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Website</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Website" type="text" placeholder="Website" className="form-input ps-10 placeholder:text-white-dark" name='website' value={formData.website} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">State</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="State" type="text" placeholder="State" className="form-input ps-10 placeholder:text-white-dark" name='state' value={formData.state} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Country</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="County" type="text" placeholder="County" className="form-input ps-10 placeholder:text-white-dark" name='county' value={formData.county} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
+                                    <label htmlFor="Name">Zipcode</label>
+                                    <div className="relative text-white-dark">
+                                        <input id="Zipcode" type="number" placeholder="Zipcode" className="form-input ps-10 placeholder:text-white-dark" name='zipcode' value={formData.zipcode} onChange={handleChange} required/>
+                                        <span className="absolute start-4 top-1/2 -translate-y-1/2">
+                                            <IconMail fill={true} />
+                                        </span>
+                                    </div>
+                                </div>                                
+                            </div>
                         <div className="flex w-full justify-center my-4 md:justify-end items-center">
                             <button type="submit" className="btn btn-primary mt-6">
                                 Save Changes
