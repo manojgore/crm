@@ -106,6 +106,14 @@ const Sidebar = () => {
                                     </button>
                                 </NavLink>
                             </li>
+                            <li className="nav-item">
+                                <NavLink to="/admin-projects" className="group">
+                                    <div className="flex items-center">
+                                        <IconProjects className="group-hover:!text-primary shrink-0" />
+                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Projects')}</span>
+                                    </div>
+                                </NavLink>
+                            </li>
                             <li className="menu nav-item">
                                 <NavLink to="/admin-subscriptions">
                                     <button type="button" className={`${currentMenu === 'subscriptions' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('subscriptions')}>
@@ -171,14 +179,6 @@ const Sidebar = () => {
                                             <div className="flex items-center">
                                                 <IconBox fill={true} className="group-hover:!text-primary shrink-0" />
                                                 <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Services')}</span>
-                                            </div>
-                                        </NavLink>
-                                    </li>
-                                    <li className="nav-item">
-                                        <NavLink to="/admin-projects" className="group">
-                                            <div className="flex items-center">
-                                                <IconProjects className="group-hover:!text-primary shrink-0" />
-                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Projects')}</span>
                                             </div>
                                         </NavLink>
                                     </li>
