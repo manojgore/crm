@@ -5,7 +5,7 @@ const pool = require('../db');
 router.get("/getaccountsettiings", (req, res) => {
     const { id } = req.headers;
     console.log("id: ", id);
-    pool.query("SELECT * FROM accountsettings WHERE id = ?", [id], (err, results) => {
+    pool.query("SELECT * FROM customers WHERE owner_id = ?", [id], (err, results) => {
         if (err) {
             console.error("Error checking for duplicate invoice number:", err);
             return res.status(500).json({ error: "Internal server error", success: false });

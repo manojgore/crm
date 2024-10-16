@@ -36,14 +36,20 @@ const UserAccountSettings = () => {
 
     const [formData, setFormData] = useState({
         id: localStorage.getItem('customeridtaxrx'),
-        TradeName: '',
-        GSTNo: '',
+        gst_number: '',
+        company_name:'',
+        number:"",
+        company_address:'',
         OfficeAddress: '',
         State: '',
+        position:'',
         StateCode: '',
+        website:'',
+        city:'',
         PhoneNumber: '',
+        pincode:'',
+        country:'',
         EmailID: '',
-        PANNo: '',
         AuthorisedSignatoryName: '',
         image: '',
     });
@@ -66,11 +72,11 @@ const UserAccountSettings = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`${api}/api/update/updateaccountsettiings`, formData);
+            const response = await axios.put(`${api}/api/customers/editCustomer`, formData);
             console.log(response.data); // Handle response data as needed
             if (response.data.result !== 0) {
                 showAlert('user-account-settings updated');
-                navigate('/user-company-settings');
+                navigate('/user-dashboard');
             } else {
                 showAlert('something went wrong');
             }
@@ -173,10 +179,10 @@ const UserAccountSettings = () => {
                                 <label htmlFor="customer-phone" className="my-2 text-gray-600 ">
                                     Phone
                                 </label>
-                                <input id="customer-phone" type="number" placeholder="Phone" className="form-input w-full" name="phone" value={formData.phone} onChange={handleChange} required />
+                                <input id="customer-phone" type="number" placeholder="Phone Number" className="form-input w-full" name="number" value={formData.number} onChange={handleChange} required />
                             </div>
                             <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                    <label htmlFor="Password">Password</label>
+                                    <label htmlFor="Password">Updated Password</label>
                                     <div className="relative text-white-dark">
                                         <input id="Password" type={passView ? 'text' : 'password'} placeholder="Enter Password" className="form-input ps-10 placeholder:text-white-dark" name='password' value={formData.password} onChange={handleChange} required/>
                                         <span className="absolute start-4 top-1/2 -translate-y-1/2">
@@ -189,7 +195,7 @@ const UserAccountSettings = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                    <label htmlFor="Confirm Password">Confirm Password</label>
+                                    <label htmlFor="Confirm Password">Confirm Updated Password</label>
                                     <div className="relative text-white-dark">
                                         <input
                                             id="Confirm Password"
@@ -218,24 +224,18 @@ const UserAccountSettings = () => {
                                     type="text"
                                     placeholder="GST Number"
                                     className="form-input w-full"
-                                    name="gstNumber"
-                                    value={formData.gstNumber}
+                                    name="gst_number"
+                                    value={formData.gst_number}
                                     onChange={handleChange}
                                     required
                                 />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                <label htmlFor="customer-pan" className="my-2 text-gray-600 ">
-                                    PAN No
-                                </label>
-                                <input id="customer-pan" type="text" placeholder="PAN No" className="form-input w-full" name="panNo" value={formData.panNo} onChange={handleChange} required />
                             </div>
                         </div>
                             <div className="flex flex-wrap md:flex-row flex-col items-center justify-start">
                                 <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
                                     <label htmlFor="Name">Company Name</label>
                                     <div className="relative text-white-dark">
-                                        <input id="CompanyName" type="text" placeholder="Company Name" className="form-input ps-10 placeholder:text-white-dark" name='companyName' value={formData.companyName} onChange={handleChange} required/>
+                                        <input id="CompanyName" type="text" placeholder="Company Name" className="form-input ps-10 placeholder:text-white-dark" name='company_name' value={formData.company_name} onChange={handleChange} required/>
                                         <span className="absolute start-4 top-1/2 -translate-y-1/2">
                                             <IconUser fill={true} />
                                         </span>
@@ -287,9 +287,9 @@ const UserAccountSettings = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                    <label htmlFor="Name">Country</label>
+                                    <label htmlFor="country">Country</label>
                                     <div className="relative text-white-dark">
-                                        <input id="County" type="text" placeholder="County" className="form-input ps-10 placeholder:text-white-dark" name='county' value={formData.county} onChange={handleChange} required/>
+                                        <input id="country" type="text" placeholder="Country" className="form-input ps-10 placeholder:text-white-dark" name='country' value={formData.country} onChange={handleChange} required/>
                                         <span className="absolute start-4 top-1/2 -translate-y-1/2">
                                             <IconMail fill={true} />
                                         </span>
@@ -298,7 +298,7 @@ const UserAccountSettings = () => {
                                 <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
                                     <label htmlFor="Name">Zipcode</label>
                                     <div className="relative text-white-dark">
-                                        <input id="Zipcode" type="number" placeholder="Zipcode" className="form-input ps-10 placeholder:text-white-dark" name='zipcode' value={formData.zipcode} onChange={handleChange} required/>
+                                        <input id="Zipcode" type="number" placeholder="Zipcode" className="form-input ps-10 placeholder:text-white-dark" name='pincode' value={formData.pincode} onChange={handleChange} required/>
                                         <span className="absolute start-4 top-1/2 -translate-y-1/2">
                                             <IconMail fill={true} />
                                         </span>
