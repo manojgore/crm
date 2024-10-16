@@ -26,9 +26,6 @@ router.put("/editCustomer", (req, res) => {
         
     })
 
-<<<<<<< Updated upstream
-    
-=======
     pool.query('UPDATE customer_registration SET password = ? WHERE email = ?', [password, email], (updateerr, updateresult) => {
         if (updateerr) {
             return res.json({ "error": err });
@@ -40,7 +37,6 @@ router.put("/editCustomer", (req, res) => {
             }
         }
     })
->>>>>>> Stashed changes
     
 });
 
