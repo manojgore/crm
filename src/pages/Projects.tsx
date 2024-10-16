@@ -645,16 +645,16 @@ const Projects = () => {
                         className="whitespace-nowrap table-hover"
                         records={recordsData}
                         columns={[
-                            { accessor: 'company_name', title: 'Name', sortable: false },
-                            { accessor: 'company_email', title: 'Email', sortable: false },
-                            { accessor: 'plan_type', title: 'Plan Type', sortable: false },
+                            { accessor: 'company_name', title: 'Project Name', sortable: false },
+                            { accessor: 'serviceType', title: 'Service Name', sortable: false },
+                            { accessor: 'company_email', title: 'Project Description', sortable: false },
+                            // { accessor: 'plan_type', title: 'Plan Type', sortable: false },
                             {
                                 accessor: 'registered_on',
                                 title: 'Created on',
                                 sortable: true,
                                 render: ({ registered_on }) => <p>{`${new Date(registered_on).getDate()} ${months.get(new Date(registered_on).getMonth() + 1)} ${new Date(registered_on).getFullYear()}`}</p>
                             },
-                            { accessor: 'serviceType', title: 'Service Type', sortable: false },
                             {
                                 accessor: 'plan',
                                 title: 'Status',
