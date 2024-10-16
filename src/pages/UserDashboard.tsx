@@ -523,7 +523,7 @@ const UserDashboard = () => {
                                 <span className="flex flex-col justify-start items-start">
                                     <span className="flex justify-start items-center">
                                         <IconLayoutGrid className="mr-2" />
-                                        <h3 className="text-lg md:text-2xl text-gray-500 font-semibold">Good Morning,  {user?.username}!!</h3>
+                                        <h3 className="text-lg md:text-2xl text-gray-500 font-semibold">Welcome,  {user?.username} !!</h3>
                                     </span>
                                     <p className='text-xs'>Get controll over your Project here.</p>
                                 </span>
