@@ -612,7 +612,7 @@ const Projects = () => {
             <h1 className='text-4xl font-semibold'>All Projects</h1>
             <p>All registered Projects</p>
             <div className='flex items-center justify-end'>
-                <button className='btn btn-primary' onClick={() => setModal3(true)}><IconPlusCircle className='mx-2'/> Add Project / Service</button>
+                <button className='btn btn-primary' onClick={() => setModal3(true)}><IconPlusCircle className='mx-2'/> Add Project</button>
             </div>
             <div className="panel mt-6">
                 <div className="flex md:expenses-center justify-between md:flex-row flex-col mb-4.5 gap-5">
@@ -646,7 +646,6 @@ const Projects = () => {
                         records={recordsData}
                         columns={[
                             { accessor: 'company_name', title: 'Project Name', sortable: false },
-                            { accessor: 'serviceType', title: 'Service Name', sortable: false },
                             { accessor: 'company_email', title: 'Project Description', sortable: false },
                             // { accessor: 'plan_type', title: 'Plan Type', sortable: false },
                             {
@@ -1139,7 +1138,7 @@ const Projects = () => {
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[50%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
                                                             Choose Project
                                                         </label>
@@ -1151,27 +1150,6 @@ const Projects = () => {
                                                         onChange={handleChangeEdit}
                                                         >
                                                         <option>Select Project</option>
-                                                        {packages.map((pkg, i) => {
-                                                            return (
-                                                            <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
-                                                                {pkg.Type} {pkg.Duration}
-                                                            </option>
-                                                            );
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[50%]">
-                                                        <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
-                                                            Choose Service
-                                                        </label>
-                                                        <select
-                                                        id="company_choose_plan"
-                                                        className="form-select text-white-dark"
-                                                        name="planType"
-                                                        value={editCompanyData.planType}
-                                                        onChange={handleChangeEdit}
-                                                        >
-                                                        <option>Select Service</option>
                                                         {packages.map((pkg, i) => {
                                                             return (
                                                             <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
