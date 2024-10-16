@@ -47,7 +47,7 @@ const Projects = () => {
     const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
     const [initialRecords, setInitialRecords] = useState([]);
     const [recordsData, setRecordsData] = useState(initialRecords);
-
+    const [services, setServices] = useState([]);
     const [search, setSearch] = useState('');
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({ columnAccessor: 'Id', direction: 'asc' });
 
@@ -83,7 +83,7 @@ const Projects = () => {
           const response = await axios.get(`${api}/admin/getallProjects`, 
             {
                 headers: {
-                    id: localStorage.getItem('customeridtaxrx'),
+                    id: localStorage.getItem("isAdmin") ? undefined : localStorage.getItem('customeridtaxrx'),
                 }
             }
           );
@@ -96,6 +96,29 @@ const Projects = () => {
         } catch (error) {
           console.log("failed to fetch the Projects");
           console.error(error);
+        }
+    };
+
+    const fetchServices = async () => {
+        try {
+          const response = await axios.get(`${api}/api/items/getallservices`);
+    
+          console.log("Service result: ", response.data);
+          if (response.data.success) {
+            setServices(response.data.results);
+          }
+        } catch (error) {
+          console.log("failed to fetch the service");
+          console.error(error);
+        }
+    };
+
+    const [itemMode, setItemMode] = useState('Product');
+    const handleChangeItemMode = () => {
+        if (itemMode === 'Product') {
+            setItemMode('Service');
+        } else {
+            setItemMode('Product');
         }
     };
 
@@ -122,6 +145,7 @@ const Projects = () => {
         }
         fetchProjects();
         fetchPackages();
+        fetchServices();
     }, []);
 
     useEffect(() => {
@@ -346,13 +370,9 @@ const Projects = () => {
     };
 
     const [editCompanyData, setEditCompanyData] = useState({
-        name: "",
-        email: "",
-        phoneNumber: "",
-        website: "",
-        password: "",
-        confirmPassword: "",
-        address: "",
+        ownerId:null,
+        projectName: "",
+        projectDetails:"",
         planType: "",
         plan: 0,
         purchased_on: "",
@@ -377,41 +397,19 @@ const Projects = () => {
         setEditCompanyData({ ...editCompanyData, [e.target.name]: e.target.value });
     };
 
-    const handleEditCompany = async (e, companyEmail) => {
+    const handleEditCompany = async (e) => {
         e.preventDefault();
         // console.log(new Date(new Date(editCompanyData.purchased_on).getTime() + days.get(formdata.plan_type.split(" ")[0]) * 24 * 60 * 60 * 1000))
         try {
           const response = await axios.put(`${api}/admin/editCompany`, {
-            name: editCompanyData.name,
-            email: companyEmail,
-            phoneNumber: editCompanyData.phoneNumber,
-            website: editCompanyData.website,
-            password: editCompanyData.purchased_on,
-            confirmPassword: editCompanyData.confirmPassword,
-            address: editCompanyData.address,
+            project_name:editCompanyData.projectName,
+            project_details:editCompanyData.projectDetails,
             planType: editCompanyData.planType,
             plan: editCompanyData.planType === "" ? 0 : 1,
-            purchased_on:
-              editCompanyData.planType === ""
-                ? null
-                : editCompanyData.purchased_on === ""
-                ? new Date()
-                : editCompanyData.purchased_on,
-            expiring_on:
-              editCompanyData.planType === "" ||
-              editCompanyData.planType.split(" ")[0] === "Lifetime"
-                ? null
-                : new Date(
-                    new Date(editCompanyData.purchased_on).getTime() +
-                      days.get(editCompanyData.planType.split(" ")[editCompanyData.planType.split(" ").length - 1]) *
-                        24 *
-                        60 *
-                        60 *
-                        1000
-                    ),
+            id: localStorage.getItem("isAdmin") ? editCompanyData.ownerId : localStorage.getItem("customeridtaxrx")
           });
           if (response.data.success) {
-            showAlert("Company Edited Successfully");
+            showAlert("Project/Service Edited Successfully");
             setModal6(false);
             setModal7(false);
             fetchProjects();
@@ -419,8 +417,8 @@ const Projects = () => {
             showAlert("Company Can not be Edited");
           }
           setEditCompanyData({
-            name: "",
-            email: "",
+            projectName: "",
+            projectDetails: "",
             phoneNumber: "",
             website: "",
             password: "",
@@ -451,14 +449,14 @@ const Projects = () => {
           });
           console.log("response: ", response.data);
           if (response.data.success) {
-            showAlert("Company Deleted Successfully");
+            showAlert("Project Deleted Successfully");
             fetchProjects();
             setModal2(false);
           } else {
-            showAlert("Company Can not be Deleted");
+            showAlert("Project Can not be Deleted");
           }
         } catch (error) {
-          console.log("failed to delete company");
+          console.log("failed to delete Project");
           console.error(error);
         }
     };
@@ -490,6 +488,8 @@ const Projects = () => {
 
 
     const [formdata, setFormdata] = useState({
+        project_details:"",
+        project_name:"",
         username: "",
         phoneNumber: "",
         mobileOtp: "",
@@ -521,30 +521,11 @@ const Projects = () => {
     const handleAddCompany = async (e) => {
         e.preventDefault();
         console.log("company adding");
-        if (formdata.password !== formdata.confirmPassword) {
-          setPasswordMatchError("Passwords don't match");
-          console.log("Passwords don't match");
-          return;
-        }
         try {
           const response = await axios.post(`${api}/admin/addCompany`, {
-            username: formdata.username,
-            phoneNumber: formdata.phoneNumber,
-            mobileOtp: formdata.emailOtp,
-            email: formdata.email,
-            emailOtp: formdata.emailOtp,
-            password: formdata.password,
-            emailverified: formdata.emailverified,
-            confirmPassword: formdata.confirmPassword,
-            company_address: formdata.company_address,
-            id: "",
-            company_email: formdata.email,
-            address_line_1: "",
-            address_line_2: "",
-            country: formdata.country,
-            state: formdata.state,
-            city: formdata.city,
-            pincode: formdata.pincode,
+            project_name:formdata.project_name,
+            project_details:formdata.project_details,
+            id:localStorage.getItem('customeridtaxrx'),
             plan: formdata.plan_type === "" ? 0 : 1,
             plan_type: formdata.plan_type,
             registered_on: new Date(),
@@ -564,7 +545,7 @@ const Projects = () => {
           });
           console.log(response.data); // For debugging purposes
           // Handle successful registration (e.g., redirect to a success page)
-          showAlert("Registration successful!");
+          showAlert("Project added successful!");
           console.log("customer id: ", response.data.customerId);
           if (response.data.result !== 0) {
             showAlert("registered successfully");
@@ -575,6 +556,8 @@ const Projects = () => {
           }
           setFormdata({
             username: "",
+            project_details:"",
+            project_name:"",
             phoneNumber: "",
             mobileOtp: "",
             email: "",
@@ -645,8 +628,9 @@ const Projects = () => {
                         className="whitespace-nowrap table-hover"
                         records={recordsData}
                         columns={[
-                            { accessor: 'company_name', title: 'Project Name', sortable: false },
-                            { accessor: 'company_email', title: 'Project Description', sortable: false },
+                            { accessor: 'project_name', title: 'Project Name', sortable: false },
+                            { accessor: 'project_details', title: 'Project Description', sortable: false },
+                            { accessor: 'plan_type', title: 'Plan Type', sortable: false },
                             // { accessor: 'plan_type', title: 'Plan Type', sortable: false },
                             {
                                 accessor: 'registered_on',
@@ -669,7 +653,7 @@ const Projects = () => {
                             },
                             {
                                 accessor: 'Projects Action',
-                                render: ({ id, company_name, company_email, phone_number, company_website, password, company_address, plan_type, plan, purchased_on, expiring_on }) => (
+                                render: ({ id, company_name, company_email, company_website, password, company_address, plan_type, plan, purchased_on, expiring_on, project_name, project_details}) => (
                                     <div className="flex w-full justify-around expenses-center">
                                         <Tippy content="Delete">
                                             <button
@@ -687,15 +671,11 @@ const Projects = () => {
                                                 type="button"
                                                 onClick={() => {
                                                     setEditCompanyData({
-                                                        name: company_name,
-                                                        email: company_email,
-                                                        phoneNumber: phone_number,
-                                                        website: company_website,
-                                                        password: password,
-                                                        confirmPassword: password,
-                                                        address: company_address,
+                                                        projectName: project_name,
+                                                        projectDetails: project_details,
                                                         planType: plan_type,
-                                                        plan: plan
+                                                        plan: plan,
+                                                        ownerId:id
                                                     });
                                                     setModal6(true);
                                                 }}
@@ -703,7 +683,7 @@ const Projects = () => {
                                                 <IconEdit className="m-auto" />
                                             </button>
                                         </Tippy>
-                                        <Tippy content="Cancel Plan">
+                                        {localStorage.getItem("isAdmin") && (<Tippy content="Cancel Plan">
                                             <button
                                                 type="button"
                                                 onClick={() =>
@@ -712,31 +692,28 @@ const Projects = () => {
                                             >
                                                 <IconCancel className="m-auto" />
                                             </button>
-                                        </Tippy>
-                                        <Tippy content="Login to Company">
+                                        </Tippy>)}
+                                        {/* <Tippy content="Login to Company">
                                             <button
                                                 type="button"
                                                 onClick={() => loginToCompany(id)}
                                             >
                                                 <IconLogin2 className="m-auto" />
                                             </button>
-                                        </Tippy>
-                                        <Tippy content="Change Plan">
+                                        </Tippy> */}
+                                        {localStorage.getItem("isAdmin") && (
+                                            <Tippy content="Change Plan">
                                             <button
                                                 type="button"
                                                 onClick={() => {
                                                     setEditCompanyData({
-                                                        name: company_name,
-                                                        email: company_email,
-                                                        phoneNumber: phone_number,
-                                                        website: company_website,
-                                                        password: password,
-                                                        confirmPassword: password,
-                                                        address: company_address,
+                                                        projectName: project_name,
+                                                        projectDetails: project_details,
                                                         planType: plan_type,
                                                         plan: plan,
                                                         purchased_on: purchased_on,
-                                                        expiring_on: expiring_on
+                                                        expiring_on: expiring_on,
+                                                        ownerId:id
                                                     });
                                                     setModal7(true);
                                                 }}
@@ -744,6 +721,7 @@ const Projects = () => {
                                                 <IconChangePlan className="m-auto" />
                                             </button>
                                         </Tippy>
+                                        )}
                                     </div>
                                 ),
                             },
@@ -834,97 +812,70 @@ const Projects = () => {
                                         </button>
                                     </div>
                                     <div className="p-2">
-                                        <form onSubmit={(e) => handleEditCompany(e, editCompanyData.email)}>
+                                        <form onSubmit={(e) => handleEditCompany(e)}>
                                             <div className="flex flex-col p-2 w-full">
                                                 <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="company_name" className="my-2 text-gray-600">
-                                                            Name
+                                                            Project Name
                                                         </label>
                                                         <input
                                                             id="company_name"
                                                             type="text"
-                                                            placeholder="Project Name"
                                                             className="form-input w-full"
-                                                            name="name"
-                                                            value={editCompanyData.name}
-                                                            onChange={handleChangeEdit}
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="company_email" className="my-2 text-gray-600">
-                                                            Email
-                                                        </label>
-                                                        <input
-                                                            id="company_email"
-                                                            type="email"
-                                                            placeholder="Company Email"
-                                                            className="form-input w-full"
-                                                            name="email"
-                                                            value={editCompanyData.email}
-                                                            onChange={() => {
-                                                                setEmailCannotChangeMsg('can not edit email');
-                                                            }}
-                                                            required
-                                                        />
-                                                        <p className='text-red-500 text-sm my-1'>{emailCannotChangeMsg}</p>
-                                                    </div>
-                                                </div>
-
-                                                <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="company_phone_number" className="my-2 text-gray-600">
-                                                            Phone Number
-                                                        </label>
-                                                        <input
-                                                            id="company_phone_number"
-                                                            type="number"
-                                                            placeholder="Company Phone Number"
-                                                            className="form-input w-full"
-                                                            name="phoneNumber"
-                                                            value={editCompanyData.phoneNumber}
+                                                            name="projectName"
+                                                            value={editCompanyData.projectName}
                                                             onChange={handleChangeEdit}
                                                             required
                                                         />
                                                     </div>
                                                 </div>
-                                                <div className="flex justify-between items-center expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-full">
-                                                        <label htmlFor="company_phone_number" className="my-2 text-gray-600">
-                                                            Password
-                                                        </label>
-                                                        <div className='flex justify-between items-center'>
-                                                            <input
-                                                                id="company_phone_number"
-                                                                type={editCompanyPassView ? "text" : "password"}
-                                                                placeholder="New Password"
-                                                                className="form-input w-full"
-                                                                name="password"
-                                                                value={editCompanyData.password}
-                                                                onChange={handleChangeEdit}
-                                                                required
-                                                            />
-                                                            {editCompanyPassView && <IconEyeOpen className='absolute right-10 cursor-pointer' onClick={toggleEditCompanyPassView} />}
-                                                            {!editCompanyPassView && <IconEyeClosed className='absolute right-10 cursor-pointer' onClick={toggleEditCompanyPassView} />}
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-full">
-                                                        <label htmlFor="company_address" className="my-2 text-gray-600">
-                                                            Company Address
+                                                        <label htmlFor="project_details" className="my-2 text-gray-600">
+                                                            Project Details
                                                         </label>
                                                         <textarea
-                                                            id="company_address"
+                                                            id="project_details"
                                                             rows={5}
-                                                            placeholder="Company Confirm Password"
                                                             className="form-input w-full"
-                                                            name="address"
-                                                            value={editCompanyData.address}
+                                                            name="projectDetails"
+                                                            value={editCompanyData.projectDetails}
                                                             onChange={handleChangeEdit}
                                                             required
                                                         />
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between expenses-center w-full">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
+                                                        <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
+                                                            Choose Project/Service
+                                                        </label>
+                                                        <select
+                                                        id="company_choose_plan"
+                                                        className="form-select text-white-dark"
+                                                        name="planType"
+                                                        disabled={true}
+                                                        value={editCompanyData.planType}
+                                                        onChange={handleChangeEdit}
+                                                        >
+                                                        <option>Select Project</option>
+                                                        {packages.map((pkg:any, i):any => {
+                                                            return (
+                                                            <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
+                                                                {pkg.Type} {pkg.Duration}
+                                                            </option>
+                                                            );
+                                                            })}
+                                                            {services.map((pkg:any, i:any) => {
+                                                            return (
+                                                            <option key={pkg.name} value={pkg.name}>
+                                                                {pkg.name} ₹{pkg.price}
+                                                            </option>
+                                                            );
+                                                            })}
+
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -978,15 +929,15 @@ const Projects = () => {
                                             <div className='flex justify-between w-full'>
                                                 <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                     <p className="my-2 text-gray-600 font-semibold">
-                                                        Name
+                                                        Project Name
                                                     </p>
-                                                    <p className="w-full">{editCompanyData.name}</p>
+                                                    <p className="w-full">{editCompanyData.projectName}</p>
                                                 </div>
                                                 <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                     <p className="my-2 text-gray-600 font-semibold">
-                                                        Email
+                                                        Project Details
                                                     </p>
-                                                    <p className="w-full">{editCompanyData.email}</p>
+                                                    <p className="w-full">{editCompanyData.projectDetails}</p>
                                                 </div>
                                             </div>
                                             <div className='flex justify-between w-full'>
@@ -1012,7 +963,7 @@ const Projects = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <form onSubmit={(e)=>handleEditCompany(e, editCompanyData.email)}>
+                                        <form onSubmit={(e)=>handleEditCompany(e)}>
                                             <div className="flex flex-col p-2 w-full">
                                                 <h2 className='font-semibold text-lg'>Change Plan Details</h2>
                                                 <div className="flex justify-between expenses-center w-full">
@@ -1024,17 +975,25 @@ const Projects = () => {
                                                             id="company_choose_plan"
                                                             className="form-select text-white-dark"
                                                             name="planType"
+                                                            disabled={localStorage.getItem("isAdmin") ? false : true}
                                                             value={editCompanyData.planType}
                                                             onChange={handleChangeEdit}
-                                                        >
-                                                            <option>Select Plan</option>
-                                                            {packages.map((pkg, i) => {
+                                                            >
+                                                            <option>Select Project</option>
+                                                            {packages.map((pkg:any, i):any => {
                                                                 return (
                                                                 <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
                                                                     {pkg.Type} {pkg.Duration}
                                                                 </option>
                                                                 );
-                                                            })}
+                                                                })}
+                                                                {services.map((pkg:any, i:any) => {
+                                                                return (
+                                                                <option key={pkg.name} value={pkg.name}>
+                                                                    {pkg.name} ₹{pkg.price}
+                                                                </option>
+                                                                );
+                                                                })}
                                                         </select>
                                                     </div>
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
@@ -1114,8 +1073,8 @@ const Projects = () => {
                                                             id="company_name"
                                                             type="text"
                                                             className="form-input w-full"
-                                                            name="username"
-                                                            value={formdata.username}
+                                                            name="project_name"
+                                                            value={formdata.project_name}
                                                             onChange={handleChange}
                                                             required
                                                         />
@@ -1123,21 +1082,33 @@ const Projects = () => {
                                                 </div>
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-full">
-                                                        <label htmlFor="company_address" className="my-2 text-gray-600">
+                                                        <label htmlFor="project_details" className="my-2 text-gray-600">
                                                             Project Details
                                                         </label>
                                                         <textarea
-                                                            id="company_address"
+                                                            id="project_details"
                                                             rows={5}
                                                             className="form-input w-full"
-                                                            name="company_address"
-                                                            value={formdata.company_address}
+                                                            name="project_details"
+                                                            value={formdata.project_details}
                                                             onChange={handleChange}
                                                             required
                                                         />
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-between expenses-center w-full">
+                                                    <div className="flex flex-col mx-4 my-2 w-full">
+                                                        <div className="mb-5 w-full md:w-[60%] flex justify-start items-center">
+                                                            <p className="mr-2 font-semibold text-lg">Switch to {itemMode === 'Product' ? 'Service' : 'Product'}</p>
+                                                            <label className="w-12 h-6 relative">
+                                                                <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" onChange={handleChangeItemMode} />
+                                                                <span className="outline_checkbox bg-icon border-2 border-[#b8b8b8] dark:border-white-dark block h-full rounded-full before:absolute before:left-1 before:bg-[#b8b8b8] dark:before:bg-white-dark before:bottom-1 before:w-4 before:h-4 before:rounded-full before:bg-[url(/assets/images/close.svg)] before:bg-no-repeat before:bg-center peer-checked:before:left-7 peer-checked:before:bg-[url(/assets/images/checked.svg)] peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
+                                                            </label>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                                {itemMode == "Product" && (
+                                                    <div className="flex justify-between expenses-center w-full">                                       
                                                     <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
                                                             Choose Project
@@ -1145,12 +1116,12 @@ const Projects = () => {
                                                         <select
                                                         id="company_choose_plan"
                                                         className="form-select text-white-dark"
-                                                        name="planType"
-                                                        value={editCompanyData.planType}
-                                                        onChange={handleChangeEdit}
+                                                        name="plan_type"
+                                                        value={formdata.plan_type}
+                                                        onChange={handleChange}
                                                         >
                                                         <option>Select Project</option>
-                                                        {packages.map((pkg, i) => {
+                                                        {packages.map((pkg:any, i):any => {
                                                             return (
                                                             <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
                                                                 {pkg.Type} {pkg.Duration}
@@ -1160,13 +1131,39 @@ const Projects = () => {
                                                         </select>
                                                     </div>
                                                 </div>
+                                                )}
+                                                {itemMode == "Service" && (
+                                                    <div className="flex justify-between expenses-center w-full">                                       
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
+                                                        <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
+                                                            Choose Service
+                                                        </label>
+                                                        <select
+                                                        id="company_choose_plan"
+                                                        className="form-select text-white-dark"
+                                                        name="plan_type"
+                                                        value={formdata.plan_type}
+                                                        onChange={handleChange}
+                                                        >
+                                                        <option>Select Service</option>
+                                                        {services.map((pkg:any, i:any) => {
+                                                            return (
+                                                            <option key={i} value={pkg.name}>
+                                                                {pkg.name} ₹{pkg.price}
+                                                            </option>
+                                                            );
+                                                            })}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                )}
                                             </div>
                                             <div className="m-4 flex expenses-center justify-end">
                                                 <button onClick={() => setModal3(false)} type="reset" className="btn btn-outline-danger">
                                                     Cancel
                                                 </button>
                                                 <button type="submit" className="btn btn-primary ltr:ml-4 rtl:mr-4">
-                                                    Update
+                                                    Add Project
                                                 </button>
                                             </div>
                                         </form>

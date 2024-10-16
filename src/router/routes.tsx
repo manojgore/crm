@@ -171,7 +171,7 @@ const routes = [
     },
     {
         path: '/admin-projects',
-        element: <AdminProjects />,
+        element: <Projects />,
         layout: 'admin',
     },
     {
