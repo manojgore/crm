@@ -34,6 +34,7 @@ const AdminAccountSettings = () => {
 
     const [formData, setFormData] = useState({
         id: localStorage.getItem('customeridtaxrx'),
+        Name:'',
         TradeName: '',
         GSTNo: '',
         OfficeAddress: '',
@@ -147,11 +148,25 @@ const AdminAccountSettings = () => {
                         <div className="flex flex-col items-center justify-start w-full">
                             <div className="flex flex-col md:flex-row w-full justify-between items-center">
                                 <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
+                                    <label htmlFor="customer-name" className="my-2 text-gray-600 ">
+                                        Name
+                                    </label>
+                                    <input id="customer-name" type="text" placeholder="Name" className="form-input w-full" name="name" value={formData.Name} onChange={handleChange} required />
+                                </div>
+                                <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
                                     <label htmlFor="item-code" className="my-2 text-gray-600">
                                         Email ID
                                     </label>
                                     <input id="item-code" type="email" placeholder="Email ID" className="form-input w-full" name="EmailID" value={formData.EmailID} onChange={handleChange} required />
                                 </div>
+                            </div>
+                                <div className="flex flex-col md:flex-row w-full justify-between items-center">
+                                    <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
+                                        <label htmlFor="customer-phone" className="my-2 text-gray-600 ">
+                                            Phone
+                                        </label>
+                                        <input id="customer-phone" type="number" placeholder="Phone Number" className="form-input w-full" name="PhoneNumber" value={formData.PhoneNumber} onChange={handleChange} required />
+                                    </div>
                                     <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
                                         <label htmlFor="item-code" className="my-2 text-gray-600">
                                             Password
@@ -166,7 +181,7 @@ const AdminAccountSettings = () => {
                                             onChange={handleChange}
                                         />
                                     </div>
-                            </div>
+                                </div>
                         </div>
                         <div className="flex w-full justify-center md:justify-end items-center my-4">
                             <button type="submit" className="btn btn-primary mt-6">
@@ -178,6 +193,7 @@ const AdminAccountSettings = () => {
                                 onClick={() => {
                                     setFormData({
                                         id: localStorage.getItem('customeridtaxrx'),
+                                        Name:'',
                                         TradeName: '',
                                         GSTNo: '',
                                         OfficeAddress: '',
