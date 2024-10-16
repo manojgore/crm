@@ -11,20 +11,22 @@ router.put("/editCustomer", (req, res) => {
             console.error("Error checking for duplicate invoice:", error);
             return res.status(200).json({ error: error, success: false });
         }
-        res.status(200).json({ result: result, msg: 'Invoice edited successfully', success: true });
+        pool.query('UPDATE customer_registration SET password = ? WHERE email = ?', [password, email], (updateerr, updateresult) => {
+            if (updateerr) {
+                return res.json({ "error": err });
+            } else{
+                if(updateresult.affectedRows > 0){
+                    return res.status(200).json({ result: result, msg: 'Customer edited successfully', success: true });
+                    
+                }else{
+                    return res.json({ error: 'Undable to reset password', success: false });
+                }
+            }
+        })
+        
     })
 
-    pool.query('UPDATE customer_registration SET password = ? WHERE email = ?', [password, email], (updateerr, updateresult) => {
-        if (err) {
-            return res.json({ "error": err });
-        } else{
-            if(updateresult.affectedRows > 0){
-                return res.json({ result: updateresult, success: true });
-            }else{
-                return res.json({ error: 'Undable to reset password', success: false });
-            }
-        }
-    })
+    
     
 });
 
