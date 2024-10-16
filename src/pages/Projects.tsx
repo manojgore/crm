@@ -612,7 +612,7 @@ const Projects = () => {
             <h1 className='text-4xl font-semibold'>All Projects</h1>
             <p>All registered Projects</p>
             <div className='flex items-center justify-end'>
-                <button className='btn btn-primary' onClick={() => setModal3(true)}><IconPlusCircle className='mx-2'/> Add Project</button>
+                <button className='btn btn-primary' onClick={() => setModal3(true)}><IconPlusCircle className='mx-2'/> Add Project / Service</button>
             </div>
             <div className="panel mt-6">
                 <div className="flex md:expenses-center justify-between md:flex-row flex-col mb-4.5 gap-5">
@@ -1098,7 +1098,7 @@ const Projects = () => {
                             >
                                 <Dialog.Panel className="panel my-8 w-full max-w-xl overflow-hidden  rounded-lg border-0 p-0 text-black dark:text-white-dark h-[90svh] overflow-y-scroll">
                                     <div className="flex expenses-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                                        <h5 className="text-lg font-bold">Add Projects</h5>
+                                        <h5 className="text-lg font-bold">Add Project / Service</h5>
                                         <button onClick={() => setModal3(false)} type="button" className="text-white-dark hover:text-dark">
                                             <IconX />
                                         </button>
@@ -1106,66 +1106,17 @@ const Projects = () => {
                                     <div className="p-2">
                                         <form onSubmit={handleAddCompany}>
                                             <div className="flex flex-col p-2 w-full">
-                                                <h2 className='font-semibold text-lg'>Add Projects Details</h2>
                                                 <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="company_name" className="my-2 text-gray-600">
                                                             Project Name
                                                         </label>
                                                         <input
                                                             id="company_name"
                                                             type="text"
-                                                            placeholder="Project Name"
                                                             className="form-input w-full"
                                                             name="username"
                                                             value={formdata.username}
-                                                            onChange={handleChange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="company_email" className="my-2 text-gray-600">
-                                                            Email Address
-                                                        </label>
-                                                        <input
-                                                            id="company_email"
-                                                            type="email"
-                                                            placeholder="Email Address"
-                                                            className="form-input w-full"
-                                                            name="email"
-                                                            value={formdata.email}
-                                                            onChange={handleChange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="company_number" className="my-2 text-gray-600">
-                                                            Phone Number
-                                                        </label>
-                                                        <input
-                                                            id="company_number"
-                                                            type="number"
-                                                            placeholder="Phone Number"
-                                                            className="form-input w-full"
-                                                            name="phoneNumber"
-                                                            value={formdata.phoneNumber}
-                                                            onChange={handleChange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="company_city" className="my-2 text-gray-600">
-                                                            City
-                                                        </label>
-                                                        <input
-                                                            id="company_city"
-                                                            type="text"
-                                                            placeholder="City"
-                                                            className="form-input w-full"
-                                                            name="city"
-                                                            value={formdata.city}
                                                             onChange={handleChange}
                                                             required
                                                         />
@@ -1174,12 +1125,11 @@ const Projects = () => {
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-full">
                                                         <label htmlFor="company_address" className="my-2 text-gray-600">
-                                                            Company Address
+                                                            Project Details
                                                         </label>
                                                         <textarea
                                                             id="company_address"
                                                             rows={5}
-                                                            placeholder="Company Address"
                                                             className="form-input w-full"
                                                             name="company_address"
                                                             value={formdata.company_address}
@@ -1189,90 +1139,48 @@ const Projects = () => {
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="company_state" className="my-2 text-gray-600">
-                                                            State
+                                                    <div className="flex flex-col mx-4 my-2 w-[50%]">
+                                                        <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
+                                                            Choose Project
                                                         </label>
-                                                        <input
-                                                            id="company_state"
-                                                            type="text"
-                                                            placeholder="State"
-                                                            className="form-input w-full"
-                                                            name="state"
-                                                            value={formdata.state}
-                                                            onChange={handleChange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="company_pincode" className="my-2 text-gray-600">
-                                                            Pin Code
-                                                        </label>
-                                                        <input
-                                                            id="company_pincode"
-                                                            type="number"
-                                                            placeholder="Pin Code"
-                                                            className="form-input w-full"
-                                                            name="pincode"
-                                                            value={formdata.pincode}
-                                                            onChange={handleChange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="company_password" className="my-2 text-gray-600">
-                                                            Password
-                                                        </label>
-                                                        <input
-                                                            id="company_password"
-                                                            type="password"
-                                                            placeholder="Password"
-                                                            className="form-input w-full"
-                                                            name="password"
-                                                            value={formdata.password}
-                                                            onChange={handleChange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="company_confirm_password" className="my-2 text-gray-600">
-                                                            Confirm Password
-                                                        </label>
-                                                        <input
-                                                            id="company_confirm_password"
-                                                            type="password"
-                                                            placeholder="Confirm Password"
-                                                            className="form-input w-full"
-                                                            name="confirmPassword"
-                                                            value={formdata.confirmPassword}
-                                                            onChange={handleChange}
-                                                            required
-                                                        />
-                                                        <p className='text-red-500 text-sm'>{passwordMatchError}</p>
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col mx-4 my-2 w-[95%]">
-                                                    <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
-                                                        Choose Plan
-                                                    </label>
-                                                    <select
+                                                        <select
                                                         id="company_choose_plan"
                                                         className="form-select text-white-dark"
                                                         name="planType"
                                                         value={editCompanyData.planType}
                                                         onChange={handleChangeEdit}
-                                                    >
-                                                        <option>Select Plan</option>
+                                                        >
+                                                        <option>Select Project</option>
                                                         {packages.map((pkg, i) => {
                                                             return (
                                                             <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
                                                                 {pkg.Type} {pkg.Duration}
                                                             </option>
                                                             );
-                                                        })}
-                                                    </select>
+                                                            })}
+                                                        </select>
+                                                    </div>
+                                                    <div className="flex flex-col mx-4 my-2 w-[50%]">
+                                                        <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
+                                                            Choose Service
+                                                        </label>
+                                                        <select
+                                                        id="company_choose_plan"
+                                                        className="form-select text-white-dark"
+                                                        name="planType"
+                                                        value={editCompanyData.planType}
+                                                        onChange={handleChangeEdit}
+                                                        >
+                                                        <option>Select Service</option>
+                                                        {packages.map((pkg, i) => {
+                                                            return (
+                                                            <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
+                                                                {pkg.Type} {pkg.Duration}
+                                                            </option>
+                                                            );
+                                                            })}
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="m-4 flex expenses-center justify-end">
