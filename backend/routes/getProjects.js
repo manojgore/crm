@@ -6,7 +6,7 @@ const { JSON } = require('mysql/lib/protocol/constants/types');
 router.get('/getallProjects', async(req, res)=>{
     const { id } = req.headers || undefined;
    try {
-        pool.query("SELECT * FROM company_settings", (err, results) => {
+        pool.query("SELECT company_settings.*, customers.name, customers.email,customers.number FROM company_settings JOIN customers ON company_settings.id = customers.owner_id", (err, results) => {
             if (err) {
                 console.error("Error to fetch all Projects", err);
                 return res.status(500).json({ error: err, success: false }); 
