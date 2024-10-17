@@ -34,18 +34,10 @@ const AdminAccountSettings = () => {
 
     const [formData, setFormData] = useState({
         id: localStorage.getItem('customeridtaxrx'),
-        Name:'',
-        TradeName: '',
-        GSTNo: '',
-        OfficeAddress: '',
-        State: '',
-        StateCode: '',
-        PhoneNumber: '',
-        EmailID: '',
+        name:'',
+        phone: '',
+        email: '',
         Password:'',
-        PANNo: '',
-        AuthorisedSignatoryName: '',
-        image: '',
     });
 
     const handleChange = (e) => {
@@ -72,7 +64,7 @@ const AdminAccountSettings = () => {
           );
           console.log(response.data); // Handle response data as needed
           if (response.data.result !== 0) {
-            showAlert("user-account-settings updated", "green");
+            showAlert("Admin account settings updated", "green");
             navigate("/admin-dashboard");
           } else {
             showAlert("something went wrong", "red");
@@ -151,13 +143,13 @@ const AdminAccountSettings = () => {
                                     <label htmlFor="customer-name" className="my-2 text-gray-600 ">
                                         Name
                                     </label>
-                                    <input id="customer-name" type="text" placeholder="Name" className="form-input w-full" name="Name" value={formData.Name} onChange={handleChange} required />
+                                    <input id="customer-name" type="text" placeholder="Name" className="form-input w-full" name="name" value={formData.name} onChange={handleChange} required />
                                 </div>
                                 <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
                                     <label htmlFor="item-code" className="my-2 text-gray-600">
                                         Email ID
                                     </label>
-                                    <input id="item-code" type="email" placeholder="Email ID" className="form-input w-full" name="EmailID" value={formData.EmailID} onChange={handleChange} required />
+                                    <input id="item-code" type="email" placeholder="Email ID" className="form-input w-full" name="email" value={formData.email} onChange={handleChange} required />
                                 </div>
                             </div>
                                 <div className="flex flex-col md:flex-row w-full justify-between items-center">
@@ -165,7 +157,7 @@ const AdminAccountSettings = () => {
                                         <label htmlFor="customer-phone" className="my-2 text-gray-600 ">
                                             Phone
                                         </label>
-                                        <input id="customer-phone" type="number" placeholder="Phone Number" className="form-input w-full" name="PhoneNumber" value={formData.PhoneNumber} onChange={handleChange} required />
+                                        <input id="customer-phone" type="number" placeholder="Phone Number" className="form-input w-full" name="phone" value={formData.phone} onChange={handleChange} required />
                                     </div>
                                     <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
                                         <label htmlFor="item-code" className="my-2 text-gray-600">
@@ -193,18 +185,10 @@ const AdminAccountSettings = () => {
                                 onClick={() => {
                                     setFormData({
                                         id: localStorage.getItem('customeridtaxrx'),
-                                        Name:'',
-                                        TradeName: '',
-                                        GSTNo: '',
-                                        OfficeAddress: '',
-                                        State: '',
-                                        StateCode: '',
-                                        PhoneNumber: '',
-                                        EmailID: '',
+                                        name:'',
+                                        phone: '',
+                                        email: '',
                                         Password:'',
-                                        PANNo: '',
-                                        AuthorisedSignatoryName: '',
-                                        image: '',
                                     });
                                 }}
                             >

@@ -148,7 +148,7 @@ const SidebarAdmin = () => {
                                 <span>{t('settings')}</span>
                             </h2>
 
-                            <li className="nav-item">
+                            
                                 <ul>
                                     <li className="menu nav-item">
                                         <button type="button" className={`${currentMenu === 'invoice' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('invoice')}>
@@ -166,9 +166,6 @@ const SidebarAdmin = () => {
                                             <ul className="sub-menu text-gray-500">
                                                 <li>
                                                     <NavLink to="/user-account-settings">{t('Account Settings')}</NavLink>
-                                                </li>
-                                                <li>
-                                                    <NavLink to="/user-company-settings">{t('Company Settings')}</NavLink>
                                                 </li>
                                             </ul>
                                         </AnimateHeight>
@@ -191,7 +188,6 @@ const SidebarAdmin = () => {
                                         </NavLink>
                                     </li>
                                 </ul>
-                            </li>
                         </ul>
                     </PerfectScrollbar>
                 </div>

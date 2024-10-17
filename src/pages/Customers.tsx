@@ -650,7 +650,7 @@ const Customers = () => {
                                                 </div>
 
                                                 <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[40%]">
                                                         <label htmlFor="customer_phone" className="my-2 text-gray-600">
                                                             Phone
                                                         </label>
@@ -661,21 +661,6 @@ const Customers = () => {
                                                             className="form-input w-full"
                                                             name="phone"
                                                             value={editCustomerData.phone}
-                                                            onChange={handleEditOnchange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="customer_pan" className="my-2 text-gray-600">
-                                                            PAN No.
-                                                        </label>
-                                                        <input
-                                                            id="customer_pan"
-                                                            type="text"
-                                                            placeholder="PAN No."
-                                                            className="form-input w-full"
-                                                            name="panNo"
-                                                            value={editCustomerData.panNo}
                                                             onChange={handleEditOnchange}
                                                             required
                                                         />
