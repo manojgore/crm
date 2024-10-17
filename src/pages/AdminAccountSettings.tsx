@@ -151,7 +151,7 @@ const AdminAccountSettings = () => {
                                     <label htmlFor="customer-name" className="my-2 text-gray-600 ">
                                         Name
                                     </label>
-                                    <input id="customer-name" type="text" placeholder="Name" className="form-input w-full" name="name" value={formData.Name} onChange={handleChange} required />
+                                    <input id="customer-name" type="text" placeholder="Name" className="form-input w-full" name="Name" value={formData.Name} onChange={handleChange} required />
                                 </div>
                                 <div className="flex flex-col w-full md:w-[50%] mx-4 my-2">
                                     <label htmlFor="item-code" className="my-2 text-gray-600">
@@ -175,7 +175,7 @@ const AdminAccountSettings = () => {
                                             id="Password"
                                             type={passView ? "text" : "password"}
                                             placeholder="Enter Password"
-                                            className="form-input ps-10 placeholder:text-white-dark"
+                                            className="form-input placeholder:text-white-dark"
                                             name="Password"
                                             value={formData.Password}
                                             onChange={handleChange}
