@@ -9,7 +9,7 @@ router.post('/checksubscription', async(req, res)=>{
         pool.query('SELECT * FROM customer_registration WHERE id = ?', [id], (err, results) => {
             if(results && results[0].subscribed === 1){
                 pool.query('SELECT * FROM company_settings WHERE id = ?', [id], (error, companyResults) => {
-                    return res.status(201).json({ message: 'Customer is subscribed',  subscribed: true, plan_type: companyResults[0].plan_type, freetaxfiled: results[0].freetaxfiled });
+                    return res.status(201).json({ message: 'Customer is subscribed',  subscribed: true, plan_type: companyResults[0]?.plan_type, freetaxfiled: results[0].freetaxfiled });
                 });
             }else{
                 return res.status(201).json({ message: 'Customer is not subscribed',  subscribed: false});
