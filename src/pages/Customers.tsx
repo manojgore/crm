@@ -456,6 +456,21 @@ const Customers = () => {
                             { accessor: 'name', title: 'Name' },
                             { accessor: 'email', title: 'Email' },
                             { accessor: 'phone', title: 'Phone No.' },
+                            { accessor: 'postion', title: 'Position' },
+                            { accessor: 'companyname', title: 'Company Name' },
+                            {
+                                accessor: 'city',
+                                title: 'City'
+                            },
+                            {
+                                accessor: 'Address',
+                                render: ({ company_address }) => <p>{company_address}</p>,
+                            },
+                            { accessor: 'website', title: 'Website' },
+                            { accessor: 'state', title: 'State' },
+                            { accessor: 'country', title: 'Country' },
+                            { accessor: 'zipcode', title: 'Zipcode' },
+                            { accessor: 'gst_number', title: 'GST No.' },
                             { 
                                 accessor: 'registration_date', 
                                 title: 'Registered On', 
@@ -464,18 +479,6 @@ const Customers = () => {
                                     <p>{`${new Date(registration_date).getDate()} ${months.get(new Date(registration_date).getMonth() + 1)} ${new Date(registration_date).getFullYear()}`}</p>
                                 )
                             },
-                            { accessor: 'panNo', title: 'PAN No.' },
-                            { accessor: 'gst_number', title: 'GST No.' },
-                            {
-                                accessor: 'Address',
-                                render: ({ company_address }) => <p>{company_address}</p>,
-                            },
-                            {
-                                accessor: 'city',
-                                title: 'City'
-                            },
-                            { accessor: 'state', title: 'State' },
-                            { accessor: 'country', title: 'Country' },
                             {
                                 accessor: 'Customers Action',
                                 render: ({ id, name, phone, email, panNo, gst_number, company_address, city, state, pincode, country, bank_name, account_holder_name, branch, ifsc, account_number, image }) => (

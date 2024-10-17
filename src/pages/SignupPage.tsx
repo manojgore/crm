@@ -362,9 +362,9 @@ const SignupPage = () => {
                             <p className="text-base font-bold leading-normal text-white-dark">Profile Information</p>
                             <div className="flex flex-wrap md:flex-row flex-col items-normal justify-start">
                                 <div className="flex flex-col w-full md:w-[30%] mx-4 my-2">
-                                    <label htmlFor="Name">Username</label>
+                                    <label htmlFor="Name">Name</label>
                                     <div className="relative text-white-dark">
-                                        <input id="Name" type="text" placeholder="Enter Name" className="form-input ps-10 placeholder:text-white-dark" name='username' value={formData.username} onChange={handleChange} required/>
+                                        <input id="Name" type="text" placeholder="Enter Your Full Name" className="form-input ps-10 placeholder:text-white-dark" name='username' value={formData.username} onChange={handleChange} required/>
                                         <span className="absolute start-4 top-1/2 -translate-y-1/2">
                                             <IconUser fill={true} />
                                         </span>
