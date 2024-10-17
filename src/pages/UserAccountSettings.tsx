@@ -75,7 +75,7 @@ const UserAccountSettings = () => {
             const response = await axios.put(`${api}/api/customers/editCustomer`, formData);
             console.log(response.data); // Handle response data as needed
             if (response.data.result !== 0) {
-                showAlert('user-account-settings updated');
+                showAlert('User account settings updated');
                 navigate('/user-dashboard');
             } else {
                 showAlert('something went wrong');

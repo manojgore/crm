@@ -143,9 +143,9 @@ const Projects = () => {
         if (!localStorage.getItem('adminidtaxrx')) {
             navigate('/');
         }
-        fetchProjects();
-        fetchPackages();
         fetchServices();
+        fetchPackages();
+        fetchProjects();        
     }, []);
 
     useEffect(() => {
@@ -1114,7 +1114,7 @@ const Projects = () => {
                                                     <div className="flex justify-between expenses-center w-full">                                       
                                                     <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
-                                                            Choose Project
+                                                            Choose Product
                                                         </label>
                                                         <select
                                                         id="company_choose_plan"
@@ -1123,11 +1123,11 @@ const Projects = () => {
                                                         value={formdata.plan_type}
                                                         onChange={handleChange}
                                                         >
-                                                        <option>Select Project</option>
-                                                        {packages.map((pkg:any, i):any => {
+                                                        <option>Select Product</option>
+                                                        {services.map((pkg:any, i:any) => {
                                                             return (
-                                                            <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
-                                                                {pkg.Type} {pkg.Duration}
+                                                            <option key={i} value={pkg.name}>
+                                                                {pkg.name} ₹{pkg.price}
                                                             </option>
                                                             );
                                                             })}
@@ -1149,10 +1149,10 @@ const Projects = () => {
                                                         onChange={handleChange}
                                                         >
                                                         <option>Select Service</option>
-                                                        {services.map((pkg:any, i:any) => {
+                                                        {packages.map((pkg:any, i):any => {
                                                             return (
-                                                            <option key={i} value={pkg.name}>
-                                                                {pkg.name} ₹{pkg.price}
+                                                            <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
+                                                                {pkg.Type} {pkg.Duration}
                                                             </option>
                                                             );
                                                             })}
