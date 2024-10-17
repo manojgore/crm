@@ -631,6 +631,9 @@ const Projects = () => {
                             { accessor: 'project_name', title: 'Project Name', sortable: false },
                             { accessor: 'project_details', title: 'Project Description', sortable: false },
                             { accessor: 'plan_type', title: 'Plan Type', sortable: false },
+                            { accessor: 'name', title: 'Name', sortable: false },
+                            { accessor: 'email', title: 'Email', sortable: false },
+                            { accessor: 'number', title: 'Mobile No', sortable: false },
                             // { accessor: 'plan_type', title: 'Plan Type', sortable: false },
                             {
                                 accessor: 'registered_on',
