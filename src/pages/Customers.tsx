@@ -650,25 +650,7 @@ const Customers = () => {
                                                 </div>
 
                                                 <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[40%]">
-                                                        <label htmlFor="customer_phone" className="my-2 text-gray-600">
-                                                            Phone
-                                                        </label>
-                                                        <input
-                                                            id="customer_phone"
-                                                            type="number"
-                                                            placeholder="Customer Phone"
-                                                            className="form-input w-full"
-                                                            name="phone"
-                                                            value={editCustomerData.phone}
-                                                            onChange={handleEditOnchange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                </div>
-
-                                                <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="customer_company_address" className="my-2 text-gray-600">
                                                             Address
                                                         </label>
@@ -679,6 +661,24 @@ const Customers = () => {
                                                             className="form-input w-full"
                                                             name="company_address"
                                                             value={editCustomerData.company_address}
+                                                            onChange={handleEditOnchange}
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex justify-between expenses-center w-full">
+                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                        <label htmlFor="customer_phone" className="my-2 text-gray-600">
+                                                            Phone
+                                                        </label>
+                                                        <input
+                                                            id="customer_phone"
+                                                            type="number"
+                                                            placeholder="Customer Phone"
+                                                            className="form-input w-full"
+                                                            name="phone"
+                                                            value={editCustomerData.phone}
                                                             onChange={handleEditOnchange}
                                                             required
                                                         />
