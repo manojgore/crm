@@ -498,7 +498,7 @@ const Subscriptions = () => {
                             >
                                 <Dialog.Panel className="panel my-8 w-full max-w-xl overflow-hidden  rounded-lg border-0 p-0 text-black dark:text-white-dark h-[75svh]">
                                     <div className="flex expenses-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                                        <h5 className="text-lg font-bold">Edit Company</h5>
+                                        <h5 className="text-lg font-bold">Edit Service</h5>
                                         <button onClick={() => setModal6(false)} type="button" className="text-white-dark hover:text-dark">
                                             <IconX />
                                         </button>
@@ -613,7 +613,7 @@ const Subscriptions = () => {
                             >
                                 <Dialog.Panel className="panel my-8 w-full max-w-xl overflow-hidden  rounded-lg border-0 p-0 text-black dark:text-white-dark h-[80svh]">
                                     <div className="flex expenses-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                                        <h5 className="text-lg font-bold">Edit Company</h5>
+                                        <h5 className="text-lg font-bold">Edit Service</h5>
                                         <button onClick={() => setModal7(false)} type="button" className="text-white-dark hover:text-dark">
                                             <IconX />
                                         </button>
