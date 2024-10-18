@@ -98,34 +98,28 @@ const AddItem = () => {
                     <div className="flex md:flex-row flex-col w-full md:w-[60%]">
                         <div className="flex flex-col w-[50%] mx-4 my-2">
                             <label htmlFor="item-code" className="my-2 text-gray-600">
-                            Project Code
+                            Name
                             </label>
-                            <input id="item-code" type="text" placeholder="Item Code" className="form-input w-full" name="product_code" value={formData.product_code} onChange={handleChange} required />
+                            <input id="item-code" type="text" placeholder="Product Name" className="form-input w-full" name="name" value={formData.name} onChange={handleChange} required />
                         </div>
-                        <div className="flex flex-col w-[50%] mx-4 my-2">
-                            <label htmlFor="item-code" className="my-2 text-gray-600">
-                            Project Name
-                            </label>
-                            <input id="item-code" type="text" placeholder="Item Name" className="form-input w-full" name="name" value={formData.name} onChange={handleChange} required />
-                        </div>
-                    </div>
-
-                    <div className="flex md:flex-row flex-col w-full md:w-[60%]">
                         <div className="flex flex-col w-[50%] mx-4 my-2">
                             <label htmlFor="item-price" className="my-2 text-gray-600">
                                 Price
                             </label>
-                            <input id="item-price" type="number" placeholder="Price" className="form-input w-full" name="price" value={formData.price} onChange={handleChange} required />
-                        </div>
-                        <div className="flex flex-col w-[50%] mx-4 my-2">
-                            <label htmlFor="item-hsnsac" className="my-2 text-gray-600">
-                                HSN/SAC
-                            </label>
-                            <input id="item-hsnsac" type="text" placeholder="HSN/SAC" className="form-input w-full" name="hsn_sac" value={formData.hsn_sac} onChange={handleChange} required />
+                            <input id="item-price" type="number" placeholder="Product Price" className="form-input w-full" name="price" value={formData.price} onChange={handleChange} required />
                         </div>
                     </div>
 
-                    {itemMode === 'Product' && (
+                    <div className="flex md:flex-row flex-col w-full md:w-[60%]">
+                        <div className="flex flex-col w-[100%] mx-4 my-2">
+                            <label htmlFor="item-hsnsac" className="my-2 text-gray-600">
+                                Description
+                            </label>
+                            <input id="item-hsnsac" type="text" placeholder="Product description" className="form-input w-full" name="hsn_sac" value={formData.hsn_sac} onChange={handleChange} required />
+                        </div>
+                    </div>
+
+                    {/* {itemMode === 'Product' && (
                         <div className="flex md:flex-row flex-col w-full md:w-[60%]">
                             <div className="flex flex-col w-[50%] mx-4 my-2">
                                 <label htmlFor="item-in-stock" className="my-2 text-gray-600">
@@ -157,9 +151,9 @@ const AddItem = () => {
                                 </select>
                             </div>
                         </div>
-                    )}
+                    )} */}
 
-                    {itemMode === 'Service' && (
+                    {/* {itemMode === 'Service' && (
                         <div className="flex md:flex-row flex-col w-full md:w-[60%]">
                             <div className="flex flex-col w-[50%] mx-4 my-2">
                                 <label htmlFor="item-duration" className="my-2 text-gray-600">
@@ -168,7 +162,7 @@ const AddItem = () => {
                                 <input id="item-duration" type="text" placeholder="Duration" className="form-input w-full" name="duration" value={formData.duration} onChange={handleChange} required />
                             </div>
                         </div>
-                    )}
+                    )} */}
 
                     <div className="flex w-full justify-center items-center">
                         <button type="submit" className="btn btn-primary mt-6 mr-4">

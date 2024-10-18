@@ -206,19 +206,19 @@ const AdminPlans = () => {
                             <ul className={`space-y-2.5 mb-5 font-semibold group-hover:text-primary`}>
                                 <li className="flex justify-center items-center">
                                     <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                    {pkg.Number_of_invoices} Invoices
+                                    {pkg.Number_of_invoices}
                                 </li>
                                 <li className="flex justify-center items-center">
                                     <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                    {pkg.Number_of_products} Products
+                                    {pkg.Number_of_products}
                                 </li>
                                 <li className="flex justify-center items-center">
                                     <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                    {pkg.Number_of_suppliers} Suppliers
+                                    {pkg.Number_of_suppliers}
                                 </li>
                                 <li className="flex justify-center items-center">
                                     <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                    {pkg.Number_of_users} Users
+                                    {pkg.Number_of_users}
                                 </li>
                             </ul>
                             {/* To Place all actions */}
@@ -342,12 +342,12 @@ const AdminPlans = () => {
                                                         />
                                                     </div>
                                                     <div className="flex flex-col justify-between expenses-center w-full px-4 mt-2">
-                                                    <p className="my-2 text-gray-600">Status</p>
-                                                    <label className="w-12 h-6 relative">
-                                                        <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" checked={addPackageDetails.status} onChange={(e)=>setAddPackageDetails({...addPackageDetails, status: e.target.checked})} />
-                                                        <span className="outline_checkbox bg-icon border-2 border-[#b8b8b8] dark:border-white-dark block h-full rounded-full before:absolute before:left-1 before:bg-[#b8b8b8] dark:before:bg-white-dark before:bottom-1 before:w-4 before:h-4 before:rounded-full before:bg-[url(/assets/images/close.svg)] before:bg-no-repeat before:bg-center peer-checked:before:left-7 peer-checked:before:bg-[url(/assets/images/checked.svg)] peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
-                                                    </label>
-                                                </div>
+                                                        <p className="my-2 text-gray-600">Status</p>
+                                                        <label className="w-12 h-6 relative">
+                                                            <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" checked={addPackageDetails.status} onChange={(e)=>setAddPackageDetails({...addPackageDetails, status: e.target.checked})} />
+                                                            <span className="outline_checkbox bg-icon border-2 border-[#b8b8b8] dark:border-white-dark block h-full rounded-full before:absolute before:left-1 before:bg-[#b8b8b8] dark:before:bg-white-dark before:bottom-1 before:w-4 before:h-4 before:rounded-full before:bg-[url(/assets/images/close.svg)] before:bg-no-repeat before:bg-center peer-checked:before:left-7 peer-checked:before:bg-[url(/assets/images/checked.svg)] peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[100%]">
@@ -465,9 +465,9 @@ const AdminPlans = () => {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="panel my-8 w-full max-w-xl overflow-hidden  rounded-lg border-0 p-0 text-black dark:text-white-dark h-[85svh]">
+                                <Dialog.Panel className="panel my-8 w-full max-w-xl overflow-hidden  rounded-lg border-0 p-0 text-black dark:text-white-dark h-[85svh] overflow-y-scroll overflow-x-hidden">
                                     <div className="flex expenses-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                                        <h5 className="text-lg font-bold">Edit Package</h5>
+                                        <h5 className="text-lg font-bold">Edit Service</h5>
                                         <button onClick={() => setModal6(false)} type="button" className="text-white-dark hover:text-dark">
                                             <IconX />
                                         </button>
@@ -506,7 +506,7 @@ const AdminPlans = () => {
                                                 </div>
 
                                                 <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="plan_price" className="my-2 text-gray-600">
                                                             Price
                                                         </label>
@@ -521,16 +521,23 @@ const AdminPlans = () => {
                                                             required
                                                         />
                                                     </div>
+                                                    <div className="flex flex-col justify-between expenses-center w-full px-4 mt-2">
+                                                        <p className="my-2 text-gray-600">Status</p>
+                                                        <label className="w-12 h-6 relative">
+                                                            <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" checked={addPackageDetails.status} onChange={(e)=>setAddPackageDetails({...addPackageDetails, status: e.target.checked})} />
+                                                            <span className="outline_checkbox bg-icon border-2 border-[#b8b8b8] dark:border-white-dark block h-full rounded-full before:absolute before:left-1 before:bg-[#b8b8b8] dark:before:bg-white-dark before:bottom-1 before:w-4 before:h-4 before:rounded-full before:bg-[url(/assets/images/close.svg)] before:bg-no-repeat before:bg-center peer-checked:before:left-7 peer-checked:before:bg-[url(/assets/images/checked.svg)] peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="plan_max_users" className="my-2 text-gray-600">
-                                                            Max Users
+                                                            Feature 1
                                                         </label>
                                                         <input
                                                             id="plan_max_users"
                                                             type="text"
-                                                            placeholder="Max Users"
+                                                            placeholder="Feature 1"
                                                             className="form-input w-full"
                                                             name="numberOfUsers"
                                                             value={editPackageDetails.numberOfUsers}
@@ -540,12 +547,12 @@ const AdminPlans = () => {
                                                     </div>
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="plan_max_suppliers" className="my-2 text-gray-600">
-                                                            Max Suppliers
+                                                        Feature 2
                                                         </label>
                                                         <input
                                                             id="plan_max_suppliers"
                                                             type="text"
-                                                            placeholder="Max Suppliers"
+                                                            placeholder="Feature 2"
                                                             className="form-input w-full"
                                                             name="numberOfSuppliers"
                                                             value={editPackageDetails.numberOfSuppliers}
@@ -553,14 +560,16 @@ const AdminPlans = () => {
                                                             required
                                                         />
                                                     </div>
+                                                </div>
+                                                <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="plan_max_products" className="my-2 text-gray-600">
-                                                            Max Products
+                                                        Feature 3
                                                         </label>
                                                         <input
                                                             id="plan_max_products"
                                                             type="text"
-                                                            placeholder="Max Products"
+                                                            placeholder="Feature 3"
                                                             className="form-input w-full"
                                                             name="numberOfProducts"
                                                             value={editPackageDetails.numberOfProducts}
@@ -570,12 +579,12 @@ const AdminPlans = () => {
                                                     </div>
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="plan_max_invoices" className="my-2 text-gray-600">
-                                                            Max Invoices
+                                                        Feature 4
                                                         </label>
                                                         <input
                                                             id="plan_max_invoices"
                                                             type="text"
-                                                            placeholder="Max Invoices"
+                                                            placeholder="Feature 4"
                                                             className="form-input w-full"
                                                             name="numberOfInvoices"
                                                             value={editPackageDetails.numberOfInvoices}
