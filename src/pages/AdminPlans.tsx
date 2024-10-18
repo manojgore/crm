@@ -84,6 +84,7 @@ const AdminPlans = () => {
         numberOfInvoices: "", 
         description: "",
         status: true,
+        id:null
     });
 
     const editChange = (e) => {
@@ -253,6 +254,7 @@ const AdminPlans = () => {
                                                 numberOfInvoices: pkg.Number_of_invoices, 
                                                 description: pkg.Description,
                                                 status: pkg.Status === 1 ? true : false,
+                                                id:pkg.id
                                             });
                                             setModal6(true);
                                         }}
@@ -586,11 +588,11 @@ const AdminPlans = () => {
                                                             Description
                                                         </label>
                                                         <textarea
-                                                            id="company_address"
+                                                            id="plan_description"
                                                             rows={5}
                                                             placeholder="Company Confirm Password"
                                                             className="form-input w-full"
-                                                            name="address"
+                                                            name="description"
                                                             value={editPackageDetails.description}
                                                             onChange={editChange}
                                                             required
