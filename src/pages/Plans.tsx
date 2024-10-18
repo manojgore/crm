@@ -127,19 +127,19 @@ const Plans = () => {
                             <ul className={`space-y-2.5 mb-5 font-semibold group-hover:text-primary ${subsCriptionType === pkg.Duration + " " + pkg.Type ? 'text-green-500' : ''}`}>
                                 <li className="flex justify-center items-center">
                                     <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                    {pkg.Number_of_invoices} Invoices
+                                    {pkg.Number_of_invoices} 
                                 </li>
                                 <li className="flex justify-center items-center">
                                     <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                    {pkg.Number_of_products} Products
+                                    {pkg.Number_of_products} 
                                 </li>
                                 <li className="flex justify-center items-center">
                                     <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                    {pkg.Number_of_suppliers} Suppliers
+                                    {pkg.Number_of_suppliers} 
                                 </li>
                                 <li className="flex justify-center items-center">
                                     <IconArrowLeft className="w-3.5 h-3.5 ltr:mr-1 rtl:ml-1 rtl:rotate-180 shrink-0" />
-                                    {pkg.Number_of_users} Users
+                                    {pkg.Number_of_users} 
                                 </li>
                             </ul>
                             <button
