@@ -283,9 +283,9 @@ const AdminPlans = () => {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="panel my-8 w-full max-w-xl overflow-hidden  rounded-lg border-0 p-0 text-black dark:text-white-dark h-[93svh]">
+                                <Dialog.Panel className="panel my-8 w-full max-w-xl overflow-hidden  rounded-lg border-0 p-0 text-black dark:text-white-dark h-[93svh] overflow-y-scroll overflow-x-hidden">
                                     <div className="flex expenses-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                                        <h5 className="text-lg font-bold">Add Package</h5>
+                                        <h5 className="text-lg font-bold">Add Service</h5>
                                         <button onClick={() => setModal18(false)} type="button" className="text-white-dark hover:text-dark">
                                             <IconX />
                                         </button>
@@ -296,12 +296,12 @@ const AdminPlans = () => {
                                                 <div className="flex justify-between expenses-center w-full">
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="plan_name" className="my-2 text-gray-600">
-                                                            Plan Name
+                                                            Name
                                                         </label>
                                                         <input
                                                             id="plan_name"
                                                             type="text"
-                                                            placeholder="Plan Name"
+                                                            placeholder="Service Name"
                                                             className="form-input w-full"
                                                             name="type"
                                                             value={addPackageDetails.type}
@@ -311,7 +311,7 @@ const AdminPlans = () => {
                                                     </div>
                                                     <div className="flex flex-col mx-4 my-2 w-[80%]">
                                                         <label htmlFor="plan_duration" className="my-2 text-gray-600">
-                                                            Plan Duration
+                                                            Service Duration
                                                         </label>
                                                         <select name="duration" className="form-select text-white-dark" id="plan_duration" value={addPackageDetails.duration} onChange={addPlanOnchange} >
                                                             <option>Choose Duration</option>
@@ -324,14 +324,14 @@ const AdminPlans = () => {
                                                 </div>
 
                                                 <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="plan_price" className="my-2 text-gray-600">
                                                             Price
                                                         </label>
                                                         <input
                                                             id="plan_price"
                                                             type="number"
-                                                            placeholder="Plan Price"
+                                                            placeholder="Service Price"
                                                             className="form-input w-full"
                                                             name="price"
                                                             value={addPackageDetails.price}
@@ -339,16 +339,23 @@ const AdminPlans = () => {
                                                             required
                                                         />
                                                     </div>
+                                                    <div className="flex flex-col justify-between expenses-center w-full px-4 mt-2">
+                                                    <p className="my-2 text-gray-600">Status</p>
+                                                    <label className="w-12 h-6 relative">
+                                                        <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" checked={addPackageDetails.status} onChange={(e)=>setAddPackageDetails({...addPackageDetails, status: e.target.checked})} />
+                                                        <span className="outline_checkbox bg-icon border-2 border-[#b8b8b8] dark:border-white-dark block h-full rounded-full before:absolute before:left-1 before:bg-[#b8b8b8] dark:before:bg-white-dark before:bottom-1 before:w-4 before:h-4 before:rounded-full before:bg-[url(/assets/images/close.svg)] before:bg-no-repeat before:bg-center peer-checked:before:left-7 peer-checked:before:bg-[url(/assets/images/checked.svg)] peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
+                                                    </label>
+                                                </div>
                                                 </div>
                                                 <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="plan_max_users" className="my-2 text-gray-600">
-                                                            Max Users
+                                                            Feature 1
                                                         </label>
                                                         <input
                                                             id="plan_max_users"
                                                             type="text"
-                                                            placeholder="Max Users"
+                                                            placeholder="Add Feature"
                                                             className="form-input w-full"
                                                             name="numberOfUsers"
                                                             value={addPackageDetails.numberOfUsers}
@@ -356,14 +363,14 @@ const AdminPlans = () => {
                                                             required
                                                         />
                                                     </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="plan_max_suppliers" className="my-2 text-gray-600">
-                                                            Max Suppliers
+                                                        Feature 2
                                                         </label>
                                                         <input
                                                             id="plan_max_suppliers"
                                                             type="text"
-                                                            placeholder="Max Suppliers"
+                                                            placeholder="Add Feature"
                                                             className="form-input w-full"
                                                             name="numberOfSuppliers"
                                                             value={addPackageDetails.numberOfSuppliers}
@@ -371,14 +378,16 @@ const AdminPlans = () => {
                                                             required
                                                         />
                                                     </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                </div>
+                                                <div className="flex justify-between expenses-center w-full">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="plan_max_products" className="my-2 text-gray-600">
-                                                            Max Products
+                                                        Feature 3
                                                         </label>
                                                         <input
                                                             id="plan_max_products"
                                                             type="text"
-                                                            placeholder="Max Products"
+                                                            placeholder="Add Feature"
                                                             className="form-input w-full"
                                                             name="numberOfProducts"
                                                             value={addPackageDetails.numberOfProducts}
@@ -386,14 +395,14 @@ const AdminPlans = () => {
                                                             required
                                                         />
                                                     </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="plan_max_invoices" className="my-2 text-gray-600">
-                                                            Max Invoices
+                                                        Feature 4
                                                         </label>
                                                         <input
                                                             id="plan_max_invoices"
                                                             type="text"
-                                                            placeholder="Max Invoices"
+                                                            placeholder="Add Feature"
                                                             className="form-input w-full"
                                                             name="numberOfInvoices"
                                                             value={addPackageDetails.numberOfInvoices}
@@ -410,7 +419,7 @@ const AdminPlans = () => {
                                                         <textarea
                                                             id="plan_description"
                                                             rows={5}
-                                                            placeholder="Plan Description"
+                                                            placeholder="Service Description"
                                                             className="form-input w-full"
                                                             name="description"
                                                             value={addPackageDetails.description}
@@ -418,13 +427,6 @@ const AdminPlans = () => {
                                                             required
                                                         />
                                                     </div>
-                                                </div>
-                                                <div className="flex flex-col justify-between expenses-center w-full px-4 mt-2">
-                                                    <p className="my-2 text-gray-600">Status</p>
-                                                    <label className="w-12 h-6 relative">
-                                                        <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" checked={addPackageDetails.status} onChange={(e)=>setAddPackageDetails({...addPackageDetails, status: e.target.checked})} />
-                                                        <span className="outline_checkbox bg-icon border-2 border-[#b8b8b8] dark:border-white-dark block h-full rounded-full before:absolute before:left-1 before:bg-[#b8b8b8] dark:before:bg-white-dark before:bottom-1 before:w-4 before:h-4 before:rounded-full before:bg-[url(/assets/images/close.svg)] before:bg-no-repeat before:bg-center peer-checked:before:left-7 peer-checked:before:bg-[url(/assets/images/checked.svg)] peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
-                                                    </label>
                                                 </div>
                                             </div>
                                             <div className="m-4 flex expenses-center justify-end">

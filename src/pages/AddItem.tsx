@@ -83,8 +83,8 @@ const AddItem = () => {
     }, []);
     return (
         <div>
-            <h1 className="text-4xl font-semibold">Add Project</h1>
-            <p>Add a new Project</p>
+            <h1 className="text-4xl font-semibold">Add Product</h1>
+            <p>Add a new Product</p>
             <div className="add-customer-form py-4 px-2 flex justify-center items-center w-full">
                 <form className="w-full flex justify-center items-center flex-col" onSubmit={handleSubmit}>
                     <div className="mb-5 w-full md:w-[60%] flex justify-start items-center">
