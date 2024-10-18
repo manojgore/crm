@@ -521,7 +521,7 @@ const Items = () => {
                             >
                                 <Dialog.Panel className="panel my-8 w-full max-w-xl overflow-hidden  rounded-lg border-0 p-0 text-black dark:text-white-dark">
                                     <div className="flex items-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                                        <h5 className="text-lg font-bold">Edit Item</h5>
+                                        <h5 className="text-lg font-bold">Edit Product</h5>
                                         <button onClick={() => setModal6(false)} type="button" className="text-white-dark hover:text-dark">
                                             <IconX />
                                         </button>
@@ -530,22 +530,7 @@ const Items = () => {
                                         <form onSubmit={handleEditExpenses}>
                                             <div className="flex flex-col p-2 w-full">
                                                 <div className="flex justify-between items-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="product_code" className="my-2 text-gray-600">
-                                                            Product Code
-                                                        </label>
-                                                        <input
-                                                            id="product_code"
-                                                            type="text"
-                                                            placeholder="Product Code"
-                                                            className="form-input w-full"
-                                                            name="product_code"
-                                                            value={editItemData.product_code}
-                                                            onChange={handleEditOnchange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="product_name" className="my-2 text-gray-600">
                                                             Product Name
                                                         </label>
@@ -560,10 +545,7 @@ const Items = () => {
                                                             required
                                                         />
                                                     </div>
-                                                </div>
-
-                                                <div className="flex justify-between items-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="product_price" className="my-2 text-gray-600">
                                                             Price
                                                         </label>
@@ -578,52 +560,23 @@ const Items = () => {
                                                             required
                                                         />
                                                     </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
+                                                </div>
+
+                                                <div className="flex justify-between items-center w-full">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
                                                         <label htmlFor="product_hsn_sac" className="my-2 text-gray-600">
-                                                            HSN/SAC
+                                                            Description
                                                         </label>
                                                         <input
                                                             id="product_hsn_sac"
                                                             type="text"
-                                                            placeholder="HSN/SAC"
+                                                            placeholder="Product Description"
                                                             className="form-input w-full"
                                                             name="hsn_sac"
                                                             value={editItemData.hsn_sac}
                                                             onChange={handleEditOnchange}
                                                             required
                                                         />
-                                                    </div>
-                                                </div>
-
-                                                <div className="flex justify-between items-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="product_price" className="my-2 text-gray-600">
-                                                            Item in Stock
-                                                        </label>
-                                                        <input
-                                                            id="product_price"
-                                                            type="number"
-                                                            placeholder="Item in Stock"
-                                                            className="form-input w-full"
-                                                            name="item_in_stock"
-                                                            value={editItemData.item_in_stock}
-                                                            onChange={handleEditOnchange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col mx-4 my-2 w-[80%]">
-                                                        <label htmlFor="item-uqc" className="my-2 text-gray-600">
-                                                            UQC (Unit Quantity Code)
-                                                        </label>
-                                                        <select className="form-select text-white-dark" name="uqc" value={editItemData.uqc} onChange={handleEditOnchange}>
-                                                            <option>Open this select menu</option>
-                                                            <option value="NO OF PCS">NO OF PCS</option>
-                                                            <option value="KG">KG</option>
-                                                            <option value="METER">METER</option>
-                                                            <option value="DOZEN">DOZEN</option>
-                                                            <option value="LITER">LITER</option>
-                                                            <option value="ETC">ETC</option>
-                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
