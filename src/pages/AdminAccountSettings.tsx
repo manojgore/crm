@@ -59,7 +59,7 @@ const AdminAccountSettings = () => {
         e.preventDefault();
         try {
           const response = await axios.put(
-            `${api}/api/update/updateaccountsettiings`,
+            `${api}/api/customers/editCustomer`,
             formData
           );
           console.log(response.data); // Handle response data as needed

@@ -23,6 +23,7 @@ const AdminDashboard = () => {
     const [expenses, setExpenses] = useState([]);
     const [totalAmountExpenses, setTotalAmountExpenses] = useState(0);
     const [expensesGrowth, setExpensesGrowth] = useState(0);
+    const [services, setServices] = useState([]);
     const [expenseStatusCount, setExpenseStatusCount] = useState({
         paid: 0,
         pending: 0,
@@ -86,6 +87,7 @@ const AdminDashboard = () => {
 
     useEffect(() => {
         fetchInvoices();
+        fetchServices();
         fetchExpenses();
         fetchMembers();
         fetchPackages();
@@ -128,6 +130,20 @@ const AdminDashboard = () => {
         } catch (error) {
             console.log('failed to fetch the expenses');
             console.error(error);
+        }
+    };
+
+    const fetchServices = async () => {
+        try {
+          const response = await axios.get(`${api}/api/items/getallservices`);
+    
+          console.log("Service result: ", response.data);
+          if (response.data.success) {
+            setServices(response.data.results);
+          }
+        } catch (error) {
+          console.log("failed to fetch the service");
+          console.error(error);
         }
     };
 
@@ -782,7 +798,7 @@ const AdminDashboard = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {packages.map((pkg, i) => {
+                                        {packages.map((pkg:any, i:any) => {
                                             return (
                                                 <tr key={i} className="text-white-dark hover:text-black dark:hover:text-white-light/90 group">
                                                     <td className="min-w-[150px] text-black dark:text-white">
@@ -799,6 +815,30 @@ const AdminDashboard = () => {
                                                     </td>
                                                     <td>
                                                         <Link className="text-danger flex items-center" to="/admin-plans">
+                                                            <IconMultipleForwardRight className="rtl:rotate-180 ltr:mr-1 rtl:ml-1" />
+                                                            Go
+                                                        </Link>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                        {services.map((pkg:any, i:any) => {
+                                            return (
+                                                <tr key={i} className="text-white-dark hover:text-black dark:hover:text-white-light/90 group">
+                                                    <td className="min-w-[150px] text-black dark:text-white">
+                                                        <p className="whitespace-nowrap">{pkg.name}</p>
+                                                    </td>
+                                                    <td>
+                                                        "NA"
+                                                    </td>
+                                                    <td className="text-primary">
+                                                        ₹{pkg.price}
+                                                    </td>
+                                                    <td>
+                                                        1
+                                                    </td>
+                                                    <td>
+                                                        <Link className="text-danger flex items-center" to="/items">
                                                             <IconMultipleForwardRight className="rtl:rotate-180 ltr:mr-1 rtl:ml-1" />
                                                             Go
                                                         </Link>
