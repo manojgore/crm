@@ -319,11 +319,14 @@ const Customers = () => {
         owner_id: localStorage.getItem('customeridtaxrx'),
         id: '',
         name: '',
+        number:'',
         phone: '',
         email: '',
         panNo: '',
         gst_number: '',
         company_address:'',
+        company_name:'',
+        website:'',
         city: '',
         state: '',
         pincode: '',
@@ -366,6 +369,8 @@ const Customers = () => {
                     email: '',
                     panNo: '',
                     gst_number: '',
+                    company_name:'',
+                    website:'',
                     company_address:'',
                     city: '',
                     state: '',
@@ -389,7 +394,7 @@ const Customers = () => {
     };
 
     const [deleteCustomerData, setDeleteCustomerData] = useState({
-        owner_id: localStorage.getItem('customeridtaxrx'),
+        owner_id: null,
         id: '',
     });
 
@@ -407,7 +412,7 @@ const Customers = () => {
                 showAlert('Customer deleted');
                 setInitialRecords(initialRecords.filter((r)=>r.id !== deleteCustomerData.id));
                 setDeleteCustomerData({
-                    owner_id: localStorage.getItem('customeridtaxrx'),
+                    owner_id: null,
                     id: '',
                 });
                 fetchData();
@@ -481,14 +486,14 @@ const Customers = () => {
                             },
                             {
                                 accessor: 'Customers Action',
-                                render: ({ id, name, phone, email, panNo, gst_number, company_address, city, state, pincode, country, bank_name, account_holder_name, branch, ifsc, account_number, image }) => (
+                                render: ({ id, name, owner_id, phone, number, email, company_name, website, panNo, gst_number, company_address, city, state, pincode, country, bank_name, account_holder_name, branch, ifsc, account_number, image }) => (
                                     <div className="flex w-full justify-around expenses-center">
                                         <Tippy content="Delete">
                                             <button
                                                 type="button"
                                                 onClick={() => {
                                                     setDeleteCustomerData({
-                                                        owner_id: localStorage.getItem('customeridtaxrx'),
+                                                        owner_id: owner_id,
                                                         id: id,
                                                     });
                                                     setModal2(true);
@@ -502,14 +507,17 @@ const Customers = () => {
                                                 type="button"
                                                 onClick={() => {
                                                     setEditCustomerData({
-                                                        owner_id: localStorage.getItem('customeridtaxrx'),
+                                                        owner_id: owner_id,
                                                         id: id,
                                                         name: name,
                                                         phone: phone,
+                                                        number: number,
                                                         email: email,
                                                         panNo: panNo,
                                                         gst_number: gst_number,
                                                         company_address:company_address,
+                                                        company_name:company_name,
+                                                        website: website,
                                                         city: city,
                                                         state: state,
                                                         pincode: pincode,
@@ -677,8 +685,8 @@ const Customers = () => {
                                                             type="number"
                                                             placeholder="Customer Phone"
                                                             className="form-input w-full"
-                                                            name="phone"
-                                                            value={editCustomerData.phone}
+                                                            name="number"
+                                                            value={editCustomerData.number}
                                                             onChange={handleEditOnchange}
                                                             required
                                                         />
@@ -743,8 +751,8 @@ const Customers = () => {
                                                             type="text"
                                                             placeholder="Company Name"
                                                             className="form-input w-full"
-                                                            name="bank_name"
-                                                            value={editCustomerData.bank_name}
+                                                            name="company_name"
+                                                            value={editCustomerData.company_name}
                                                             onChange={handleEditOnchange}
                                                             required
                                                         />
@@ -758,8 +766,8 @@ const Customers = () => {
                                                             type="text"
                                                             placeholder="Website"
                                                             className="form-input w-full"
-                                                            name="branch"
-                                                            value={editCustomerData.branch}
+                                                            name="website"
+                                                            value={editCustomerData.website}
                                                             onChange={handleEditOnchange}
                                                             required
                                                         />
