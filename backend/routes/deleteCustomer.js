@@ -11,7 +11,9 @@ router.delete("/deletecustomer", (req, res) => {
             return res.status(200).json({ error, success: false });
         }
 
-        res.status(200).json({ result, msg: 'Customer deleted successfully', success: true });
+        pool.query("DELETE FROM customer_registration WHERE id = ?", [id], (secErr, secResult)=>{
+            res.status(200).json({ secResult, msg: 'Customer deleted successfully', success: true });
+        })
     })
 });
 

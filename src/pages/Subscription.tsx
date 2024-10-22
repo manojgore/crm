@@ -213,6 +213,7 @@ const Subscriptions = () => {
         plan: 0,
         purchased_on: "",
         expiring_on: "",
+        ownerId:null
     });
 
     const handleChangeEdit = (e) => {
@@ -238,6 +239,7 @@ const Subscriptions = () => {
             address: editCompanyData.address,
             planType: editCompanyData.planType,
             plan: editCompanyData.planType === "" ? 0 : 1,
+            id:editCompanyData.ownerId,
             purchased_on:
               editCompanyData.planType === ""
                 ? null
@@ -342,7 +344,7 @@ const Subscriptions = () => {
                         className="whitespace-nowrap table-hover"
                         records={recordsData}
                         columns={[
-                            { accessor: 'company_name', title: 'Subscriber', sortable: false },
+                            { accessor: 'name', title: 'Subscriber', sortable: false },
                             { accessor: 'plan_type', title: 'Plan Type', sortable: false },
                             {
                                 accessor: 'plan_type',
@@ -382,15 +384,15 @@ const Subscriptions = () => {
                             },
                             {
                                 accessor: 'Subscription Action',
-                                render: ({ id, company_name, company_email, phone_number, company_website, password, company_address, plan_type, plan, purchased_on, expiring_on }) => (
+                                render: ({ id, name, email, phone_number, company_website, password, company_address, plan_type, plan, purchased_on, expiring_on }) => (
                                     <div className="flex w-full justify-around expenses-center">
                                         <Tippy content="Edit Subscription">
                                             <button
                                                 type="button"
                                                 onClick={() => {
                                                     setEditCompanyData({
-                                                        name: company_name,
-                                                        email: company_email,
+                                                        name: name,
+                                                        email: email,
                                                         phoneNumber: phone_number,
                                                         website: company_website,
                                                         password: password,
@@ -399,7 +401,8 @@ const Subscriptions = () => {
                                                         planType: plan_type,
                                                         plan: plan,
                                                         purchased_on: purchased_on,
-                                                        expiring_on: expiring_on
+                                                        expiring_on: expiring_on,
+                                                        ownerId:id
                                                     });
                                                     setModal7(true);
                                                 }}
