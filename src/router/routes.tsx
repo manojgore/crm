@@ -182,7 +182,7 @@ const routes = [
     {
         path: '/subscriptions',
         element: <Subscriptions />,
-        layout: 'default',
+        layout: 'admin',
     },
     {
         path: '/admin-subscriptions',
