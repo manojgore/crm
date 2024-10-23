@@ -594,9 +594,7 @@ const Projects = () => {
         <div>
             <h1 className='text-4xl font-semibold'>All Projects</h1>
             <p>All registered Projects</p>
-            <div className='flex items-center justify-end'>
-                <button className='btn btn-primary' onClick={() => setModal3(true)}><IconPlusCircle className='mx-2'/> Add Project</button>
-            </div>
+            
             <div className="panel mt-6">
                 <div className="flex md:expenses-center justify-between md:flex-row flex-col mb-4.5 gap-5">
                     <div className="flex expenses-center flex-wrap">
@@ -669,23 +667,7 @@ const Projects = () => {
                                                 <IconTrashLines className="m-auto" />
                                             </button>
                                         </Tippy>
-                                        <Tippy content="Edit">
-                                            <button
-                                                type="button"
-                                                onClick={() => {
-                                                    setEditCompanyData({
-                                                        projectName: project_name,
-                                                        projectDetails: project_details,
-                                                        planType: plan_type,
-                                                        plan: plan,
-                                                        ownerId:id
-                                                    });
-                                                    setModal6(true);
-                                                }}
-                                            >
-                                                <IconEdit className="m-auto" />
-                                            </button>
-                                        </Tippy>
+                                        
                                         {localStorage.getItem("isAdmin") && (<Tippy content="Cancel Plan">
                                             <button
                                                 type="button"
@@ -1040,143 +1022,7 @@ const Projects = () => {
                 </Dialog>
             </Transition>
 
-            {/* { Add Projects Modal } */}
-            <Transition appear show={modal3} as={Fragment}>
-                <Dialog as="div" open={modal3} onClose={() => setModal3(false)}>
-                    <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
-                        <div className="fixed inset-0" />
-                    </Transition.Child>
-                    <div className="fixed inset-0 z-[999] bg-[black]/60">
-                        <div className="flex min-h-screen expenses-start justify-center px-4">
-                            <Transition.Child
-                                as={Fragment}
-                                enter="ease-out duration-300"
-                                enterFrom="opacity-0 scale-95"
-                                enterTo="opacity-100 scale-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100 scale-100"
-                                leaveTo="opacity-0 scale-95"
-                            >
-                                <Dialog.Panel className="panel my-8 w-full max-w-xl overflow-hidden  rounded-lg border-0 p-0 text-black dark:text-white-dark h-[90svh] overflow-y-scroll">
-                                    <div className="flex expenses-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
-                                        <h5 className="text-lg font-bold">Add Project / Service</h5>
-                                        <button onClick={() => setModal3(false)} type="button" className="text-white-dark hover:text-dark">
-                                            <IconX />
-                                        </button>
-                                    </div>
-                                    <div className="p-2">
-                                        <form onSubmit={handleAddCompany}>
-                                            <div className="flex flex-col p-2 w-full">
-                                                <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
-                                                        <label htmlFor="company_name" className="my-2 text-gray-600">
-                                                            Project Name
-                                                        </label>
-                                                        <input
-                                                            id="company_name"
-                                                            type="text"
-                                                            className="form-input w-full"
-                                                            name="project_name"
-                                                            value={formdata.project_name}
-                                                            onChange={handleChange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-full">
-                                                        <label htmlFor="project_details" className="my-2 text-gray-600">
-                                                            Project Details
-                                                        </label>
-                                                        <textarea
-                                                            id="project_details"
-                                                            rows={5}
-                                                            className="form-input w-full"
-                                                            name="project_details"
-                                                            value={formdata.project_details}
-                                                            onChange={handleChange}
-                                                            required
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="flex justify-between expenses-center w-full">
-                                                    <div className="flex flex-col mx-4 my-2 w-full">
-                                                        <div className="mb-5 w-full md:w-[60%] flex justify-start items-center">
-                                                            <p className="mr-2 font-semibold text-lg">Switch to {itemMode === 'Product' ? 'Service' : 'Product'}</p>
-                                                            <label className="w-12 h-6 relative">
-                                                                <input type="checkbox" className="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" onChange={handleChangeItemMode} />
-                                                                <span className="outline_checkbox bg-icon border-2 border-[#b8b8b8] dark:border-white-dark block h-full rounded-full before:absolute before:left-1 before:bg-[#b8b8b8] dark:before:bg-white-dark before:bottom-1 before:w-4 before:h-4 before:rounded-full before:bg-[url(/assets/images/close.svg)] before:bg-no-repeat before:bg-center peer-checked:before:left-7 peer-checked:before:bg-[url(/assets/images/checked.svg)] peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
-                                                            </label>
-                                                        </div> 
-                                                    </div>
-                                                </div>
-                                                {itemMode == "Product" && (
-                                                    <div className="flex justify-between expenses-center w-full">                                       
-                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
-                                                        <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
-                                                            Choose Product
-                                                        </label>
-                                                        <select
-                                                        id="company_choose_plan"
-                                                        className="form-select text-white-dark"
-                                                        name="plan_type"
-                                                        value={formdata.plan_type}
-                                                        onChange={handleChange}
-                                                        >
-                                                        <option>Select Product</option>
-                                                        {services.map((pkg:any, i:any) => {
-                                                            return (
-                                                            <option key={i} value={pkg.name}>
-                                                                {pkg.name} ₹{pkg.price}
-                                                            </option>
-                                                            );
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                )}
-                                                {itemMode == "Service" && (
-                                                    <div className="flex justify-between expenses-center w-full">                                       
-                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
-                                                        <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
-                                                            Choose Service
-                                                        </label>
-                                                        <select
-                                                        id="company_choose_plan"
-                                                        className="form-select text-white-dark"
-                                                        name="plan_type"
-                                                        value={formdata.plan_type}
-                                                        onChange={handleChange}
-                                                        >
-                                                        <option>Select Service</option>
-                                                        {packages.map((pkg:any, i):any => {
-                                                            return (
-                                                            <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
-                                                                {pkg.Type} {pkg.Duration}
-                                                            </option>
-                                                            );
-                                                            })}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                )}
-                                            </div>
-                                            <div className="m-4 flex expenses-center justify-end">
-                                                <button onClick={() => setModal3(false)} type="reset" className="btn btn-outline-danger">
-                                                    Cancel
-                                                </button>
-                                                <button type="submit" className="btn btn-primary ltr:ml-4 rtl:mr-4">
-                                                    Add Project
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </Dialog.Panel>
-                            </Transition.Child>
-                        </div>
-                    </div>
-                </Dialog>
-            </Transition>
+            
         </div>
     );
 };

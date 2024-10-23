@@ -115,15 +115,6 @@ const SidebarAdmin = () => {
                                             </div>
                                         </NavLink>
                                     </li>
-                                    
-                                    <li className="nav-item">
-                                        <NavLink to="/purchase-plan" className="group">
-                                            <div className="flex items-center">
-                                                <IconCrown className="group-hover:!text-primary shrink-0" />
-                                                <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Plans')}</span>
-                                            </div>
-                                        </NavLink>
-                                    </li>
                                     <li className="nav-item">
                                         <NavLink to="/user-invoice" className="group">
                                             <div className="flex items-center">
