@@ -28,7 +28,7 @@ import IconChangePlan from '../components/Icon/IconChangePlan';
 import IconPlusCircle from '../components/Icon/IconPlusCircle';
 import IconEyeOpen from '../components/Icon/IconEyeOpen';
 import IconEyeClosed from '../components/Icon/IconEyeClosed';
-
+import {PLAN_STATUS} from "../utils/"
 const col = ['company_name', 'company_email', 'company_address', 'city', 'state', 'country', 'pincode', 'phone_number', 'plan_type', 'registered_on', 'purchased_on', 'expiring_on'];;
 
 const Projects = () => {
@@ -73,10 +73,19 @@ const Projects = () => {
         ["Yearly", 365],
     ]);
 
+    const PLAN_STATUS = {
+        NOT_STARTED : "Not Started",
+        IN_PROGRESS : "In Progress",
+        ON_HOLD: "On Hold",
+        CANCELLED : "Cancelled",
+        FINISHED : "Finished"
+    }
+
     const [Projects, setProjects] = useState([]);
 
     const [planValue, setPlanValue] = useState(new Map([]));
     const [packages, setPackages] = useState([]);
+    const [customers, setCustomers] = useState([]);
 
     const fetchProjects = async () => {
         try {
@@ -139,13 +148,26 @@ const Projects = () => {
         }
     };
 
+    const fetchCustomers = async () => {
+        try {
+            const response = await axios.get(`${api}/api/customers/getallcustomers`);
+            if (response.data.success) {
+                setCustomers(response.data.results);
+            }
+        } catch (error) {
+          console.log("failed to fetch the packages");
+          console.error(error);
+        }
+    };
+
     useEffect(() => {
         if (!localStorage.getItem('adminidtaxrx')) {
             navigate('/');
         }
         fetchServices();
         fetchPackages();
-        fetchProjects();        
+        fetchProjects(); 
+        fetchCustomers();       
     }, []);
 
     useEffect(() => {
@@ -377,6 +399,7 @@ const Projects = () => {
         plan: 0,
         purchased_on: "",
         expiring_on: "",
+        plan_status:""
     });
 
     const [editCompanyPassView, setEditCompanyPassView] = useState(false);
@@ -389,12 +412,16 @@ const Projects = () => {
     }
 
     const handleChangeEdit = (e) => {
+        let expiringOn = new Date(editCompanyData.purchased_on);
         if (e.target.name === "planType" && e.target.value !== "All Plans") {
-          setEditCompanyData({ ...editCompanyData, plan: 1 });
+            const daysToAdd =  Number(e.target.value.split(" ").at(-1));
+            expiringOn.setDate(expiringOn.getDate() + daysToAdd);
+            setEditCompanyData({ ...editCompanyData, [e.target.name]: e.target.value, expiring_on: `${expiringOn.toISOString()}` });
         } else if (e.target.name === "planType" && e.target.value === "All Plans") {
           setEditCompanyData({ ...editCompanyData, plan: 0 });
+        } else {
+            setEditCompanyData({ ...editCompanyData, [e.target.name]: e.target.value});
         }
-        setEditCompanyData({ ...editCompanyData, [e.target.name]: e.target.value });
     };
 
     const handleEditCompany = async (e) => {
@@ -405,8 +432,10 @@ const Projects = () => {
             project_name:editCompanyData.projectName,
             project_details:editCompanyData.projectDetails,
             planType: editCompanyData.planType,
-            plan: editCompanyData.planType === "" ? 0 : 1,
-            id: localStorage.getItem("isAdmin") ? editCompanyData.ownerId : localStorage.getItem("customeridtaxrx")
+            plan_status: editCompanyData.plan_status || PLAN_STATUS.NOT_STARTED,
+            id: localStorage.getItem("isAdmin") ? editCompanyData.ownerId : localStorage.getItem("customeridtaxrx"),
+            purchased_on: editCompanyData.purchased_on,
+            expiring_on: editCompanyData.expiring_on  
           });
           if (response.data.success) {
             showAlert("Project/Service Edited Successfully");
@@ -428,6 +457,7 @@ const Projects = () => {
             plan: 0,
             purchased_on: "",
             expiring_on: "",
+            plan_status:""
           });
           setEditCompanyPassView(false);
         } catch (error) {
@@ -513,6 +543,7 @@ const Projects = () => {
         registered_on: "",
         purchased_on: "",
         expiring_on: "",
+        cust_id:null
     });
     const [passwordMatchError, setPasswordMatchError] = useState("");
     const handleChange = (e) => {
@@ -520,28 +551,21 @@ const Projects = () => {
     };
     const handleAddCompany = async (e) => {
         e.preventDefault();
+        const currentDate = new Date();
+        const daysToAdd =  Number(formdata.plan_type.split(" ").at(-1));
         console.log("company adding");
         try {
           const response = await axios.post(`${api}/admin/addCompany`, {
             project_name:formdata.project_name,
             project_details:formdata.project_details,
-            id:localStorage.getItem('customeridtaxrx'),
-            plan: formdata.plan_type === "" ? 0 : 1,
+            id:formdata.cust_id,
             plan_type: formdata.plan_type,
             registered_on: new Date(),
             purchased_on: formdata.plan_type === "" ? null : new Date(),
             expiring_on:
-              formdata.plan_type === "" ||
-              formdata.plan_type.split(" ")[0] === "Yearly"
+              formdata.plan_type === ""
                 ? null
-                : new Date(
-                    new Date().getTime() +
-                      days.get(formdata.plan_type.split(" ")[0]) *
-                        24 *
-                        60 *
-                        60 *
-                        1000
-                  ),
+                : new Date(currentDate.setDate(currentDate.getDate() + daysToAdd)).toISOString(),
           });
           console.log(response.data); // For debugging purposes
           // Handle successful registration (e.g., redirect to a success page)
@@ -588,6 +612,23 @@ const Projects = () => {
         }
     };
 
+    const getPlanStatusClass = (plan_status:string) => {
+        switch (plan_status) {
+          case PLAN_STATUS.NOT_STARTED:
+            return 'bg-gray-200 text-gray-500';  // Not Started
+          case PLAN_STATUS.IN_PROGRESS:
+            return 'bg-blue-200 text-blue-500';  // In Progress
+          case PLAN_STATUS.ON_HOLD:
+            return 'bg-yellow-200 text-yellow-500';  // On Hold
+          case PLAN_STATUS.CANCELLED:
+            return 'bg-red-200 text-red-500';  // Cancelled
+          case PLAN_STATUS.FINISHED:
+            return 'bg-green-200 text-green-500';  // Finished
+          default:
+            return 'bg-gray-100 text-gray-400';  // Default for unknown statuses
+        }
+      };
+
     const [emailCannotChangeMsg, setEmailCannotChangeMsg] = useState('');
 
     return (
@@ -616,6 +657,10 @@ const Projects = () => {
                             <IconPrinter className="ltr:mr-2 rtl:ml-2" />
                             PRINT
                         </button>
+                        <button type="button" onClick={() => setModal3(true)} className="btn btn-primary btn-sm m-1">
+                            <IconPrinter className="ltr:mr-2 rtl:ml-2" />
+                            Add Project
+                        </button>
                     </div>
 
                     <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
@@ -634,27 +679,29 @@ const Projects = () => {
                             { accessor: 'number', title: 'Mobile No', sortable: false },
                             // { accessor: 'plan_type', title: 'Plan Type', sortable: false },
                             {
-                                accessor: 'registered_on',
+                                accessor: 'purchased_on',
                                 title: 'Created on',
                                 sortable: true,
-                                render: ({ registered_on }) => <p>{`${new Date(registered_on).getDate()} ${months.get(new Date(registered_on).getMonth() + 1)} ${new Date(registered_on).getFullYear()}`}</p>
+                                render: ({ purchased_on }) => <p>{`${new Date(purchased_on).getDate()} ${months.get(new Date(purchased_on).getMonth() + 1)} ${new Date(purchased_on).getFullYear()}`}</p>
                             },
                             {
-                                accessor: 'plan',
+                                accessor: 'expiring_on',
+                                title: 'Expiring on',
+                                sortable: true,
+                                render: ({ expiring_on }) => <p>{`${new Date(expiring_on).getDate()} ${months.get(new Date(expiring_on).getMonth() + 1)} ${new Date(expiring_on).getFullYear()}`}</p>
+                            },
+                            {
+                                accessor: 'plan_status',
                                 title: 'Status',
-                                render: ({ plan }) => (
-                                    <span
-                                        className={`${
-                                            plan === 1 ? 'bg-green-200 text-green-500' : 'bg-red-200 text-red-500'
-                                        } py-1 px-2 rounded-md`}
-                                    >
-                                        {plan === 1 ? 'Active' : 'Not Active'}
+                                render: ({ plan_status }) => (
+                                    <span className={`${getPlanStatusClass(plan_status)} py-1 px-2 rounded-md`}>
+                                        {plan_status}
                                     </span>
                                 ),
                             },
                             {
                                 accessor: 'Projects Action',
-                                render: ({ id, company_name, company_email, company_website, password, company_address, plan_type, plan, purchased_on, expiring_on, project_name, project_details}) => (
+                                render: ({ id, company_name,plan_status, company_email, company_website, password, company_address, plan_type, plan, purchased_on, expiring_on, project_name, project_details}) => (
                                     <div className="flex w-full justify-around expenses-center">
                                         <Tippy content="Delete">
                                             <button
@@ -667,7 +714,25 @@ const Projects = () => {
                                                 <IconTrashLines className="m-auto" />
                                             </button>
                                         </Tippy>
-                                        
+                                        <Tippy content="Edit">
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setEditCompanyData({
+                                                        projectName: project_name,
+                                                        projectDetails: project_details,
+                                                        planType: plan_type,
+                                                        plan_status: plan_status,
+                                                        ownerId:id,
+                                                        expiring_on: expiring_on,
+                                                        purchased_on: purchased_on
+                                                    });
+                                                    setModal6(true);
+                                                }}
+                                            >
+                                                <IconEdit className="m-auto" />
+                                            </button>
+                                        </Tippy>
                                         {localStorage.getItem("isAdmin") && (<Tippy content="Cancel Plan">
                                             <button
                                                 type="button"
@@ -845,21 +910,36 @@ const Projects = () => {
                                                         onChange={handleChangeEdit}
                                                         >
                                                         <option>Select Project</option>
-                                                        {packages.map((pkg:any, i):any => {
+                                                            {packages.map((pkg:any, i):any => {
                                                             return (
                                                             <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
-                                                                {pkg.Type} {pkg.Duration}
+                                                                {pkg.Type} {pkg.Duration} Days
                                                             </option>
                                                             );
                                                             })}
-                                                            {services.map((pkg:any, i:any) => {
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between expenses-center w-full">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
+                                                        <label htmlFor="choose_plan_status" className="my-2 text-gray-600">
+                                                            Choose Status
+                                                        </label>
+                                                        <select
+                                                        id="choose_plan_status"
+                                                        className="form-select text-white-dark"
+                                                        name="plan_status"
+                                                        value={editCompanyData.plan_status}
+                                                        onChange={handleChangeEdit}
+                                                        >
+                                                        <option>Select Status</option>
+                                                        {Object.values(PLAN_STATUS).map((plan_state:string, i):any => {
                                                             return (
-                                                            <option key={pkg.name} value={pkg.name}>
-                                                                {pkg.name} ₹{pkg.price}
+                                                            <option key={i} value={plan_state}>
+                                                                {plan_state}
                                                             </option>
                                                             );
                                                             })}
-
                                                         </select>
                                                     </div>
                                                 </div>
@@ -968,14 +1048,7 @@ const Projects = () => {
                                                             {packages.map((pkg:any, i):any => {
                                                                 return (
                                                                 <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
-                                                                    {pkg.Type} {pkg.Duration}
-                                                                </option>
-                                                                );
-                                                                })}
-                                                                {services.map((pkg:any, i:any) => {
-                                                                return (
-                                                                <option key={pkg.name} value={pkg.name}>
-                                                                    {pkg.name} ₹{pkg.price}
+                                                                    {pkg.Type} {pkg.Duration} Days
                                                                 </option>
                                                                 );
                                                                 })}
@@ -990,16 +1063,16 @@ const Projects = () => {
                                                             value={editCompanyData.purchased_on}
                                                             options={{ dateFormat: 'y-m-d', position: isRtl ? 'auto right' : 'auto left' }}
                                                             className="form-input"
-                                                            onChange={(date) =>
+                                                            onChange={(date:any) => {
+                                                                const daysToAdd =  Number(editCompanyData.planType.split(" ").at(-1));
+                                                                let selectedDate = new Date(date);
+                                                                selectedDate.setDate(selectedDate.getDate() + daysToAdd)
                                                                 setEditCompanyData({
                                                                     ...editCompanyData,
-                                                                    purchased_on: `${new Date(date).getFullYear()}-${String(new Date(date).getMonth() + 1).padStart(2, '0')}-${String(
-                                                                        new Date(date).getDate()
-                                                                    ).padStart(2, '0')} ${String(new Date(date).getHours()).padStart(2, '0')}:${String(new Date(date).getMinutes()).padStart(
-                                                                        2,
-                                                                        '0'
-                                                                    )}:${String(new Date(date).getSeconds()).padStart(2, '0')}`,
+                                                                    purchased_on: new Date(date).toISOString(),
+                                                                    expiring_on: `${selectedDate.toISOString()}`
                                                                 })
+                                                                }
                                                             }
                                                         />
                                                     </div>
@@ -1022,7 +1095,126 @@ const Projects = () => {
                 </Dialog>
             </Transition>
 
-            
+            {/* { Add Projects Modal } */}
+            <Transition appear show={modal3} as={Fragment}>
+                <Dialog as="div" open={modal3} onClose={() => setModal3(false)}>
+                    <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
+                        <div className="fixed inset-0" />
+                    </Transition.Child>
+                    <div className="fixed inset-0 z-[999] bg-[black]/60">
+                        <div className="flex min-h-screen expenses-start justify-center px-4">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 scale-95"
+                                enterTo="opacity-100 scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 scale-100"
+                                leaveTo="opacity-0 scale-95"
+                            >
+                                <Dialog.Panel className="panel my-8 w-full max-w-xl overflow-hidden  rounded-lg border-0 p-0 text-black dark:text-white-dark h-[90svh] overflow-y-scroll">
+                                    <div className="flex expenses-center justify-between bg-[#fbfbfb] px-5 py-3 dark:bg-[#121c2c]">
+                                        <h5 className="text-lg font-bold">Add Project / Service</h5>
+                                        <button onClick={() => setModal3(false)} type="button" className="text-white-dark hover:text-dark">
+                                            <IconX />
+                                        </button>
+                                    </div>
+                                    <div className="p-2">
+                                        <form onSubmit={handleAddCompany}>
+                                            <div className="flex flex-col p-2 w-full">
+                                                <div className="flex justify-between expenses-center w-full">
+                                                    <div className="flex flex-col mx-4 my-2 w-[100%]">
+                                                        <label htmlFor="company_name" className="my-2 text-gray-600">
+                                                            Project Name
+                                                        </label>
+                                                        <input
+                                                            id="company_name"
+                                                            type="text"
+                                                            className="form-input w-full"
+                                                            name="project_name"
+                                                            value={formdata.project_name}
+                                                            onChange={handleChange}
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between expenses-center w-full">
+                                                    <div className="flex flex-col mx-4 my-2 w-full">
+                                                        <label htmlFor="project_details" className="my-2 text-gray-600">
+                                                            Project Details
+                                                        </label>
+                                                        <textarea
+                                                            id="project_details"
+                                                            rows={5}
+                                                            className="form-input w-full"
+                                                            name="project_details"
+                                                            value={formdata.project_details}
+                                                            onChange={handleChange}
+                                                            required
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="flex justify-between expenses-center w-full">                                       
+                                                <div className="flex flex-col mx-4 my-2 w-[100%]">
+                                                    <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
+                                                        Choose Service/Project
+                                                    </label>
+                                                        <select
+                                                        id="company_choose_plan"
+                                                        className="form-select text-white-dark"
+                                                        name="plan_type"
+                                                        value={formdata.plan_type}
+                                                        onChange={handleChange}
+                                                        >
+                                                        <option>Select Service</option>
+                                                        {packages.map((pkg:any, i):any => {
+                                                            return (
+                                                            <option key={i} value={`${pkg.Type} ${pkg.Duration}`}>
+                                                                {pkg.Type} {pkg.Duration} Days
+                                                            </option>
+                                                            );
+                                                            })}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col mx-4 my-2 w-[100%]">
+                                                    <label htmlFor="company_choose_plan" className="my-2 text-gray-600">
+                                                        Select Customer
+                                                    </label>
+                                                        <select
+                                                        id="company_choose_plan"
+                                                        className="form-select text-white-dark"
+                                                        name="cust_id"
+                                                        value={formdata.cust_id}
+                                                        onChange={handleChange}
+                                                        >
+                                                        <option>Select Service</option>
+                                                        {customers.map((cust:any, i):any => {
+                                                            return (
+                                                            <option key={i} value={cust.owner_id}>
+                                                                {cust.name}
+                                                            </option>
+                                                            );
+                                                            })}
+                                                        </select>
+                                                </div>
+                                            </div>
+                                            <div className="m-4 flex expenses-center justify-end">
+                                                <button onClick={() => setModal3(false)} type="reset" className="btn btn-outline-danger">
+                                                    Cancel
+                                                </button>
+                                                <button type="submit" className="btn btn-primary ltr:ml-4 rtl:mr-4">
+                                                    Add Project
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition>
         </div>
     );
 };

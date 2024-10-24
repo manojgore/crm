@@ -6,7 +6,8 @@ const pool = mysql.createPool({
     host: 'localhost',   // MySQL database host
     user: 'root',        // MySQL database username
     password: 'mypass123',    // MySQL database password
-    database: 'taxrx'   // MySQL database name
+    database: 'taxrx',   // MySQL database name
+    timezone: 'Z'
 });
 pool.getConnection((error, connection) => {
     if (error) {

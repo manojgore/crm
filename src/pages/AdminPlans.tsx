@@ -201,7 +201,7 @@ const AdminPlans = () => {
                             <div className="border-t border-black dark:border-white-dark w-1/5 mx-auto my-6 group-hover:border-primary"></div>
                             <p className="text-[15px]">{pkg.Description}</p>
                             <div className={`my-7 p-2.5 text-center text-lg group-hover:text-primary`}>
-                                <strong className={`text-[#3b3f5c] dark:text-white-dark text-3xl lg:text-5xl group-hover:text-primary`}>₹{pkg.Price}</strong> / {pkg.Duration}
+                                <strong className={`text-[#3b3f5c] dark:text-white-dark text-3xl lg:text-5xl group-hover:text-primary`}>₹{pkg.Price}</strong> / {pkg.Duration} Days
                             </div>
                             <ul className={`space-y-2.5 mb-5 font-semibold group-hover:text-primary`}>
                                 <li className="flex justify-center items-center">
@@ -495,13 +495,16 @@ const AdminPlans = () => {
                                                         <label htmlFor="plan_duration" className="my-2 text-gray-600">
                                                             Plan Duration
                                                         </label>
-                                                        <select name="duration" className="form-select text-white-dark" id="plan_duration" value={editPackageDetails.duration} onChange={editChange} >
-                                                            <option>Choose Duration</option>
-                                                            <option value="Monthly">Monthly</option>
-                                                            <option value="Half Yearly">Half Yearly</option>
-                                                            <option value="Yearly">Yearly</option>
-                                                            <option value="Lifetime">Lifetime</option>
-                                                        </select>
+                                                        <input
+                                                            id="plan_duration"
+                                                            type="text"
+                                                            placeholder="Plan Duration in Days"
+                                                            className="form-input w-full"
+                                                            name="duration"
+                                                            value={editPackageDetails.duration}
+                                                            onChange={editChange}
+                                                            required
+                                                        />
                                                     </div>
                                                 </div>
 

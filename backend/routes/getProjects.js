@@ -11,6 +11,7 @@ router.get('/getallProjects', async(req, res)=>{
                 console.error("Error to fetch all Projects", err);
                 return res.status(500).json({ error: err, success: false }); 
             }
+            console.log(results);
             if (results && results.length > 0) {
                 if(id != undefined) {
                     results = results.filter((project)=>{return project.id == id});
